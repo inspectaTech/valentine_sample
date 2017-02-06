@@ -1,0 +1,294 @@
+*{box-sizing:border-box;}
+
+/** SiteSide **/
+.arc_stage{width: 100%;border-radius: 7px 7px 0 0;height: 625px; margin: 2% 0 0 0;background-color: #9f9f9f;padding: 0 5px;}
+.arc_ctr_stage{background-color:#fff;border-radius: 7px; padding:10px;text-align:left;
+margin-top:5px;}
+.arc_ctr_stage h4{margin:0 0 10px 10px;}
+.arc_cnxs{ }
+.arc_intro_btn{height:190px;width:100%;box-shadow: 5px 5px 5px #5d5a5a;border-radius:0px !important;}
+.arc_popup{width:90%;}
+#arc_popup-popup{width:98% !important;top:60px !important;left:7% !important;}
+#arc_panel_main{}
+.arc_heading{text-shadow: 2px 2px 2px #ccc;}
+.arc_panel_main_content{}/*height:300px;*/
+.arc_panel_infoBox{height:20px;margin-bottom:0px;}
+.arc_panel_infoBtn{float:right;margin:0px;right:-8px;}
+.arc_panel_infoCont{margin-bottom: 10px;}
+.arc_info_close_btn{float:right; position:relative !important; top:-30px !important; right:-7px !important;margin:0px !important;}
+.arc_infoBox{display:none;}
+.main_arc_info{border: 1px solid #ddd; padding: 0px 10px;}
+.contact_info_creator{border:1px solid #ccc;width:100%;border-radius:7px;}/*height:300px;*/
+.contact_type_selector{float:left;height:300px;width:15%;
+border:1px solid purple;float:left;}
+.form_ctrls{width:100%;border-bottom:1px solid #ccc;}
+.form_btns{height:35px !important;width:30px !important;border-radius:5px;
+margin:5px 4px !important;padding:0  10px !important}
+.list_btns{float:left;}
+.arc_add_info{float:right;}
+.clear,.clr{clear:both;}
+.arc_display{width:100%;min-height:200px;}/**/
+
+.contact_form_heading{margin:0;}
+.contact_form_cont{width:100%;min-height:250px;margin-top:15px;border: 1px solid #ccc;}
+.hr_90{width:90%;margin:8px auto !important;}
+.info_booth{padding:5px 0;margin-top:10px;}
+.contact_form_select.form_input_cont{margin-bottom:5px;}
+.form_input_cont{width:100%;min-height:30px;padding-bottom:10px;}
+.arc_input{width: 90% !important;border-radius: 7px;font-size: 16px !important;line-height: 20px !important; 
+margin:0px auto!important;min-height: 20px !important;display:block !important;}
+.arc_input.TInput{ padding: 2px 5px !important;}
+.dataInp_TInput.arc_input{width:100% !important;}
+.arc_select{ width: 90% ;margin: auto;display: block;padding: 2px 5px !important;  height: 30px; border-radius: 7px;background-color:#fff;}
+.TInput.arc_select,.TCont.arc_select{ width: 100% ;}
+.TCasing{padding-left:10px  !important;}
+.arc_select:active{border-color:none;}
+.SInput.arc_select{margin-bottom:5px;}
+/*div.STly{display:none !important;}*/
+.SLabel{display: block !important;}
+.SLabel,.STly{width: 90%;margin: 3px auto !important;}
+.accSlide_SLabel.SLabel{width:auto;float:left;margin:5% 3% !important;}
+.accSlide_SCont{float:left;}
+.contact_form_select_icon_cont{margin:0;}
+.contact_form_slider_cont{ float: left; width: 80%;}
+.SIcon{float: right; margin-right:5px !important;}
+
+.arc_go_btn,.arc_can_btn{border-radius:6px;border: 1px solid #ccc;padding: 3px;width:95% !important;
+height:25px;margin: 3px auto 6px !important;padding:0 !important;}
+
+.arc_go_btn{background-image: linear-gradient(to bottom,rgb(88, 197, 71),#0F8A09)!important;color:#fff !important;}
+.arc_can_btn{background-image: linear-gradient(to bottom,rgb(249, 255, 248),#AAADAA)!important}
+.arc_can_btn h4{margin:0px;font-weight:600;}
+.tNoteBtn_btn_group {font-size: 16px !important; font-weight: 300 !important; 
+margin: 0px !important; width: 50% !important; height: 30px; padding: 3px !important;
+text-align: right !important;}
+.tNoteBtn_btn_group0{ padding-right: 10% !important;}
+.tNoteBtn_btn_group1{ padding-right: 5% !important;}
+.tNoteBtn_groupCont {width:90%;margin: 0 auto;}
+
+/************ Panel Stuff ******************/
+.arc_panel.ui-panel { width: 100% !important;z-index:1102;}
+.arc_panel.ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay, .arc_panel.ui-panel-animate.ui-panel-position-right.ui-panel-display-push{right: 0;-webkit-transform: translate3d(22em,0,0);-moz-transform: translate3d(22em,0,0);transform: translate3d(22em,0,0);}
+
+.colap_cont_ListArea {margin:0 !important;border-radius:0px !important;}
+
+.typeSel_TCasing{width:70%;display:inline-block;}
+.sug_icon_cont_LBTag{width:20%;float:right;margin:0 3% 5px;text-align:center;padding:5px;border:1px solid #ddd;}
+.sug_icon_LBTag{width:30px;height:30px;margin:0 auto 5px !important;}
+
+.sug_icon_chk_TCont{height:25px !important;}
+.sug_icon_chk_TInput{left:0 !important;top:0 !important;margin:0 auto !important;position:relative !important;}
+.sug_icon_chk_TCont .ui-checkbox{margin:0;text-align:center;}
+.chng_img_LBTag{width:90% !important;margin:0 auto !important;border-radius:7px;}
+.chng_img{width:50% !important;display:inline-block !important;margin-bottom: 0px !important;}
+
+
+.my_info{display:inline-block !important;}
+.my_info_icon{float:left;}
+.my_info_text{margin:5px !important;width:60%;font-size:16px !important;}
+.my_info_edit,.my_info_delete{float:right;}
+.info_dot{width: 20px !important;height: 20px !important;margin:5px !important;border-radius:25px !important;}
+
+
+
+@media only screen and (min-width:320px) and (max-width:479px){    
+
+}
+
+@media only screen and (min-width:480px) and (max-width:767px){    
+
+}
+
+@media only screen and (min-width:768px) and (max-width:991px)
+{    
+
+}
+
+@media only screen and (min-width:992px) and (max-width:1999px)
+{    
+
+}
+
+.TInput.borderline, .CInput.borderline{border-top:transparent !important;border-right:transparent !important;border-left:transparent !important;border-radius:0 !important;
+border-bottom:2px solid #ccc !important;}
+
+/***************** test rules **********************/
+.test_yellow{border:1px solid yellow !important;}
+.test_red{border:1px solid red !important;}
+.test_blue{border:1px solid blue !important;}
+.test_green{border:1px solid green !important;}
+.test_purple{border:1px solid purple !important;}
+.test_orange{border:1px solid orange !important;}
+.test_brown{border:1px solid brown !important;}
+.test_pink{border:1px solid pink !important;}
+/***************** test rules **********************/
+
+
+.word_wrap{
+/* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  }
+
+/*icon classes*/  
+.ui-icon-notification:after {
+background-image: url("../images/bell_white.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-none:after {
+background-image: url("../images/heart.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-gmail:after {
+background-image: url("../images/gmail.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+
+.ui-icon-paypal:after {
+background-image: url("../images/paypal.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-drive:after {
+background-image: url("../images/drive.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-wifi:after {
+background-image: url("../images/wifi.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-whatsapp:after {
+background-image: url("../images/whatsapp.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-notes:after {
+background-image: url("../images/notes.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+
+.ui-icon-wordpress:after {
+background-image: url("../images/wordpress.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-wordpress:after {
+background-image: url("../images/wordpress.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-twitter:after {
+background-image: url("../images/twitter.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-twitter:after {
+background-image: url("../images/twitter.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-facebook:after {
+background-image: url("../images/facebook.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-facebook:after {
+background-image: url("../images/facebook.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-youtube:after {
+background-image: url("../images/youtube.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-youtube:after {
+background-image: url("../images/youtube.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-chrome:after {
+background-image: url("../images/chrome.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-chrome:after {
+background-image: url("../images/chrome.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-instagram:after {
+background-image: url("../images/instagram.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-instagram:after {
+background-image: url("../images/instagram.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-github:after {
+background-image: url("../images/github.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-github:after {
+background-image: url("../images/github.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-linkedin:after {
+background-image: url("../images/linkedin.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-linkedin:after {
+background-image: url("../images/linkedin.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-slack:after {
+background-image: url("../images/slack.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-slack:after {
+background-image: url("../images/slack.png");/* Make your icon fit */
+background-size: 18px 18px;
+
+}
+.ui-icon-hangouts:after {
+background-image: url("../images/hangouts.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-hangouts:after {
+background-image: url("../images/hangouts.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-google:after {
+background-image: url("../images/google.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-google:after {
+background-image: url("../images/google.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-google_plus:after {
+background-image: url("../images/google_plus.svg");/* Make your icon fit */
+background-size: 18px 18px;
+}
+/* Fallback */
+.ui-nosvg .ui-icon-google_plus:after {
+background-image: url("../images/google_plus.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+
+
+
+
+
+
