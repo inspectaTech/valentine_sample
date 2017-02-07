@@ -35,7 +35,7 @@ margin:5px 4px !important;padding:0  10px !important}
 .info_booth{padding:5px 0;margin-top:10px;}
 .contact_form_select.form_input_cont{margin-bottom:5px;}
 .form_input_cont{width:100%;min-height:30px;padding-bottom:10px;}
-.arc_input{width: 90% !important;border-radius: 7px;font-size: 16px !important;line-height: 20px !important; 
+.arc_input{width: 90% !important;border-radius: 7px;font-size: 16px !important;line-height: 20px !important;
 margin:0px auto!important;min-height: 20px !important;display:block !important;}
 .arc_input.TInput{ padding: 2px 5px !important;}
 .dataInp_TInput.arc_input{width:100% !important;}
@@ -59,7 +59,7 @@ height:25px;margin: 3px auto 6px !important;padding:0 !important;}
 .arc_go_btn{background-image: linear-gradient(to bottom,rgb(88, 197, 71),#0F8A09)!important;color:#fff !important;}
 .arc_can_btn{background-image: linear-gradient(to bottom,rgb(249, 255, 248),#AAADAA)!important}
 .arc_can_btn h4{margin:0px;font-weight:600;}
-.tNoteBtn_btn_group {font-size: 16px !important; font-weight: 300 !important; 
+.tNoteBtn_btn_group {font-size: 16px !important; font-weight: 300 !important;
 margin: 0px !important; width: 50% !important; height: 30px; padding: 3px !important;
 text-align: right !important;}
 .tNoteBtn_btn_group0{ padding-right: 10% !important;}
@@ -91,21 +91,21 @@ text-align: right !important;}
 
 
 
-@media only screen and (min-width:320px) and (max-width:479px){    
+@media only screen and (min-width:320px) and (max-width:479px){
 
 }
 
-@media only screen and (min-width:480px) and (max-width:767px){    
+@media only screen and (min-width:480px) and (max-width:767px){
 
 }
 
 @media only screen and (min-width:768px) and (max-width:991px)
-{    
+{
 
 }
 
 @media only screen and (min-width:992px) and (max-width:1999px)
-{    
+{
 
 }
 
@@ -142,13 +142,21 @@ border-bottom:2px solid #ccc !important;}
   hyphens: auto;
   }
 
-/*icon classes*/  
+/*icon classes*/
 .ui-icon-notification:after {
 background-image: url("../images/bell_white.png");/* Make your icon fit */
 background-size: 18px 18px;
 }
 .ui-icon-none:after {
 background-image: url("../images/heart.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-contact:after {
+background-image: url("../images/contact.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-share:after {
+background-image: url("../images/share.png");/* Make your icon fit */
 background-size: 18px 18px;
 }
 .ui-icon-gmail:after {
@@ -286,9 +294,3 @@ background-size: 18px 18px;
 background-image: url("../images/google_plus.png");/* Make your icon fit */
 background-size: 18px 18px;
 }
-
-
-
-
-
-
