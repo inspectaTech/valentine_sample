@@ -45,8 +45,9 @@ class TableArcAssets extends JTableNested
 
 
 		if(!isset($arc_input->category)){$arc_input->category = "";}
-		if(!isset($arc_input->user_input)){$arc_input->user_input = "";}
-		if(!isset($arc_input->user_desc)){$arc_input->user_desc = "";}
+		if(!isset($arc_input->main_data)){$arc_input->main_data = "";}
+		if(!isset($arc_input->desc_data)){$arc_input->desc_data = "";}
+    if(!isset($arc_input->other_data)){$arc_input->other_data = "";}
 		if(!isset($arc_input->picture)){$arc_input->picture = "";}
 		if(!isset($arc_input->published)){$arc_input->published = "";}
 		if(!isset($arc_input->extra)){$arc_input->extra = "";}
@@ -61,7 +62,7 @@ class TableArcAssets extends JTableNested
 		//$arc_user_id = ($cur_arc_user->id != 0) ? $cur_arc_user->id : $pStr->send_id;
 
 		//insert columns
-        $columns = array('user_id','category','user_input','user_desc','modified','picture','published','extra');
+        $columns = array('user_id','category','main_data','desc_data','other_data','modified','picture','published','extra');
 
 		if(isset($arc_input->category) && $arc_input->category == "notification")
 		{
@@ -84,8 +85,9 @@ class TableArcAssets extends JTableNested
         $values = array(
         $db->quote($arc_input->user_id),
 		$db->quote(htmlentities($arc_input->category)),
-		$db->quote(htmlentities($arc_input->user_input)),
-		$db->quote(htmlentities($arc_input->user_desc)),
+		$db->quote(htmlentities($arc_input->main_data)),
+		$db->quote(htmlentities($arc_input->desc_data)),
+    $db->quote(htmlentities($arc_input->other_data)),
 		$db->quote($arc_input->modified),
 		$db->quote(htmlentities($arc_input->picture)),
 		$db->quote(htmlentities($arc_input->published)),
@@ -134,8 +136,8 @@ class TableArcAssets extends JTableNested
         $query->select('*');
         $query->from($db->quoteName($info_table));
         $query->where($db->quoteName('user_id') . ' = '. $db->quote($arc_user_id));
-		    $query->order($db->quoteName('category') . ' , ' . $db->quoteName('user_desc'));//aliintro Test Page
-        //$query->order($db->quoteName('user_input'));//aliintro Test Page
+		    $query->order($db->quoteName('category') . ' , ' . $db->quoteName('desc_data'));//aliintro Test Page
+        //$query->order($db->quoteName('main_data'));//aliintro Test Page
         $db->setQuery($query);
 
 		$rows = $db->loadAssocList();
@@ -154,7 +156,7 @@ class TableArcAssets extends JTableNested
 		$arc_input = json_decode($idStr);
     $display_data = $dsp_Dta;
 
-    //TODO i need to check if the id belongs to the user
+    //TODO:20 i need to check if the id belongs to the user
 
 		$db = jFactory::getDbo();
         $query = $db->getQuery(true);
@@ -216,8 +218,9 @@ class TableArcAssets extends JTableNested
 
 
 			if(!isset($arc_input->category)){$arc_input->category = "";}
-			if(!isset($arc_input->user_input)){$arc_input->user_input = "";}
-			if(!isset($arc_input->user_desc)){$arc_input->user_desc = "";}
+			if(!isset($arc_input->main_data)){$arc_input->main_data = "";}
+			if(!isset($arc_input->desc_data)){$arc_input->desc_data = "";}
+      if(!isset($arc_input->other_data)){$arc_input->other_data = "";}
 			if(!isset($arc_input->picture)){$arc_input->picture = "";}
 			if(!isset($arc_input->published)){$arc_input->published = "";}
 			if(!isset($arc_input->extra)){$arc_input->extra = "";}
@@ -235,8 +238,9 @@ class TableArcAssets extends JTableNested
 			$fields = array(
 			$db->quoteName('user_id') . ' = ' . $db->quote($arc_input->user_id),
 			$db->quoteName('category') . ' = ' . $db->quote(htmlentities($arc_input->category)),
-			$db->quoteName('user_input') . ' = ' . $db->quote(htmlentities($arc_input->user_input)),
-			$db->quoteName('user_desc') . ' = ' . $db->quote(htmlentities($arc_input->user_desc)),
+			$db->quoteName('main_data') . ' = ' . $db->quote(htmlentities($arc_input->main_data)),
+			$db->quoteName('desc_data') . ' = ' . $db->quote(htmlentities($arc_input->desc_data)),
+      $db->quoteName('other_data') . ' = ' . $db->quote(htmlentities($arc_input->other_data)),
 			$db->quoteName('modified') . ' = ' . $db->quote(htmlentities($arc_input->modified)),
 			$db->quoteName('picture') . ' = ' . $db->quote(htmlentities($arc_input->picture)),
 			$db->quoteName('published') . ' = ' . $db->quote(htmlentities($arc_input->published)),

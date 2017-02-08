@@ -1,4 +1,6 @@
 //alert("arc script running!");
+//TODO:30 learn tasks
+//NOTE:80 business portfolio site - a business card is like a mini portfolio this one expands
 
 	function acr_setTheStage()
 	{
@@ -494,7 +496,7 @@
 			for(var i = 0; i < result_obj.length; i++)
 			{
 				var obj_category = result_obj[i].category;
-				var obj_input = result_obj[i].user_input;
+				var obj_input = result_obj[i].main_data;
 				var first_char = obj_input.charAt(0);
 				first_char = first_char.toLowerCase();
 
@@ -652,8 +654,9 @@
 					var curr_category = category_array[x].category;
 					var myIn_id = category_array[x].id || "";
 					var myIn_user_id = category_array[x].user_id || "";
-					var myIn_input = category_array[x].user_input || "";//*need
-					var myIn_desc = category_array[x].user_desc || "";
+					var myIn_main = category_array[x].main_data || "";//*need
+					var myIn_desc = category_array[x].desc_data || "";
+					var myIn_other = category_array[x].other_data || "";
 					var alt_icon = icon_finder(my_info_data_key_array[d]);
 					var myIn_icon = category_array[x].picture || alt_icon;//*need
 					var no_disc = (category_array[x].picture == "") ? "" : "ui-nodisc-icon";
@@ -675,13 +678,15 @@
 						case "video":
 						case "website":
 							data1 = myIn_desc;
-							data2 = myIn_input;
+							data2 = myIn_main;
+							data3 = myIn_other;
 						break;
 
 						default:
 						//best this way - apps,email
-							data1 = myIn_input;
+							data1 = myIn_main;
 							data2 = myIn_desc;
+							data3 = myIn_other;
 						break;
 						}
 
@@ -690,7 +695,7 @@
 					obj_elements[li_name] = new masterButtons({varName:li_name,home:ul_id_ary,type:'li'});
 					obj_elements[li_name].setPrefix(li_name);
 					obj_elements[li_name].setListNumber(1);
-					//obj_elements[li_name].setContent();//category_array[x].user_input
+					//obj_elements[li_name].setContent();//category_array[x].main_data
 					obj_elements[li_name].clearHome("false");
 					obj_elements[li_name].display();
 
@@ -720,7 +725,7 @@
 					my_info_text1.setTextTag('p');
 					my_info_text1.setPrefix(tName1);
 					my_info_text1.setContent(data1);
-					//my_info_text.setContent(myIn_input + " " + myIn_desc);//works as a filter
+					//my_info_text.setContent(myIn_main + " " + myIn_desc);//works as a filter
 					my_info_text1.setCustomClass(["my_info my_info_text my_info_text1 view1"]);
 					my_info_text1.clearHome("false");
 					my_info_text1.display();
@@ -737,7 +742,7 @@
 					my_info_text2.setTextTag('p');
 					my_info_text2.setPrefix(tName2);
 					my_info_text2.setContent(data2);
-					//my_info_text.setContent(myIn_input + " " + myIn_desc);//works as a filter
+					//my_info_text.setContent(myIn_main + " " + myIn_desc);//works as a filter
 					my_info_text2.setCustomClass(["my_info my_info_text my_info_text2 view2"]);
 					my_info_text2.clearHome("false");
 					my_info_text2.display();
@@ -753,7 +758,7 @@
 					my_info_text3.setTextTag('p');
 					my_info_text3.setPrefix(tName3);
 					my_info_text3.setContent(slash_date);
-					//my_info_text.setContent(myIn_input + " " + myIn_desc);//works as a filter
+					//my_info_text.setContent(myIn_main + " " + myIn_desc);//works as a filter
 					my_info_text3.setCustomClass(["my_info my_info_text my_info_text3 view3"]);
 					my_info_text3.clearHome("false");
 					my_info_text3.display();
@@ -769,7 +774,7 @@
 					my_info_text4.setTextTag('p');
 					my_info_text4.setPrefix(tName4);
 					my_info_text4.setContent(abbrev_date);
-					//my_info_text.setContent(myIn_input + " " + myIn_desc);//works as a filter
+					//my_info_text.setContent(myIn_main + " " + myIn_desc);//works as a filter
 					my_info_text4.setCustomClass(["my_info my_info_text my_info_text4 view4"]);
 					my_info_text4.clearHome("false");
 					my_info_text4.display();
@@ -800,7 +805,7 @@
 					{
 						var info_json = JSON.parse(this.dataset.info_json);
 						//
-						var confirm_delete = confirm("are you sure you want to delete: \n \n " +  info_json.user_input + " \n \n " +  info_json.user_desc );
+						var confirm_delete = confirm("are you sure you want to delete: \n \n " +  info_json.main_data + " \n \n " +  info_json.desc_data );
 
 						if(confirm_delete == true)
 						{
@@ -1221,11 +1226,20 @@
 
 					//input
 					var inputInputType = 'text';
-					var inputLabel = 'app name:';
-					var inputTitle = 'app name:';
+					var inputLabel = (in_value == "social community") ? "community's name:" : "app's name:";
+					var inputTitle = (in_value == "social community") ? "community's name:" : "app's name:";
 					var inputMaxLength = 30;
 					var inputTypeAttr = "text";
-					var inputPlaceholder = "enter the " + in_value+ " name";
+					var inputPlaceholder = "enter the " + in_value + " name";
+
+					//other data
+					var otherInputType = 'text';
+					var otherLabel = "url link*<small>(optional)</small>";
+					var otherTitle = "url link*<small>(optional)</small>";
+					var otherMaxLength = 90;
+					var otherTypeAttr = "text";
+					var otherPlaceholder = (in_value == "social community") ? "enter the community's url..." : "enter the app's url...";
+					var otherAutoComplete = "";
 
 					default_icon = "heart";
 					web_icon = "true";
@@ -1435,7 +1449,7 @@
 
 			createCancelBtn();
 
-			//sets on off toggle switch
+			//sets master on off toggle switch
 			accSlide = new masterButtons({varName:'accSlide',home:"contact_form_slider_cont",type:"slider"});
 			accSlide.setLabels(["master access:"]);
 			accSlide.setTitles(["master access"]);
@@ -1489,7 +1503,7 @@
 			clrTag2.clearHome("false");
             clrTag2.display();
 
-			//
+			//data1
 			typeSel = new masterButtons({varName:'typeSel',home:arc_info_type.id,type:typeInputType});
 			typeSel.setLabels([typeLabel]);
 			typeSel.setTitles([typeTitle]);
@@ -1504,9 +1518,9 @@
 			if(mod == "edit"){
 				if(typeInputType == "select")
 				{
-					typeSel.setDefault(obj_data.user_desc);
+					typeSel.setDefault(obj_data.desc_data);
 				}else{
-					typeSel.setText(obj_data.user_desc);//sets initial text
+					typeSel.setText(obj_data.desc_data);//sets initial text
 				}//end else
 
 			}
@@ -1708,7 +1722,7 @@
 
 			}//end if
 
-
+			//data2
 			dataInp = new masterButtons({varName:'dataInp',home:arc_info_nbr.id,type:inputInputType});
 			dataInp.setLabels([inputLabel]);
 			dataInp.setTitles([inputTitle]);
@@ -1722,7 +1736,7 @@
 			dataInp.setInputAttributes({"data-required":"true"});
 			dataInp.setCustomClass(["arc_input db_input borderline"]);
 			if(mod == "edit"){
-				dataInp.setText(obj_data.user_input);//sets initial text
+				dataInp.setText(obj_data.main_data);//sets initial text
 			}
 			//dataInp.setInputAttributes({"required":true});
 			//dataInp.clearHome("false");
@@ -1760,6 +1774,59 @@
 				})//end onchange
 
 			}//end for
+
+
+			if(in_value == "social community" || in_value == "apps")
+			{
+				//data3
+				otherInp = new masterButtons({varName:'otherInp',home:arc_info_nbr.id,type:otherInputType});
+				otherInp.setLabels([otherLabel]);
+				otherInp.setTitles([otherTitle]);
+				otherInp.setPrefix('otherInp');
+				otherInp.setInputAttributes({"maxlength":otherMaxLength});
+				otherInp.setInputAttributes({"type":otherTypeAttr});
+				if(mod == "edit" && in_value == "notification"){
+					//disable the input
+					otherInp.setInputAttributes({"disabled":true});
+				}//end if
+				//otherInp.setInputAttributes({"data-required":"true"});
+				otherInp.setCustomClass(["arc_input db_input borderline"]);
+				otherInp.clearHome("false");
+				if(mod == "edit"){
+					otherInp.setText(obj_data.other_data);//sets initial text
+				}
+				//otherInp.setInputAttributes({"required":true});
+				//otherInp.clearHome("false");
+				if(otherAutoComplete != undefined && otherAutoComplete != ""){
+				otherInp.setInputAttributes({"autocomplete":otherAutoComplete});
+				otherInp.setInputAttributes({"name":otherAutoComplete});
+				/*a combination of name="email" & autocomplete="email" seems to work for email & tel*/
+				}
+				otherInp.setInputAttributes({"placeholder":otherPlaceholder});
+				otherInp.setCasing();
+				otherInp.display();
+
+				var otherInp_id_array = otherInp.get_event_ids();
+				var otherInp_id = otherInp_id_array[0];
+
+				for(var c = 0; c < otherInp_id_array.length; c++){
+
+					var targetElement = document.getElementById(otherInp_id);
+					targetElement.addEventListener("input",function()
+					{
+						if(in_value == "notification" && mod == "edit")
+						{
+							//do nothing
+						}else{
+							checkChange("validate",trans_obj);
+						}//end else
+
+
+					})//end onchange
+
+				}//end for
+			}
+			//TODO: if empty fill apps with a link to the play store or ios store social com - link url
 
 			//if notification btns
 			if(in_value == "notification"){
@@ -1806,6 +1873,9 @@
 				//check group for validity
 				form_id_Ary = form_id_Ary.concat(typeSel.get_event_ids());
 				form_id_Ary = form_id_Ary.concat(dataInp.get_event_ids());
+				//add new data objects here to be part of validation process
+				form_id_Ary = form_id_Ary.concat(otherInp.get_event_ids());
+
 				console.log(form_id_Ary);
 
 				var isReady = validityCheck(form_id_Ary);
@@ -2252,13 +2322,18 @@
 				//maybe not
 				var arc_type = typeSel.getCurrentValue();
 				//var arc_type = (in_value != "apps") ? typeSel.getCurrentValue() : dataInp.getCurrentValue();
-				arc_input.user_desc = arc_type;
+				arc_input.desc_data = arc_type;
 				console.log("arc_type = ",arc_type);
 
 				var arc_data = dataInp.getCurrentValue();
 				//var arc_data = (in_value != "apps") ? dataInp.getCurrentValue() : typeSel.getCurrentValue();
-				arc_input.user_input = arc_data;
+				arc_input.main_data = arc_data;
 				console.log("arc_data = ",arc_data);
+
+				var arc_oData = otherInp.getCurrentValue();
+				//var arc_data = (in_value != "apps") ? dataInp.getCurrentValue() : typeSel.getCurrentValue();
+				arc_input.other_data = arc_oData;
+				console.log("arc_oData = ",arc_oData);
 
 				if(arc_category == "notification"){
 					var arc_note = sessionStorage.token_endpoint;

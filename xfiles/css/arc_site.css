@@ -21,12 +21,12 @@ margin-top:5px;}
 .contact_info_creator{border:1px solid #ccc;width:100%;border-radius:7px;}/*height:300px;*/
 .contact_type_selector{float:left;height:300px;width:15%;
 border:1px solid purple;float:left;}
-.form_ctrls{width:100%;border-bottom:1px solid #ccc;}
-.form_btns{height:35px !important;width:30px !important;border-radius:5px;
-margin:5px 4px !important;padding:0  10px !important}
-.arc_console_ctrl{border-radius: 7px;background:#555; height: 35px !important; width: 30% !important;
+.form_ctrls{width:100%;border-bottom:1px solid #ccc; padding: 0 1% !important;}
+#form_ctrls button.form_btns{height:35px !important;width:10%;border-radius:5px;
+margin:5px 1% !important;padding:0  10px !important}
+.arc_console_ctrl{border-radius: 7px; height: 38px !important; width: 38% !important;
 margin: 5px 4px !important;  padding: 0 !important; float:left;border-style: groove;}
-button.console_btns{margin:5px 3px 0 !important;width: 18px !important;20px;height:18px !important;display:inline-block;}
+button.console_btns{margin:1px 2px !important;display:inline-block;}
 
 .list_btns{float:left;}
 .arc_add_info{float:right;}
@@ -47,6 +47,9 @@ margin:0px auto!important;min-height: 20px !important;display:block !important;}
 .arc_select{ width: 90% ;margin: auto;display: block;padding: 2px 5px !important;  height: 30px; border-radius: 7px;background-color:#fff;}
 .TInput.arc_select,.TCont.arc_select{ width: 100% ;}
 .TCasing{padding-left:10px  !important;}
+div.otherInp_TCasing{margin: 10px 0 !important;padding: 0px !important;width:100% !important;}
+div.otherInp_TCont{}
+input.otherInp_TInput{width:100% !important;}
 .arc_select:active{border-color:none;}
 .SInput.arc_select{margin-bottom:5px;}
 /*div.STly{display:none !important;}*/
@@ -97,7 +100,7 @@ text-align: right !important;}
 
 
 @media only screen and (min-width:320px) and (max-width:479px){
-
+#form_ctrls  button.form_btns{width:8%;}
 }
 
 @media only screen and (min-width:480px) and (max-width:767px){
