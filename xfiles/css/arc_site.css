@@ -24,10 +24,15 @@ border:1px solid purple;float:left;}
 .form_ctrls{width:100%;border-bottom:1px solid #ccc;}
 .form_btns{height:35px !important;width:30px !important;border-radius:5px;
 margin:5px 4px !important;padding:0  10px !important}
+.arc_console_ctrl{border-radius: 7px;background:#555; height: 35px !important; width: 30% !important;
+margin: 5px 4px !important;  padding: 0 !important; float:left;border-style: groove;}
+button.console_btns{margin:5px 3px 0 !important;width: 18px !important;20px;height:18px !important;display:inline-block;}
+
 .list_btns{float:left;}
 .arc_add_info{float:right;}
 .clear,.clr{clear:both;}
-.arc_display{width:100%;min-height:200px;}/**/
+.arc_display{width:100%;min-height:200px;padding:5px;}/**/
+.ul_display_list{margin:0px !important;}
 
 .contact_form_heading{margin:0;}
 .contact_form_cont{width:100%;min-height:250px;margin-top:15px;border: 1px solid #ccc;}
@@ -83,7 +88,7 @@ text-align: right !important;}
 .chng_img{width:50% !important;display:inline-block !important;margin-bottom: 0px !important;}
 
 
-.my_info{display:inline-block !important;}
+.my_info.my_info_text{display:inline-block;}
 .my_info_icon{float:left;}
 .my_info_text{margin:5px !important;width:60%;font-size:16px !important;}
 .my_info_edit,.my_info_delete{float:right;}
@@ -153,6 +158,10 @@ background-size: 18px 18px;
 }
 .ui-icon-contact:after {
 background-image: url("../images/contact.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-folder:after {
+background-image: url("../images/folder.png");/* Make your icon fit */
 background-size: 18px 18px;
 }
 .ui-icon-share:after {

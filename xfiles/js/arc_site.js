@@ -197,7 +197,9 @@
 		var clrTag;
 		var clrTag2;
 		var default_icon = "heart";
-
+		var display_view = "folder";//or "list"
+		var display_data = "info";
+		var my_info = "";
 
 		var bigDaddy = $("#arc_panel_main_content")[0];
 
@@ -234,6 +236,10 @@
 				arc_info_list.className = "arc_info_list form_btns list_btns ui-btn ui-icon-contact ui-btn-icon-notext ui-btn-icon-right ui-shadow";
 				//arc_info_list.setAttribute("href","#");
 				arc_info_list.onclick = function(){
+					document.getElementById('arc_heading').innerHTML = "info manager:"
+					document.getElementById('arc_view_fldr').style.display = "none";
+					document.getElementById('arc_view_list').style.display = "none";
+					display_data = "info";
 					getMyInfo();
 					var add_btn = document.getElementById("arc_add_info");
 					add_btn.dataset.view = "info";
@@ -245,11 +251,61 @@
 				arc_media_list.className = "arc_media_list form_btns list_btns ui-btn ui-icon-share ui-btn-icon-notext ui-btn-icon-right ui-shadow";
 				//arc_media_list.setAttribute("href","#");
 				arc_media_list.onclick = function(){
+					document.getElementById('arc_heading').innerHTML = "media manager:";
+					document.getElementById('arc_view_fldr').style.display = "inline-block";
+					document.getElementById('arc_view_list').style.display = "inline-block";
+					display_data = "media";
 					getMyInfo();
 					var add_btn = document.getElementById("arc_add_info");
 					add_btn.dataset.view = "media";
 				};
 				//arc_media_list.appendChild();
+
+				//console container
+				var arc_console_ctrl = document.createElement('div');
+				arc_console_ctrl.id = "arc_console_ctrl";
+				arc_console_ctrl.className = "arc_console_ctrl";
+				//arc_console_ctrl.setAttribute("href","#");
+
+						var arc_view_view = document.createElement('button');
+						arc_view_view.id = "arc_view_view";
+						arc_view_view.className = "arc_view_view console_btns ui-btn ui-icon-eye ui-corner-all ui-mini ui-btn-icon-notext ui-btn-icon-right ui-shadow";
+						//arc_view_view.setAttribute("href","#");
+						arc_view_view.dataset.view = 1;
+						arc_view_view.onclick = function(){
+							switch_list_view(this);
+						};
+						//arc_view_view.appendChild();
+
+						var arc_view_fldr = document.createElement('button');
+						arc_view_fldr.id = "arc_view_fldr";
+						arc_view_fldr.className = "arc_view_fldr console_btns ui-btn ui-icon-folder ui-corner-all ui-mini ui-btn-icon-notext ui-btn-icon-right ui-shadow";
+						//arc_view_fldr.setAttribute("href","#");
+						arc_view_fldr.dataset.view = 1;
+						arc_view_fldr.style.display = "none";
+						arc_view_fldr.onclick = function(){
+							display_view = "folder";
+							display_my_info(my_info);
+
+						};
+						//arc_view_fldr.appendChild();
+
+						var arc_view_list = document.createElement('button');
+						arc_view_list.id = "arc_view_list";
+						arc_view_list.className = "arc_view_list console_btns ui-btn ui-icon-bullets ui-corner-all ui-mini ui-btn-icon-notext ui-btn-icon-right ui-shadow";
+						//arc_view_list.setAttribute("href","#");
+						arc_view_list.dataset.view = 1;
+						arc_view_list.style.display = "none";
+						arc_view_list.onclick = function(){
+							display_view = "list";
+							display_my_info(my_info);
+
+						};
+						//arc_view_list.appendChild();
+
+				arc_console_ctrl.appendChild(arc_view_view);
+				arc_console_ctrl.appendChild(arc_view_fldr);
+				arc_console_ctrl.appendChild(arc_view_list);
 
 
 				var form_ctrls_span = document.createElement('div');
@@ -258,6 +314,7 @@
 
 			form_ctrls.appendChild(arc_info_list);
 			form_ctrls.appendChild(arc_media_list);
+			form_ctrls.appendChild(arc_console_ctrl);
 			form_ctrls.appendChild(arc_add_info);
 			form_ctrls.appendChild(form_ctrls_span);
 
@@ -295,7 +352,7 @@
 
 			var ctrl_Url = "index.php?option=com_arc&task=" + urlMod + "&format=raw&" + form_token + "=1";//this works
 
-			myData.info = "all";
+			myData.info = (display_data == "info") ? "info" : "media";
 
 
 			$(document).ready(function()
@@ -328,12 +385,17 @@
 						{
 							if(result.indexOf("<!doctype html>") == -1)
 							{
+								//blank the display
+								var display_el = document.getElementById("arc_display");
+								display_el.innerHTML = "";
+
 								if(result != "[]")
 								{
 
 									var my_info_str = result;
 
-									var my_info = JSON.parse(my_info_str);
+									//var my_info = JSON.parse(my_info_str);
+									my_info = JSON.parse(my_info_str);
 
 									console.log("my info = ",my_info);
 
@@ -374,28 +436,85 @@
 
 		}//end getMyInfo
 
+		var switch_list_view = function(obj)
+		{
+				var view_btn = obj;
+				var view = parseInt(view_btn.dataset.view);
+				var init_view_var = "view1"
+				var cur_view_var = "view" + view;
+				var nxt_view_var = "view" + (view + 1);
+
+				//current view
+				var cur_view_ary = document.getElementsByClassName(cur_view_var);
+
+				switch_display(cur_view_ary,"none");
+
+				if(document.getElementsByClassName(nxt_view_var)[0])
+				{
+					var nxt_view_ary = document.getElementsByClassName(nxt_view_var);
+					switch_display(nxt_view_ary,"inline-block");
+					view_btn.dataset.view = view + 1;
+				}else{
+					var init_view_ary = document.getElementsByClassName(init_view_var);
+					switch_display(init_view_ary,"inline-block");
+					view_btn.dataset.view = 1;
+				}
+
+
+		}//end switch_list_view
+
+		var switch_display = function(arr,attrib)
+		{
+			var ary_els = arr;
+			for(var d = 0; d < ary_els.length; d++)
+			{
+				ary_els[d].style.display = attrib;
+			}
+
+		}//end switch_display
+
 		var colap_cont;
 
 		//custom function
 		var display_my_info = function(iObj)
 		{
 			var result_obj = iObj;
+			var display_home = "arc_display";
+
+			var display_el = document.getElementById("arc_display");
+			display_el.innerHTML = "";
 
 			//create an icon object
 			//var icon_obj = {"name":"user","phone":"phone","notification":"notification","web address":"wordpress","email":"mail"};
 
 			//break up the data into categories
 			var my_info_data_object = {};
+			var my_info_data_abc = {};
 			//creates an array of arrays using the categories as keys
 			for(var i = 0; i < result_obj.length; i++)
 			{
 				var obj_category = result_obj[i].category;
+				var obj_input = result_obj[i].user_input;
+				var first_char = obj_input.charAt(0);
+				first_char = first_char.toLowerCase();
 
+				console.log("firsty",first_char);
+				//console.log("fun with strings",obj_input.substr(0,1));
+				//console.log("string cheese",obj_input.charAt(0));
+
+				//if the category is new add it as an object property
 				if(my_info_data_object[obj_category] == undefined){my_info_data_object[obj_category] = [];}
+
+				//then take the item and add it to the properties array
 				my_info_data_object[obj_category] = my_info_data_object[obj_category].concat(result_obj[i]);
+
+				if(my_info_data_abc[first_char] == undefined){my_info_data_abc[first_char] = [];}
+				//then take the item and add it to the properties array
+				my_info_data_abc[first_char] = my_info_data_abc[first_char].concat(result_obj[i]);
 
 			}//end for
 			obj_elements.my_info_data_object = my_info_data_object;
+			obj_elements.my_info_data_abc = my_info_data_abc;
 
 
 			console.log("my_info_data_object = ",my_info_data_object);
@@ -404,6 +523,8 @@
 			//create main collapsible
 
 			//collapsible set
+			if(display_view == "folder"){
+
 			obj_elements.colap_cont = new masterButtons({varName:'colap_cont',home:'arc_display',type:'list'});
             obj_elements.colap_cont.setPrefix('colap_cont');
             obj_elements.colap_cont.setListNumber(1);
@@ -417,15 +538,49 @@
 			var colap_cont_id_ary = obj_elements.colap_cont.get_event_ids();
 			var collapsible_sets_id = colap_cont_id_ary[0]
 
+		}//end if
 
 
+			if(display_view != "folder"){
+					//ul if it isn't a folder this will run 1 ul for all the list items
+					var ul_name = "ul_" + d;
+					obj_elements[ul_name] = new masterButtons({varName:ul_name,home:display_home,type:'ul'});
+					obj_elements[ul_name].setPrefix(ul_name);
+					obj_elements[ul_name].setListNumber(1);
+					obj_elements[ul_name].setInputAttributes({"data-role":"listview"});
+					obj_elements[ul_name].setInputAttributes({"data-filter":"true"});
+					obj_elements[ul_name].setInputAttributes({"data-filter-placeholder":"filter title, date, tag, name..."});
+					obj_elements[ul_name].setInputAttributes({"data-autodividers":"true"});
+					//obj_elements[ul_name].setInputAttributes({"data-autodividersSelector":"true"});
+					obj_elements[ul_name].setCustomClass(["ul_display_list"]);
+					obj_elements[ul_name].setInputAttributes({"data-filter-theme":"a"});
+					obj_elements[ul_name].setInputAttributes({"data-divider-theme":"a"});
+					obj_elements[ul_name].clearHome("false");
+					obj_elements[ul_name].display();
+
+					var ul_id_ary = obj_elements[ul_name].get_event_ids();
+					var ul_id = ul_id_ary[0];
+			}//end if
+
+
+			if(display_view == "folder"){
 			var my_info_data_key_array = Object.keys(my_info_data_object);//used to count category titles
+			}else{
+				var my_info_data_key_array = Object.keys(my_info_data_abc);
+				my_info_data_key_array = my_info_data_key_array.sort();
+			}
+
+
 			console.log("key array = ",my_info_data_key_array);
 			//now devide it up
 			obj_elements.my_info_data_key_array = my_info_data_key_array;
 
+
 			for(var d = 0; d < my_info_data_key_array.length; d++)
 			{
+
+				if(display_view == "folder"){
+
 				//create collapsible
 				//1st collapsible
 				var col_name = "clps_" + d;
@@ -454,25 +609,47 @@
 				obj_elements[h2_name].clearHome("false");
 				obj_elements[h2_name].display();
 
-				//ul
-				var ul_name = "ul_" + d;
-				obj_elements[ul_name] = new masterButtons({varName:ul_name,home:collapsible_id,type:'ul'});
-				obj_elements[ul_name].setPrefix(ul_name);
-				obj_elements[ul_name].setListNumber(1);
-				obj_elements[ul_name].setInputAttributes({"data-role":"listview"});
-				obj_elements[ul_name].setInputAttributes({"data-filter":"true"});
-				obj_elements[ul_name].setInputAttributes({"data-filter-theme":"a"});
-				obj_elements[ul_name].setInputAttributes({"data-divider-theme":"b"});
-				obj_elements[ul_name].clearHome("false");
-				obj_elements[ul_name].display();
+				display_home = collapsible_id;
 
-				var ul_id_ary = obj_elements[ul_name].get_event_ids();
-				var ul_id = ul_id_ary[0];
+				}//end if
 
-				var category_array = my_info_data_object[my_info_data_key_array[d]]
+
+				if(display_view == "folder"){
+
+						//ul - original "folder" ul runs with each category
+						var ul_name = "ul_" + d;
+						obj_elements[ul_name] = new masterButtons({varName:ul_name,home:display_home,type:'ul'});
+						obj_elements[ul_name].setPrefix(ul_name);
+						obj_elements[ul_name].setListNumber(1);
+						obj_elements[ul_name].setInputAttributes({"data-role":"listview"});
+						obj_elements[ul_name].setInputAttributes({"data-filter":"true"});
+						obj_elements[ul_name].setInputAttributes({"data-filter-placeholder":"filter title, date, tag, name..."});
+						if(display_view != "folder"){
+								obj_elements[ul_name].setInputAttributes({"data-autodividers":"true"});
+								//obj_elements[ul_name].setInputAttributes({"data-autodividersSelector":"true"});
+						}//end if
+						obj_elements[ul_name].setInputAttributes({"data-filter-theme":"a"});
+						obj_elements[ul_name].setInputAttributes({"data-divider-theme":"b"});
+						obj_elements[ul_name].clearHome("false");
+						obj_elements[ul_name].display();
+
+						var ul_id_ary = obj_elements[ul_name].get_event_ids();
+						var ul_id = ul_id_ary[0];
+					}//end if
+
+				if(display_view == "folder"){
+
+						var category_array = my_info_data_object[my_info_data_key_array[d]];
+
+				}else{
+							//if its not a folder use the abc data
+							var category_array = my_info_data_abc[my_info_data_key_array[d]];
+				}
+
 
 				for(var x = 0; x < category_array.length; x++){
 
+					var curr_category = category_array[x].category;
 					var myIn_id = category_array[x].id || "";
 					var myIn_user_id = category_array[x].user_id || "";
 					var myIn_input = category_array[x].user_input || "";//*need
@@ -481,9 +658,32 @@
 					var myIn_icon = category_array[x].picture || alt_icon;//*need
 					var no_disc = (category_array[x].picture == "") ? "" : "ui-nodisc-icon";
 					var myIn_created = category_array[x].created || "";
+					var my_date = new Date(myIn_created);
+					var slash_date = my_date.toLocaleString();
+					var abbrev_date = my_date.toString();
 					var myIn_modified = category_array[x].modified || "";
 					var myIn_extra = category_array[x].extra || "";
 					var myIn_json = JSON.stringify(category_array[x]);//*need
+
+					switch(curr_category){
+						case "web address":
+						case "article":
+						case "blog":
+						case "picture":
+						case "music":
+						case "social network":
+						case "video":
+						case "website":
+							data1 = myIn_desc;
+							data2 = myIn_input;
+						break;
+
+						default:
+						//best this way - apps,email
+							data1 = myIn_input;
+							data2 = myIn_desc;
+						break;
+						}
 
 
 					var li_name = "li_" + d + "_" + x;
@@ -514,18 +714,71 @@
 
 
 					//text container
-					var tName = "my_info_text" + d + "_" + x;
+					var tName1 = "my_info_text1" + d + "_" + x;
 
-					var my_info_text = new masterButtons({varName:tName,home:li_id,type:'tag'});
-					my_info_text.setTextTag('p');
-					my_info_text.setPrefix(tName);
-					my_info_text.setContent(myIn_input);
-					my_info_text.setCustomClass(["my_info my_info_text"]);
-					my_info_text.clearHome("false");
-					my_info_text.display();
+					var my_info_text1 = new masterButtons({varName:tName1,home:li_id,type:'tag'});
+					my_info_text1.setTextTag('p');
+					my_info_text1.setPrefix(tName1);
+					my_info_text1.setContent(data1);
+					//my_info_text.setContent(myIn_input + " " + myIn_desc);//works as a filter
+					my_info_text1.setCustomClass(["my_info my_info_text my_info_text1 view1"]);
+					my_info_text1.clearHome("false");
+					my_info_text1.display();
 
-					var mIT_ary = my_info_text.get_event_ids();
-					var mIT_id = mIT_ary[0];//my_info_text
+					var mIT1_ary = my_info_text1.get_event_ids();
+					var mIT1_id = mIT1_ary[0];//my_info_text
+
+					var mIT1_el = document.getElementById(mIT1_id);
+					mIT1_el.style.display = "inline-block";
+
+					var tName2 = "my_info_text2" + d + "_" + x;
+
+					var my_info_text2 = new masterButtons({varName:tName2,home:li_id,type:'tag'});
+					my_info_text2.setTextTag('p');
+					my_info_text2.setPrefix(tName2);
+					my_info_text2.setContent(data2);
+					//my_info_text.setContent(myIn_input + " " + myIn_desc);//works as a filter
+					my_info_text2.setCustomClass(["my_info my_info_text my_info_text2 view2"]);
+					my_info_text2.clearHome("false");
+					my_info_text2.display();
+
+					var mIT2_ary = my_info_text2.get_event_ids();
+					var mIT2_id = mIT2_ary[0];//my_info_text
+					var mIT2_el = document.getElementById(mIT2_id);
+					mIT2_el.style.display = "none";
+
+					//date
+					var tName3 = "my_info_text3" + d + "_" + x;
+					var my_info_text3 = new masterButtons({varName:tName3,home:li_id,type:'tag'});
+					my_info_text3.setTextTag('p');
+					my_info_text3.setPrefix(tName3);
+					my_info_text3.setContent(slash_date);
+					//my_info_text.setContent(myIn_input + " " + myIn_desc);//works as a filter
+					my_info_text3.setCustomClass(["my_info my_info_text my_info_text3 view3"]);
+					my_info_text3.clearHome("false");
+					my_info_text3.display();
+
+					var mIT3_ary = my_info_text3.get_event_ids();
+					var mIT3_id = mIT3_ary[0];//my_info_text
+
+					var mIT3_el = document.getElementById(mIT3_id);
+					mIT3_el.style.display = "none";
+
+					var tName4 = "my_info_text4" + d + "_" + x;
+					var my_info_text4 = new masterButtons({varName:tName4,home:li_id,type:'tag'});
+					my_info_text4.setTextTag('p');
+					my_info_text4.setPrefix(tName4);
+					my_info_text4.setContent(abbrev_date);
+					//my_info_text.setContent(myIn_input + " " + myIn_desc);//works as a filter
+					my_info_text4.setCustomClass(["my_info my_info_text my_info_text4 view4"]);
+					my_info_text4.clearHome("false");
+					my_info_text4.display();
+
+					var mIT4_ary = my_info_text4.get_event_ids();
+					var mIT4_id = mIT4_ary[0];//my_info_text
+
+					var mIT4_el = document.getElementById(mIT4_id);
+					mIT4_el.style.display = "none";
 
 					//delete btn
 					var dName = "my_info_delete" + d + "_" + x;
@@ -578,7 +831,9 @@
 					document.getElementById(mIE_id).addEventListener("click",function()
 					{
 						//alert(this.id + " \n " + this.dataset.info_json);
-						get_info_form({"mod":"edit","data":this.dataset.info_json});
+						var add_btn = document.getElementById("arc_add_info");
+						var t_view = add_btn.dataset.view;
+						get_info_form({"mod":"edit","data":this.dataset.info_json,"view":t_view});
 
 					})//end click
 
@@ -606,10 +861,13 @@
 				//initiate list view
 				var ul_id_str = "#" + ul_id;
 				$(ul_id_str).listview();
+				$(ul_id_str).listview("refresh")
 
 				//initiate collapsible
-				var col_id_str = "#" + collapsible_id;
-				$(col_id_str).collapsible();
+				if(display_view == "folder"){
+						var col_id_str = "#" + collapsible_id;
+						$(col_id_str).collapsible();
+				}//end if
 
 			}//end collapsible for
 
@@ -624,8 +882,12 @@
 			}//end for
 			*/
 
-			var col_set_id_str = "#" + collapsible_sets_id;
-			$(col_set_id_str).collapsibleset();
+			if(display_view == "folder"){
+
+					var col_set_id_str = "#" + collapsible_sets_id;
+					$(col_set_id_str).collapsibleset();
+
+		}//end if
 
 			wait_a_minute("hide");
 
@@ -800,9 +1062,19 @@
 
 					//fill the contact form
 					catSel = new masterButtons({varName:'catSel',home:'contact_form_select',type:'select'});
-					catSel.setLabels(['info category:']);
+					if(display_data == "info"){
+						catSel.setLabels(['info category "my":']);
+					}else{
+						catSel.setLabels(['media category:']);
+					}
+
 					catSel.setTitles(['select title']);
-					catSel.setSelectOptions(['apps','email','name','notification','phone','web address']);
+					if(display_data == "info"){
+						catSel.setSelectOptions(['apps','email','e-commerce','name','notification','phone',"social community",'web address']);
+					}else{
+							catSel.setSelectOptions(['article','blog','picture','music','social network','video','website']);
+					}//end else
+
 					if(mod == "edit")
 					{	var data = JSON.parse(obj.data);
 						var category = data.category;
@@ -919,6 +1191,7 @@
 		{
 			var mod = (tObj != undefined) ? tObj.mod : "make";
 			var trans_obj = tObj;
+			var web_icon = "false";
 			if(mod == "edit")
 			{
 				var obj_data = JSON.parse(tObj.data);
@@ -934,6 +1207,7 @@
 			switch(in_value)
 			{
 				case "apps":
+				case "social community":
 
 					//type selector
 					var typeInputType = 'text';
@@ -951,9 +1225,10 @@
 					var inputTitle = 'app name:';
 					var inputMaxLength = 30;
 					var inputTypeAttr = "text";
-					var inputPlaceholder = "enter the apps name";
+					var inputPlaceholder = "enter the " + in_value+ " name";
 
 					default_icon = "heart";
+					web_icon = "true";
 
 				break;
 
@@ -979,6 +1254,32 @@
 					var inputAutoComplete = "tel";
 
 					default_icon = "phone";
+					//web_icon = "false";
+
+				break;
+
+				case "e-commerce":
+
+					//type selector
+					var typeInputType = 'select';
+					var typeLabel = 'commerce type:';
+					var typeTitle = 'commerce type:';
+					var typeSelectOptions = ['online payments','online shopping'];
+					var typeMaxLength = 25;
+					var typeTypeAttr = "text";
+					var typePlaceholder = "customize name type";
+					var typeInfoText = "";
+
+					//input
+					var inputInputType = 'text';
+					var inputLabel = 'web address:';
+					var inputTitle = 'web address:';
+					var inputMaxLength = 90;
+					var inputTypeAttr = "url";
+					var inputPlaceholder = "http:// or https://";
+
+					default_icon = "shop";
+					web_icon = "true";
 
 				break;
 
@@ -1004,6 +1305,7 @@
 					var inputAutoComplete = "email";
 
 					default_icon = "mail";
+					web_icon = "true";
 
 				break;
 
@@ -1029,6 +1331,7 @@
 					var inputAutoComplete = "name";
 
 					default_icon = "user";
+					//web_icon = "false";
 
 				break;
 
@@ -1053,6 +1356,7 @@
 					var inputPlaceholder = "http:// or https://";
 
 					default_icon = "wifi";
+					web_icon = "true";
 
 				break;
 
@@ -1077,10 +1381,32 @@
 					var inputPlaceholder = "name this device";
 
 					default_icon = "notification";
+					//web_icon = "false";
 
 				break;
 
 				default:
+
+					//type selector
+					var typeInputType = 'text';
+					var typeLabel = in_value + ' info?';
+					var typeTitle = 'describe the ' + in_value + ':';
+					var typeSelectOptions = "";
+					var typeMaxLength = 25;
+					var typeTypeAttr = "text";
+					var typePlaceholder = "Title or description...";
+					var typeInfoText = "";
+
+					//input
+					var inputInputType = 'text';
+					var inputLabel = in_value + ' url?';
+					var inputTitle = in_value + ' url?';
+					var inputMaxLength = 90;
+					var inputTypeAttr = "text";
+					var inputPlaceholder = "enter the " + in_value+ " url";
+
+					default_icon = "wifi";
+					web_icon = "true";
 
 				break;
 
@@ -1188,7 +1514,7 @@
 			typeSel.setCustomSelect();//adds a custom option to an input select menu
 			//typeSel.setText("what is this");//sets initial text
 			//typeSel.setInputAttributes({"required":true});
-			if(in_value == "web address" || in_value == "apps" || in_value == "email"){
+			if(web_icon == "true"){
 				//sets casing to prep for the suggested icon container
 				typeSel.setCasing();
 			}
@@ -1233,7 +1559,7 @@
 			}//end for
 
 			//section for suggested icon;
-			if(in_value == "web address"|| in_value == "apps" || in_value == "email"){
+			if(web_icon == "true"){
 
 				//collapsible header
 				obj_elements.sug_icon_cont = new masterButtons({varName:'sug_icon_cont',home:arc_info_type.id,type:'tag'});
@@ -1310,8 +1636,8 @@
 					}else{
 
 						//check for icon updates
-						if(in_value == "web address"|| in_value == "apps" || in_value == "email"){
-						var icon_set = (in_value == "web address" || in_value == "apps" ) ? "social" : "mail"
+						if(web_icon == "true"){
+						var icon_set = (in_value != "email") ? "social" : "mail"
 						update_web_icon({"input_id":dataInp_id,"icon_id":sug_icon_id,"change_id":chng_cont_id,"icon_set":icon_set});
 
 						//then validate
@@ -1422,9 +1748,9 @@
 						//do nothing
 					}else{
 
-						if(in_value == "web address"|| in_value == "apps" || in_value == "email"){
-						var icon_set = (in_value == "web address" || in_value == "apps" ) ? "social" : "mail"
-						update_web_icon({"input_id":dataInp_id,"icon_id":sug_icon_id,"change_id":chng_cont_id,"icon_set":icon_set});
+						if(web_icon == "true"){
+							var icon_set = (in_value != "email") ? "social" : "mail"
+							update_web_icon({"input_id":dataInp_id,"icon_id":sug_icon_id,"change_id":chng_cont_id,"icon_set":icon_set});
 						}
 
 						checkChange("validate",trans_obj);
@@ -1940,8 +2266,15 @@
 					console.log("arc_data = ",arc_note);
 				}//end if
 
-				if(arc_category == "web address" || arc_category == "apps" || arc_category == "email")
+				switch(arc_category)
 				{
+					case "name":
+					case "notification":
+					case "phone":
+					break;
+
+					default:
+					//'article','blog','picture','music','social network','video','website'
 					//get checked id & check element
 					var sug_icon_chk_ary = obj_elements.sug_icon_chk.get_event_ids();
 					var sug_icon_chk_id = sug_icon_chk_ary[0];
@@ -1960,8 +2293,9 @@
 						arc_input.picture = icon_value;
 
 					}//end if
+					break;
 
-				}//end if arc_category
+				}//end switch
 
 
 				var dt = new Date();
@@ -1969,7 +2303,7 @@
 				arc_input.modified = arc_time;
 
 			}else{
-				var info_json_str = obj.info_json;
+				var info_json_str = tObj.info_json;
 				var info_json = JSON.parse(info_json_str);
 				arc_input.id = info_json.id;
 
@@ -1977,6 +2311,7 @@
 			console.log("arc_input = ",arc_input);
 
 			uploadData.arc_input = JSON.stringify(arc_input);
+			uploadData.display_data = display_data;
 			console.log("uploadData = ",uploadData);
 			/*if(arc_category == "notification"){
 				var arc_tNote = tNoteBtn.getCurrentValue();
@@ -2068,11 +2403,16 @@
 
 			var jqm_icons =
 			{
+				"e-commerce":"shop",
+				"email":"mail",
+				"music":"audio",
 				"name":"user",
-				"phone":"phone",
 				"notification":"notification",
-				"web address":"wifi",
-				"email":"mail"
+				"phone":"phone",
+				"picture":"camera",
+				"video":"video",
+				"website":"wifi",
+				"web address":"wifi"
 			};
 
 			var social_icons =
