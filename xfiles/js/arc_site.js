@@ -1,5 +1,5 @@
 //alert("arc script running!");
-//TODO:30 learn tasks
+//TODO:10 learn tasks
 //NOTE:80 business portfolio site - a business card is like a mini portfolio this one expands
 
 	function acr_setTheStage()
@@ -13,11 +13,11 @@
 
 		//set click actions
 
-		$(".arc_cnxs").click(function(){
+		$(".arc_my_info").click(function(){
 			//clear the display
 			$("#arc_panel_main_content").html("");
 			//populate the display info form creator
-			var iFC = new create_form();//class - needs extend classes
+			var iFC = new create_form({"display_data":"info"});//class - needs extend classes
 			iFC.getMyInfo();//custom - needs to be a prototype
 
 			//open the display
@@ -26,13 +26,30 @@
 
 		});
 
-		$(".arc_communities").click(function(){
+		$(".arc_my_group").click(function(){
 			//clear the display
 			$("#arc_panel_main_content").html("");
+			//populate the display info form creator
+			var iFC = new create_form({"display_data":"group"});//class - needs extend classes
+			iFC.getMyInfo();//custom - needs to be a prototype
+
 			//open the display
 			$('#arc_popup').popup();
 			$('#arc_popup').popup('open');
-			//populate the display
+
+		});
+
+		$(".arc_my_media").click(function(){
+			//clear the display
+			$("#arc_panel_main_content").html("");
+			//populate the display info form creator
+			var iFC = new create_form({"display_data":"media"});//class - needs extend classes
+			iFC.getMyInfo();//custom - needs to be a prototype
+
+			//open the display
+			$('#arc_popup').popup();
+			$('#arc_popup').popup('open');
+
 		});
 
 	}//end acr_setTheStage
@@ -108,7 +125,7 @@
 					var arc_heading  = document.createElement('h4');
 					arc_heading.id = "arc_heading";
 					arc_heading.className = "arc_heading ";
-					arc_heading.innerHTML = "info manager:";
+					//arc_heading.innerHTML = "info manager:";//outside of create_form (to set dynamically here)
 
 					var arc_panel_main_content = document.createElement('div');
 					arc_panel_main_content.id = "arc_panel_main_content";
@@ -186,22 +203,34 @@
 
 	}//end arc_toggleDisplay
 
-	function create_form()
+	//TODO:0 add titles to all btns
+
+	function create_form(obj)
 	{
 		console.info("contact creator created.");
 		var obj_elements = {};
 
+		var display_data = (obj != undefined && obj.display_data != undefined) ? obj.display_data : "info";
 		var catSel;//category selector
 		var typeSel;//type selector
 		var dataInp;//data entry point
+		var otherInp;
 		var tNoteBtn;//notification test btn
 		var accSlide;//access slider
 		var clrTag;
 		var clrTag2;
-		var default_icon = "heart";
+		var default_icon = (display_data == "group") ? "group" :(display_data == "media") ? "share" : "heart";
+
+		var default_heading  = (display_data == "group") ? "community manager:" :(display_data == "media") ? "media manager:" : "info manager:";
 		var display_view = "folder";//or "list"
-		var display_data = "info";
+
+
+
 		var my_info = "";
+
+		var info_category_arry = ['email','e-commerce','favorite apps','name','notification','phone',"social community",'web address'];
+		var media_category_arry = ['article','blog','picture','music','social network','video','website'];
+		var group_category_arry = ['business','family','friend','online','project','education','team','social','spiritual','work'];
 
 		var bigDaddy = $("#arc_panel_main_content")[0];
 
@@ -236,32 +265,56 @@
 				var arc_info_list = document.createElement('button');
 				arc_info_list.id = "arc_info_list";
 				arc_info_list.className = "arc_info_list form_btns list_btns ui-btn ui-icon-contact ui-btn-icon-notext ui-btn-icon-right ui-shadow";
+				arc_info_list.title = "show info manager";
 				//arc_info_list.setAttribute("href","#");
-				arc_info_list.onclick = function(){
+
+				//initial display
+				if(display_data == "info"){
 					document.getElementById('arc_heading').innerHTML = "info manager:"
-					document.getElementById('arc_view_fldr').style.display = "none";
-					document.getElementById('arc_view_list').style.display = "none";
-					display_data = "info";
-					getMyInfo();
-					var add_btn = document.getElementById("arc_add_info");
-					add_btn.dataset.view = "info";
+					arc_info_list.style.display = "none";
+				}//end if
+
+				arc_info_list.onclick = function(){
+
+					change_display("info");
+
 				};
 				//arc_info_list.appendChild();
 
 				var arc_media_list = document.createElement('button');
 				arc_media_list.id = "arc_media_list";
 				arc_media_list.className = "arc_media_list form_btns list_btns ui-btn ui-icon-share ui-btn-icon-notext ui-btn-icon-right ui-shadow";
+				arc_media_list.title = "show media manager";
 				//arc_media_list.setAttribute("href","#");
-				arc_media_list.onclick = function(){
+
+				if(display_data == "media"){
 					document.getElementById('arc_heading').innerHTML = "media manager:";
-					document.getElementById('arc_view_fldr').style.display = "inline-block";
-					document.getElementById('arc_view_list').style.display = "inline-block";
-					display_data = "media";
-					getMyInfo();
-					var add_btn = document.getElementById("arc_add_info");
-					add_btn.dataset.view = "media";
+					arc_media_list.style.display = "none";
+				}//end if
+
+				arc_media_list.onclick = function(){
+
+					change_display("media");
+
 				};
 				//arc_media_list.appendChild();
+
+				var arc_group_list = document.createElement('button');
+				arc_group_list.id = "arc_group_list";
+				arc_group_list.className = "arc_group_list form_btns list_btns ui-btn ui-icon-group ui-btn-icon-notext ui-btn-icon-right ui-shadow";
+				arc_group_list.title = "show community manager";
+				//arc_group_list.setAttribute("href","#");
+				if(display_data == "group"){
+					document.getElementById('arc_heading').innerHTML = "community manager:";
+					arc_group_list.style.display = "none";
+				}//end if
+
+				arc_group_list.onclick = function(){
+
+					change_display("group");
+
+				};
+				//arc
 
 				//console container
 				var arc_console_ctrl = document.createElement('div');
@@ -269,22 +322,24 @@
 				arc_console_ctrl.className = "arc_console_ctrl";
 				//arc_console_ctrl.setAttribute("href","#");
 
-						var arc_view_view = document.createElement('button');
-						arc_view_view.id = "arc_view_view";
-						arc_view_view.className = "arc_view_view console_btns ui-btn ui-icon-eye ui-corner-all ui-mini ui-btn-icon-notext ui-btn-icon-right ui-shadow";
-						//arc_view_view.setAttribute("href","#");
-						arc_view_view.dataset.view = 1;
-						arc_view_view.onclick = function(){
+						var arc_view_more = document.createElement('button');
+						arc_view_more.id = "arc_view_more";
+						arc_view_more.className = "arc_view_more console_btns ui-btn ui-icon-eye ui-corner-all ui-mini ui-btn-icon-notext ui-btn-icon-right ui-shadow";
+						//arc_view_more.setAttribute("href","#");
+						arc_view_more.dataset.view = 1;
+						arc_view_more.onclick = function(){
 							switch_list_view(this);
 						};
-						//arc_view_view.appendChild();
+						//arc_view_more.appendChild();
 
 						var arc_view_fldr = document.createElement('button');
 						arc_view_fldr.id = "arc_view_fldr";
 						arc_view_fldr.className = "arc_view_fldr console_btns ui-btn ui-icon-folder ui-corner-all ui-mini ui-btn-icon-notext ui-btn-icon-right ui-shadow";
 						//arc_view_fldr.setAttribute("href","#");
 						arc_view_fldr.dataset.view = 1;
-						arc_view_fldr.style.display = "none";
+						if(display_data == "info"){
+							arc_view_fldr.style.display = "none";
+						}
 						arc_view_fldr.onclick = function(){
 							display_view = "folder";
 							display_my_info(my_info);
@@ -297,7 +352,9 @@
 						arc_view_list.className = "arc_view_list console_btns ui-btn ui-icon-bullets ui-corner-all ui-mini ui-btn-icon-notext ui-btn-icon-right ui-shadow";
 						//arc_view_list.setAttribute("href","#");
 						arc_view_list.dataset.view = 1;
-						arc_view_list.style.display = "none";
+						if(display_data == "info"){
+							arc_view_list.style.display = "none";
+						}
 						arc_view_list.onclick = function(){
 							display_view = "list";
 							display_my_info(my_info);
@@ -305,7 +362,7 @@
 						};
 						//arc_view_list.appendChild();
 
-				arc_console_ctrl.appendChild(arc_view_view);
+				arc_console_ctrl.appendChild(arc_view_more);
 				arc_console_ctrl.appendChild(arc_view_fldr);
 				arc_console_ctrl.appendChild(arc_view_list);
 
@@ -316,6 +373,7 @@
 
 			form_ctrls.appendChild(arc_info_list);
 			form_ctrls.appendChild(arc_media_list);
+			form_ctrls.appendChild(arc_group_list);
 			form_ctrls.appendChild(arc_console_ctrl);
 			form_ctrls.appendChild(arc_add_info);
 			form_ctrls.appendChild(form_ctrls_span);
@@ -338,6 +396,67 @@
 
 		bigDaddy.appendChild(contact_info_creator);
 
+		var change_display = function(dd)
+		{
+			display_data = dd;
+			display_view = "folder";
+			var info_style_display = "inline-block";
+			var media_style_display = "inline-block";
+			var group_style_display = "inline-block";
+			var add_btn = document.getElementById("arc_add_info");
+
+			switch(display_data){
+				case "info":
+
+					info_style_display = "none";
+					default_icon =  "heart";
+					default_heading = "info manager:";
+					var console_btns = "false";
+					add_btn.dataset.view = "info";
+
+				break;
+
+				case "media":
+					media_style_display = "none";
+					default_icon =  "share";
+					default_heading = "media manager:";
+					var console_btns = "true";
+					add_btn.dataset.view = "media";
+
+				break;
+
+				case "group":
+					group_style_display = "none";
+					default_icon =  "group";
+					default_heading = "community manager:";
+					var console_btns = "true";
+					add_btn.dataset.view = "group";
+
+					//update btn display
+
+
+
+
+
+				break;
+
+			}//end switch
+
+			document.getElementById('arc_heading').innerHTML = default_heading;
+			document.getElementById('arc_info_list').style.display = info_style_display;
+			document.getElementById('arc_media_list').style.display = media_style_display;
+			document.getElementById('arc_group_list').style.display = group_style_display;
+			if(console_btns == "true"){
+				document.getElementById('arc_view_fldr').style.display = "inline-block";
+				document.getElementById('arc_view_list').style.display = "inline-block";
+			}else{
+				document.getElementById('arc_view_fldr').style.display = "none";
+				document.getElementById('arc_view_list').style.display = "none";
+			}//end else
+			getMyInfo();
+
+		}//end change_display
+
 		//custom function
 		this.getMyInfo = function(){getMyInfo();}
 
@@ -354,7 +473,20 @@
 
 			var ctrl_Url = "index.php?option=com_arc&task=" + urlMod + "&format=raw&" + form_token + "=1";//this works
 
-			myData.info = (display_data == "info") ? "info" : "media";
+			switch(display_data)
+			{
+				case "info":
+					myData.display_data ="info";
+				break;
+
+				case "media":
+					myData.display_data = "media";
+				break;
+
+				case "group":
+					myData.display_data = "group";
+				break;
+			}
 
 
 			$(document).ready(function()
@@ -383,7 +515,7 @@
 
 						//change the upload icon to successful
 						//if(result.indexOf("invalid token") == -1)
-						if(result != "Invalid Token" && result.indexOf("unregistered user") == -1)
+						if(result != "Invalid Token" && result.indexOf("unregistered user") == -1  &&  result.indexOf(">Your session has expired") == -1)
 						{
 							if(result.indexOf("<!doctype html>") == -1)
 							{
@@ -496,7 +628,7 @@
 			for(var i = 0; i < result_obj.length; i++)
 			{
 				var obj_category = result_obj[i].category;
-				var obj_input = result_obj[i].main_data;
+				var obj_input = result_obj[i].desc_data;
 				var first_char = obj_input.charAt(0);
 				first_char = first_char.toLowerCase();
 
@@ -569,8 +701,11 @@
 			var my_info_data_key_array = Object.keys(my_info_data_object);//used to count category titles
 			}else{
 				var my_info_data_key_array = Object.keys(my_info_data_abc);
+				console.log("early  abc = ", my_info_data_key_array);
 				my_info_data_key_array = my_info_data_key_array.sort();
+				console.log("sort  abc = ", my_info_data_key_array);
 			}
+			//TODO fix abc key sort
 
 
 			console.log("key array = ",my_info_data_key_array);
@@ -654,9 +789,10 @@
 					var curr_category = category_array[x].category;
 					var myIn_id = category_array[x].id || "";
 					var myIn_user_id = category_array[x].user_id || "";
-					var myIn_main = category_array[x].main_data || "";//*need
-					var myIn_desc = category_array[x].desc_data || "";
-					var myIn_other = category_array[x].other_data || "";
+					var empty_text = "";//"empty"
+					var myIn_main = (category_array[x].core_data != undefined && category_array[x].core_data != "") ? category_array[x].core_data : empty_text;//*need
+					var myIn_desc = (category_array[x].desc_data != undefined && category_array[x].desc_data != "") ? category_array[x].desc_data : empty_text;
+					var myIn_other = (category_array[x].other_data != undefined && category_array[x].other_data != "") ? category_array[x].other_data : empty_text;
 					var alt_icon = icon_finder(my_info_data_key_array[d]);
 					var myIn_icon = category_array[x].picture || alt_icon;//*need
 					var no_disc = (category_array[x].picture == "") ? "" : "ui-nodisc-icon";
@@ -669,23 +805,28 @@
 					var myIn_json = JSON.stringify(category_array[x]);//*need
 
 					switch(curr_category){
-						case "web address":
-						case "article":
-						case "blog":
-						case "picture":
-						case "music":
-						case "social network":
-						case "video":
-						case "website":
-							data1 = myIn_desc;
-							data2 = myIn_main;
-							data3 = myIn_other;
-						break;
 
-						default:
-						//best this way - apps,email
+						case "favorite apps":
+						case "email":
+						case "notification":
+						case "name":
+						case "phone":
+						//whatever isn't good goes up here
 							data1 = myIn_main;
 							data2 = myIn_desc;
+							data3 = myIn_other;
+						break;
+					/*# 	case "apps":
+					//# 	case "article":
+					//# 	case "blog":
+					//# 	case "picture":
+					//## 	case "music":
+					//# 	case "social network":
+					//# 	case "video":
+					//# 	case "website":*/
+						default:
+							data1 = myIn_desc;
+							data2 = myIn_main;
 							data3 = myIn_other;
 						break;
 						}
@@ -695,7 +836,7 @@
 					obj_elements[li_name] = new masterButtons({varName:li_name,home:ul_id_ary,type:'li'});
 					obj_elements[li_name].setPrefix(li_name);
 					obj_elements[li_name].setListNumber(1);
-					//obj_elements[li_name].setContent();//category_array[x].main_data
+					//obj_elements[li_name].setContent();//category_array[x].core_data
 					obj_elements[li_name].clearHome("false");
 					obj_elements[li_name].display();
 
@@ -805,7 +946,7 @@
 					{
 						var info_json = JSON.parse(this.dataset.info_json);
 						//
-						var confirm_delete = confirm("are you sure you want to delete: \n \n " +  info_json.main_data + " \n \n " +  info_json.desc_data );
+						var confirm_delete = confirm("are you sure you want to delete: \n \n " +  info_json.core_data + " \n \n " +  info_json.desc_data );
 
 						if(confirm_delete == true)
 						{
@@ -1067,18 +1208,36 @@
 
 					//fill the contact form
 					catSel = new masterButtons({varName:'catSel',home:'contact_form_select',type:'select'});
-					if(display_data == "info"){
-						catSel.setLabels(['info category "my":']);
-					}else{
-						catSel.setLabels(['media category:']);
-					}
+					switch(display_data){
+
+						 case "info":
+						 		catSel.setLabels(['info category "my":']);
+							break;
+
+							case "media":
+								catSel.setLabels(['media category:']);
+							break;
+
+							case "group":
+								catSel.setLabels(['community category:']);
+							break;
+
+					}//end switch
 
 					catSel.setTitles(['select title']);
-					if(display_data == "info"){
-						catSel.setSelectOptions(['apps','email','e-commerce','name','notification','phone',"social community",'web address']);
-					}else{
-							catSel.setSelectOptions(['article','blog','picture','music','social network','video','website']);
-					}//end else
+					switch(display_data){
+						case "info":
+							catSel.setSelectOptions(info_category_arry);
+						break;
+
+						case "media":
+							catSel.setSelectOptions(media_category_arry);
+						break;
+
+						case "group":
+							catSel.setSelectOptions(group_category_arry);
+						break;
+					}//end switch
 
 					if(mod == "edit")
 					{	var data = JSON.parse(obj.data);
@@ -1090,7 +1249,10 @@
 					catSel.setPrefix('catSel');
 					catSel.setInputAttributes({"maxlength":25});
 					catSel.setCustomClass(["arc_select db_category"]);
-					//catSel.setCustomSelect();
+					if(display_data != "info")
+					{
+						catSel.setCustomSelect();
+					}
 					//catSel.setText("what is this");//sets initial text
 					//catSel.setInputAttributes({"required":true});
 					catSel.setInputAttributes({"placeholder":"select results"});
@@ -1197,6 +1359,7 @@
 			var mod = (tObj != undefined) ? tObj.mod : "make";
 			var trans_obj = tObj;
 			var web_icon = "false";
+			var more_info = "false";
 			if(mod == "edit")
 			{
 				var obj_data = JSON.parse(tObj.data);
@@ -1207,11 +1370,37 @@
 			var stage_el = document.getElementById(stage_id);
 			stage_el.innerHTML = "";
 
-			var in_value = input_el.value;
+			/*i made changed in_value into cat_value up here so i wouldn't have to go through
+			the lower parts of code below the category switching and change every in_value to cat_value
+			This way also has the added benefit of filtering out any customized entries and adding them
+			to a catchall the fits most of the data of their display type. (display_data)
+			*/
+
+			var cat_value = input_el.value;
+
+			switch(display_data)
+			{
+				case "info":
+					var is_in_array = valueChecker({"array":info_category_arry,"string":cat_value,"mod":"index","type":"sna"});
+					var in_value = (is_in_array == -1) ? "info": cat_value;
+				break;
+
+				case "media":
+					var is_in_array = valueChecker({"array":media_category_arry,"string":cat_value,"mod":"index","type":"sna"});
+					var in_value = (is_in_array == -1) ? "media": cat_value;
+				break;
+
+				case "group":
+					var is_in_array = valueChecker({"array":group_category_arry,"string":cat_value,"mod":"index","type":"sna"});
+					var in_value = (is_in_array == -1) ? "group": cat_value;
+				break;
+
+			}//end switch
+
 
 			switch(in_value)
 			{
-				case "apps":
+				case "favorite apps":
 				case "social community":
 
 					//type selector
@@ -1223,6 +1412,8 @@
 					var typeTypeAttr = "text";
 					var typePlaceholder = "uname/number/link";
 					var typeInfoText = "";
+					var typeRequired = "true";
+					var typeCustomize = "false";
 
 					//input
 					var inputInputType = 'text';
@@ -1230,7 +1421,9 @@
 					var inputTitle = (in_value == "social community") ? "community's name:" : "app's name:";
 					var inputMaxLength = 30;
 					var inputTypeAttr = "text";
-					var inputPlaceholder = "enter the " + in_value + " name";
+					var inputPlaceholder = "enter the " + cat_value + " name";
+					var inputRequired = "true";
+					var inputCustomize = "false";
 
 					//other data
 					var otherInputType = 'text';
@@ -1238,11 +1431,14 @@
 					var otherTitle = "url link*<small>(optional)</small>";
 					var otherMaxLength = 90;
 					var otherTypeAttr = "text";
-					var otherPlaceholder = (in_value == "social community") ? "enter the community's url..." : "enter the app's url...";
+					var otherPlaceholder = (cat_value == "social community") ? "enter the community's url..." : "enter the app's url...";
 					var otherAutoComplete = "";
+					var otherRequired = "false";
+					var otherCustomize = "false";
 
 					default_icon = "heart";
 					web_icon = "true";
+					more_info = "true";
 
 				break;
 
@@ -1256,6 +1452,8 @@
 					var typeMaxLength = 25;
 					var typeTypeAttr = "text";
 					var typePlaceholder = "customize phone type";
+					var typeRequired = "true";
+					var typeCustomize = "false";
 					var typeInfoText = "You can create as many phone numbers as you like and assign them to different contacts.";
 
 					//input
@@ -1266,6 +1464,8 @@
 					var inputTypeAttr = "tel";
 					var inputPlaceholder = "enter a phone number";
 					var inputAutoComplete = "tel";
+					var inputRequired = "true";
+					var inputCustomize = "true";
 
 					default_icon = "phone";
 					//web_icon = "false";
@@ -1283,6 +1483,8 @@
 					var typeTypeAttr = "text";
 					var typePlaceholder = "customize name type";
 					var typeInfoText = "";
+					var typeRequired = "true";
+					var typeCustomize = "false";
 
 					//input
 					var inputInputType = 'text';
@@ -1291,6 +1493,8 @@
 					var inputMaxLength = 90;
 					var inputTypeAttr = "url";
 					var inputPlaceholder = "http:// or https://";
+					var inputRequired = "true";
+					var inputCustomize = "true";
 
 					default_icon = "shop";
 					web_icon = "true";
@@ -1308,6 +1512,8 @@
 					var typeTypeAttr = "text";
 					var typePlaceholder = "customize email type";
 					var typeInfoText = "";
+					var typeRequired = "true";
+					var typeCustomize = "false";
 
 					//input
 					var inputInputType = 'text';
@@ -1317,6 +1523,8 @@
 					var inputTypeAttr = "email";
 					var inputPlaceholder = "enter an email address";
 					var inputAutoComplete = "email";
+					var inputRequired = "true";
+					var inputCustomize = "true";
 
 					default_icon = "mail";
 					web_icon = "true";
@@ -1334,6 +1542,8 @@
 					var typeTypeAttr = "text";
 					var typePlaceholder = "customize name type";
 					var typeInfoText = "";
+					var typeRequired = "true";
+					var typeCustomize = "false";
 
 					//input
 					var inputInputType = 'text';
@@ -1343,6 +1553,8 @@
 					var inputTypeAttr = "text";
 					var inputPlaceholder = "enter your name";
 					var inputAutoComplete = "name";
+					var inputRequired = "true";
+					var inputCustomize = "true";
 
 					default_icon = "user";
 					//web_icon = "false";
@@ -1360,6 +1572,8 @@
 					var typeTypeAttr = "text";
 					var typePlaceholder = "customize name type";
 					var typeInfoText = "";
+					var typeRequired = "true";
+					var typeCustomize = "false";
 
 					//input
 					var inputInputType = 'text';
@@ -1368,6 +1582,8 @@
 					var inputMaxLength = 90;
 					var inputTypeAttr = "url";
 					var inputPlaceholder = "http:// or https://";
+					var inputRequired = "true";
+					var inputCustomize = "true";
 
 					default_icon = "wifi";
 					web_icon = "true";
@@ -1385,6 +1601,8 @@
 					var typeTypeAttr = "text";
 					var typePlaceholder = "customize device type";
 					var typeInfoText = "";
+					var typeRequired = "true";
+					var typeCustomize = "true";
 
 
 					//input
@@ -1393,23 +1611,34 @@
 					var inputTitle = 'device title:';
 					var inputMaxLength = 30;
 					var inputPlaceholder = "name this device";
+					var inputRequired = "true";
+					var inputCustomize = "false";
 
 					default_icon = "notification";
 					//web_icon = "false";
 
 				break;
 
-				default:
+				case 'article':
+				case 'blog':
+				case 'picture':
+				case 'music':
+				case 'social network':
+				case 'video':
+				case 'website':
+				case 'media':
 
 					//type selector
 					var typeInputType = 'text';
 					var typeLabel = in_value + ' info?';
-					var typeTitle = 'describe the ' + in_value + ':';
+					var typeTitle = 'describe the ' + cat_value + ':';
 					var typeSelectOptions = "";
 					var typeMaxLength = 25;
 					var typeTypeAttr = "text";
 					var typePlaceholder = "Title or description...";
 					var typeInfoText = "";
+					var typeRequired = "true";
+					var typeCustomize = "false";
 
 					//input
 					var inputInputType = 'text';
@@ -1417,10 +1646,54 @@
 					var inputTitle = in_value + ' url?';
 					var inputMaxLength = 90;
 					var inputTypeAttr = "text";
-					var inputPlaceholder = "enter the " + in_value+ " url";
+					var inputPlaceholder = "enter the " + cat_value + " url";
+					var inputRequired = "true";
+					var inputCustomize = "false";
 
 					default_icon = "wifi";
 					web_icon = "true";
+
+				break;
+
+				default:
+
+					//type selector
+					var typeInputType = 'text';
+					var typeLabel = 'community title?';
+					var typeTitle = 'community title?';
+					var typeSelectOptions = "";
+					var typeMaxLength = 25;
+					var typeTypeAttr = "text";
+					var typePlaceholder = "Title or description...";
+					var typeInfoText = "";
+					var typeRequired = "true";
+					var typeCustomize = "false";
+
+					//input
+					var inputInputType = 'text';
+					var inputLabel = 'community url?';
+					var inputTitle = 'community url?';
+					var inputMaxLength = 90;
+					var inputTypeAttr = "text";
+					var inputPlaceholder = "enter the communities url";
+					var inputRequired = "false";
+					var inputCustomize = "false";
+
+					//other data
+					var otherInputType = 'textarea';
+					var otherLabel = "other info*<small>(optional)</small>";
+					var otherTitle = "other info*<small>(optional)</small>";
+					var otherMaxLength = 120;
+					var otherTypeAttr = "text";
+					var otherPlaceholder = "any other details?";
+					var otherAutoComplete = "";
+					var otherRequired = "false";
+					var otherCustomize = "false";
+
+					default_icon = "group";
+					web_icon = "true";
+					more_info = "true";
+
 
 				break;
 
@@ -1514,7 +1787,7 @@
 			}
 			typeSel.setInputAttributes({"maxlength":typeMaxLength});
 			typeSel.setInputAttributes({"type":typeTypeAttr});
-			typeSel.setInputAttributes({"data-required":"true"});
+			typeSel.setInputAttributes({"data-required":typeRequired});
 			if(mod == "edit"){
 				if(typeInputType == "select")
 				{
@@ -1525,7 +1798,10 @@
 
 			}
 			typeSel.setCustomClass(["arc_select db_type borderline"]);
-			typeSel.setCustomSelect();//adds a custom option to an input select menu
+			if(typeInputType == "select" && typeCustomize == "true")
+			{
+				typeSel.setCustomSelect();//adds a custom option to an input select menu
+			}
 			//typeSel.setText("what is this");//sets initial text
 			//typeSel.setInputAttributes({"required":true});
 			if(web_icon == "true"){
@@ -1733,10 +2009,14 @@
 				//disable the input
 				dataInp.setInputAttributes({"disabled":true});
 			}//end if
-			dataInp.setInputAttributes({"data-required":"true"});
+			if(inputInputType == "select" && inputCustomize == "true")
+			{
+				dataInp.setCustomSelect();//adds a custom option to an input select menu
+			}
+			dataInp.setInputAttributes({"data-required":inputRequired});
 			dataInp.setCustomClass(["arc_input db_input borderline"]);
 			if(mod == "edit"){
-				dataInp.setText(obj_data.main_data);//sets initial text
+				dataInp.setText(obj_data.core_data);//sets initial text
 			}
 			//dataInp.setInputAttributes({"required":true});
 			//dataInp.clearHome("false");
@@ -1776,7 +2056,7 @@
 			}//end for
 
 
-			if(in_value == "social community" || in_value == "apps")
+			if(more_info == "true")
 			{
 				//data3
 				otherInp = new masterButtons({varName:'otherInp',home:arc_info_nbr.id,type:otherInputType});
@@ -1789,11 +2069,15 @@
 					//disable the input
 					otherInp.setInputAttributes({"disabled":true});
 				}//end if
-				//otherInp.setInputAttributes({"data-required":"true"});
+				otherInp.setInputAttributes({"data-required":otherRequired});
 				otherInp.setCustomClass(["arc_input db_input borderline"]);
 				otherInp.clearHome("false");
 				if(mod == "edit"){
 					otherInp.setText(obj_data.other_data);//sets initial text
+				}
+				if(otherInputType == "select" && otherCustomize == "true")
+				{
+					otherInp.setCustomSelect();//adds a custom option to an input select menu
 				}
 				//otherInp.setInputAttributes({"required":true});
 				//otherInp.clearHome("false");
@@ -1826,7 +2110,7 @@
 
 				}//end for
 			}
-			//TODO: if empty fill apps with a link to the play store or ios store social com - link url
+			//TODO:20 if empty fill apps with a link to the play store or ios store social com - link url
 
 			//if notification btns
 			if(in_value == "notification"){
@@ -1874,7 +2158,9 @@
 				form_id_Ary = form_id_Ary.concat(typeSel.get_event_ids());
 				form_id_Ary = form_id_Ary.concat(dataInp.get_event_ids());
 				//add new data objects here to be part of validation process
-				form_id_Ary = form_id_Ary.concat(otherInp.get_event_ids());
+				if(otherInp != undefined && otherInp != ""){
+					form_id_Ary = form_id_Ary.concat(otherInp.get_event_ids());
+				}
 
 				console.log(form_id_Ary);
 
@@ -2321,17 +2607,17 @@
 				//DISPLAY THE INFO WHILE USING THE APP ICON INSTEAD OF THE TEXT IN THE MY INFO UI
 				//maybe not
 				var arc_type = typeSel.getCurrentValue();
-				//var arc_type = (in_value != "apps") ? typeSel.getCurrentValue() : dataInp.getCurrentValue();
+				//var arc_type = (in_value != "favorite apps") ? typeSel.getCurrentValue() : dataInp.getCurrentValue();
 				arc_input.desc_data = arc_type;
 				console.log("arc_type = ",arc_type);
 
 				var arc_data = dataInp.getCurrentValue();
-				//var arc_data = (in_value != "apps") ? dataInp.getCurrentValue() : typeSel.getCurrentValue();
-				arc_input.main_data = arc_data;
+				//var arc_data = (in_value != "favorite apps") ? dataInp.getCurrentValue() : typeSel.getCurrentValue();
+				arc_input.core_data = arc_data;
 				console.log("arc_data = ",arc_data);
 
 				var arc_oData = otherInp.getCurrentValue();
-				//var arc_data = (in_value != "apps") ? dataInp.getCurrentValue() : typeSel.getCurrentValue();
+				//var arc_data = (in_value != "favorite apps") ? dataInp.getCurrentValue() : typeSel.getCurrentValue();
 				arc_input.other_data = arc_oData;
 				console.log("arc_oData = ",arc_oData);
 

@@ -38,14 +38,27 @@ class TableArcAssets extends JTableNested
 		$arc_input = json_decode($inStr);
     $display_data = $dsp_Dta;
 
-    $info_table = ($display_data != "media") ? '#__arc_my_info' : '#__arc_my_media' ;
+    switch($display_data)
+    {
+      case "info":
+        $info_table = '#__arc_my_info';
+      break;
+
+      case "media":
+        $info_table = '#__arc_my_media' ;
+      break;
+
+      case "group":
+        $info_table = '#__arc_my_group' ;
+      break;
+    }
 
 		$db = jFactory::getDbo();
         $query = $db->getQuery(true);
 
 
 		if(!isset($arc_input->category)){$arc_input->category = "";}
-		if(!isset($arc_input->main_data)){$arc_input->main_data = "";}
+		if(!isset($arc_input->core_data)){$arc_input->core_data = "";}
 		if(!isset($arc_input->desc_data)){$arc_input->desc_data = "";}
     if(!isset($arc_input->other_data)){$arc_input->other_data = "";}
 		if(!isset($arc_input->picture)){$arc_input->picture = "";}
@@ -62,7 +75,7 @@ class TableArcAssets extends JTableNested
 		//$arc_user_id = ($cur_arc_user->id != 0) ? $cur_arc_user->id : $pStr->send_id;
 
 		//insert columns
-        $columns = array('user_id','category','main_data','desc_data','other_data','modified','picture','published','extra');
+        $columns = array('user_id','category','core_data','desc_data','other_data','modified','picture','published','extra');
 
 		if(isset($arc_input->category) && $arc_input->category == "notification")
 		{
@@ -85,7 +98,7 @@ class TableArcAssets extends JTableNested
         $values = array(
         $db->quote($arc_input->user_id),
 		$db->quote(htmlentities($arc_input->category)),
-		$db->quote(htmlentities($arc_input->main_data)),
+		$db->quote(htmlentities($arc_input->core_data)),
 		$db->quote(htmlentities($arc_input->desc_data)),
     $db->quote(htmlentities($arc_input->other_data)),
 		$db->quote($arc_input->modified),
@@ -118,12 +131,25 @@ class TableArcAssets extends JTableNested
 
 	}//end addMyInfo
 
-	public function getMyInfo($iStr)
+	public function getMyInfo($dsp_Dta)
 	{
 
-    $info_display = $iStr;
+    $display_data = $dsp_Dta;
 
-    $info_table = ($info_display != "media") ? '#__arc_my_info' : '#__arc_my_media' ;
+    switch($display_data)
+    {
+      case "info":
+        $info_table = '#__arc_my_info';
+      break;
+
+      case "media":
+        $info_table = '#__arc_my_media' ;
+      break;
+
+      case "group":
+        $info_table = '#__arc_my_group' ;
+      break;
+    }
 
 		$db = jFactory::getDbo();
         $query = $db->getQuery(true);
@@ -137,7 +163,7 @@ class TableArcAssets extends JTableNested
         $query->from($db->quoteName($info_table));
         $query->where($db->quoteName('user_id') . ' = '. $db->quote($arc_user_id));
 		    $query->order($db->quoteName('category') . ' , ' . $db->quoteName('desc_data'));//aliintro Test Page
-        //$query->order($db->quoteName('main_data'));//aliintro Test Page
+        //$query->order($db->quoteName('core_data'));//aliintro Test Page
         $db->setQuery($query);
 
 		$rows = $db->loadAssocList();
@@ -156,7 +182,7 @@ class TableArcAssets extends JTableNested
 		$arc_input = json_decode($idStr);
     $display_data = $dsp_Dta;
 
-    //TODO:20 i need to check if the id belongs to the user
+    //TODO:40 i need to check if the id belongs to the user
 
 		$db = jFactory::getDbo();
         $query = $db->getQuery(true);
@@ -193,7 +219,20 @@ class TableArcAssets extends JTableNested
 		$db = jFactory::getDbo();
         $query = $db->getQuery(true);
 
-    $info_table = ($display_data != "media") ? '#__arc_my_info' : '#__arc_my_media' ;
+      switch($display_data)
+      {
+        case "info":
+          $info_table = '#__arc_my_info';
+        break;
+
+        case "media":
+          $info_table = '#__arc_my_media' ;
+        break;
+
+        case "group":
+          $info_table = '#__arc_my_group' ;
+        break;
+      }
 
 		/*******************************************************/
 		//matches the old data with the users original data matching id with id
@@ -218,7 +257,7 @@ class TableArcAssets extends JTableNested
 
 
 			if(!isset($arc_input->category)){$arc_input->category = "";}
-			if(!isset($arc_input->main_data)){$arc_input->main_data = "";}
+			if(!isset($arc_input->core_data)){$arc_input->core_data = "";}
 			if(!isset($arc_input->desc_data)){$arc_input->desc_data = "";}
       if(!isset($arc_input->other_data)){$arc_input->other_data = "";}
 			if(!isset($arc_input->picture)){$arc_input->picture = "";}
@@ -238,7 +277,7 @@ class TableArcAssets extends JTableNested
 			$fields = array(
 			$db->quoteName('user_id') . ' = ' . $db->quote($arc_input->user_id),
 			$db->quoteName('category') . ' = ' . $db->quote(htmlentities($arc_input->category)),
-			$db->quoteName('main_data') . ' = ' . $db->quote(htmlentities($arc_input->main_data)),
+			$db->quoteName('core_data') . ' = ' . $db->quote(htmlentities($arc_input->core_data)),
 			$db->quoteName('desc_data') . ' = ' . $db->quote(htmlentities($arc_input->desc_data)),
       $db->quoteName('other_data') . ' = ' . $db->quote(htmlentities($arc_input->other_data)),
 			$db->quoteName('modified') . ' = ' . $db->quote(htmlentities($arc_input->modified)),

@@ -50,6 +50,7 @@ margin:0px auto!important;min-height: 20px !important;display:block !important;}
 div.otherInp_TCasing{margin: 10px 0 !important;padding: 0px !important;width:100% !important;}
 div.otherInp_TCont{}
 input.otherInp_TInput{width:100% !important;}
+.otherInp_TArea{height:100px !important;}
 .arc_select:active{border-color:none;}
 .SInput.arc_select{margin-bottom:5px;}
 /*div.STly{display:none !important;}*/
@@ -91,7 +92,7 @@ text-align: right !important;}
 .chng_img{width:50% !important;display:inline-block !important;margin-bottom: 0px !important;}
 
 
-.my_info.my_info_text{display:inline-block;}
+.my_info.my_info_text{display:inline-block;min-height:20px;}
 .my_info_icon{float:left;}
 .my_info_text{margin:5px !important;width:60%;font-size:16px !important;}
 .my_info_edit,.my_info_delete{float:right;}
@@ -161,6 +162,10 @@ background-size: 18px 18px;
 }
 .ui-icon-contact:after {
 background-image: url("../images/contact.png");/* Make your icon fit */
+background-size: 18px 18px;
+}
+.ui-icon-group:after {
+background-image: url("../images/group.png");/* Make your icon fit */
 background-size: 18px 18px;
 }
 .ui-icon-folder:after {

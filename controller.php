@@ -66,9 +66,9 @@ class arcController extends JControllerLegacy //class folioController
 			JTable::addIncludePath(JPATH_COMPONENT . '/tables');
 			$table = JTable::getInstance('arcassets','Table');
 
-			$info_type = $_POST['info'];
+			$display_data = $_POST['display_data'];
 
-			$info_results = $table->getMyInfo($info_type);
+			$info_results = $table->getMyInfo($display_data);
 
 			echo $info_results;
 		}//end getMyInfo
