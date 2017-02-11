@@ -1,5 +1,5 @@
 //alert("arc script running!");
-//TODO:10 learn tasks
+//TODO:30 learn tasks
 //NOTE:80 business portfolio site - a business card is like a mini portfolio this one expands
 
 	function acr_setTheStage()
@@ -12,14 +12,19 @@
 		btn_ancestor.style.padding = "0 10px";
 
 		//set click actions
+		//mobile back btn fix
 
+		//arc_innerPanel
 		$(".arc_my_info").click(function(){
+				var in_progress = (document.getElementById("arc_panel_main_content") && document.getElementById("arc_panel_main_content").innerHTML != "") ? "true" : "false";
 			//clear the display
-			$("#arc_panel_main_content").html("");
-			//populate the display info form creator
-			var iFC = new create_form({"display_data":"info"});//class - needs extend classes
-			iFC.getMyInfo();//custom - needs to be a prototype
-
+			if(in_progress == "false"){
+				//fixes the mobile back btn issue
+				$("#arc_panel_main_content").html("");
+				//populate the display info form creator
+				var iFC = new create_form({"display_data":"info"});//class - needs extend classes
+				iFC.getMyInfo();//custom - needs to be a prototype
+			}//end if
 			//open the display
 			$('#arc_popup').popup();
 			$('#arc_popup').popup('open');
@@ -28,11 +33,13 @@
 
 		$(".arc_my_group").click(function(){
 			//clear the display
-			$("#arc_panel_main_content").html("");
-			//populate the display info form creator
-			var iFC = new create_form({"display_data":"group"});//class - needs extend classes
-			iFC.getMyInfo();//custom - needs to be a prototype
-
+				var in_progress = (document.getElementById("arc_panel_main_content") && document.getElementById("arc_panel_main_content").innerHTML != "") ? "true" : "false";
+			if(in_progress == "false"){
+				$("#arc_panel_main_content").html("");
+				//populate the display info form creator
+				var iFC = new create_form({"display_data":"group"});//class - needs extend classes
+				iFC.getMyInfo();//custom - needs to be a prototype
+			}
 			//open the display
 			$('#arc_popup').popup();
 			$('#arc_popup').popup('open');
@@ -41,10 +48,13 @@
 
 		$(".arc_my_media").click(function(){
 			//clear the display
-			$("#arc_panel_main_content").html("");
-			//populate the display info form creator
-			var iFC = new create_form({"display_data":"media"});//class - needs extend classes
-			iFC.getMyInfo();//custom - needs to be a prototype
+				var in_progress = (document.getElementById("arc_panel_main_content") && document.getElementById("arc_panel_main_content").innerHTML != "") ? "true" : "false";
+			if(in_progress == "false"){
+				$("#arc_panel_main_content").html("");
+				//populate the display info form creator
+				var iFC = new create_form({"display_data":"media"});//class - needs extend classes
+				iFC.getMyInfo();//custom - needs to be a prototype
+			}
 
 			//open the display
 			$('#arc_popup').popup();
@@ -70,6 +80,7 @@
 			arc_popup.setAttribute("data-overlay-theme","b");
 			arc_popup.dataset.theme = "a";
 			arc_popup.setAttribute("data-dismissible","false");
+			//arc_popup.setAttribute("data-history","false");
 
 				var arc_panel = document.createElement('div');
 				arc_panel.id = "arc_panel";//pan_name
@@ -81,6 +92,7 @@
 				arc_panel.setAttribute("data-position-fixed","false");
 				arc_panel.setAttribute("data-dismissible","false");
 				arc_panel.setAttribute("data-swipe-close","false");
+				//arc_panel.setAttribute("data-history","false");
 
 					var arc_panel_close = document.createElement('a');
 					arc_panel_close.id = "arc_panel_close"
@@ -92,6 +104,13 @@
 					arc_panel_close.className = "arc_panel_btn ui-btn ui-btn-right ui-btn-inline ui-shadow"
 					+ " ui-corner-all ui-mini ui-icon-delete ui-btn-icon-right ui-btn-icon-notext";
 					arc_panel_close.innerHTML = "cancel";
+					arc_panel_close.onclick  = function(){
+
+						clear_element("arc_innerPanel");
+
+					};
+
+
 
 
 					var arc_panel_inner = document.createElement('div');
@@ -116,6 +135,12 @@
 				//pUS_closeBtn.onclick = user_reset;
 				pUS_closeBtn.title = "cancel";
 				pUS_closeBtn.innerHTML = "close";
+				pUS_closeBtn.onclick = function(){
+
+					clear_element("arc_heading");
+					clear_element("arc_panel_main_content");
+
+				};
 
 				var arc_panel_main = document.createElement('div');
 				arc_panel_main.id = "arc_panel_main";
@@ -194,6 +219,17 @@
 
 	}//end arc_create_panel
 
+	function	clear_element(hm_str)
+	{
+		var home = hm_str;
+		var targ_el = (document.getElementById(home)) ? document.getElementById(home) : document.getElementsByClassName(home)[0];
+
+		targ_el.innerHTML = "";
+
+
+	}//end clear_element
+
+
 	function arc_toggleDisplay(obj)
 	{
 		var disp_id = obj.id;
@@ -203,7 +239,7 @@
 
 	}//end arc_toggleDisplay
 
-	//TODO:0 add titles to all btns
+	//TODO:10 add titles to all btns
 
 	function create_form(obj)
 	{
@@ -724,7 +760,7 @@
 				my_info_data_key_array = my_info_data_key_array.sort();
 				console.log("sort  abc = ", my_info_data_key_array);
 			}
-			//TODO fix abc key sort
+			//DONE:0 fix abc key sort
 
 
 			console.log("key array = ",my_info_data_key_array);
@@ -1041,7 +1077,7 @@
 				var targetElement = document.getElementById(arc_info_chk_id);
 					targetElement.addEventListener("click", function()
 					{
-							//TODO close btn & dataset array concat/duplicate check
+							//TODO:20 close btn & dataset array concat/duplicate check
 
 
 					})//end click
@@ -2233,7 +2269,7 @@
 
 				}//end for
 			}
-			//TODO:20 if empty fill apps with a link to the play store or ios store social com - link url
+			//TODO:40 if empty fill apps with a link to the play store or ios store social com - link url
 
 			//if notification btns
 			if(in_value == "notification"){
