@@ -227,6 +227,7 @@
 
 
 		var my_info = "";
+		var chk_info = "";
 
 		var info_category_arry = ['email','e-commerce','favorite apps','name','notification','phone',"social community",'web address'];
 		var media_category_arry = ['article','blog','picture','music','social network','video','website'];
@@ -461,9 +462,10 @@
 		this.getMyInfo = function(){getMyInfo();}
 
 		//custom function
-		var getMyInfo = function()
+		var getMyInfo = function(actn)
 		{
 			//
+			var action = actn || "none";
 			wait_a_minute("show","loading data...")//loading screen;
 			var myData = {};
 			var form_token = FORM_TOKEN;
@@ -484,7 +486,7 @@
 				break;
 
 				case "group":
-					myData.display_data = "group";
+					myData.display_data = (action != "none") ? "info" : "group";
 				break;
 			}
 
@@ -520,20 +522,35 @@
 							if(result.indexOf("<!doctype html>") == -1)
 							{
 								//blank the display
-								var display_el = document.getElementById("arc_display");
-								display_el.innerHTML = "";
+								if(action == "none")
+								{
+									var display_el = document.getElementById("arc_display");
+									display_el.innerHTML = "";
+								}
 
 								if(result != "[]")
 								{
 
-									var my_info_str = result;
+									if(action == "none"){
+										var my_info_str = result;
 
-									//var my_info = JSON.parse(my_info_str);
-									my_info = JSON.parse(my_info_str);
+										//var my_info = JSON.parse(my_info_str);
+										my_info = JSON.parse(my_info_str);
 
-									console.log("my info = ",my_info);
+										console.log("my info = ",my_info);
 
-									display_my_info(my_info);
+
+											display_my_info(my_info,action);
+									}
+									else{
+										var chk_info_str = result;
+
+										//var my_info = JSON.parse(my_info_str);
+										chk_info = JSON.parse(chk_info_str);
+
+										console.log("my info = ",my_info);
+										display_my_info(chk_info,action);
+									}//end else
 
 								}else{
 									console.warn("string is empty");
@@ -610,12 +627,14 @@
 		var colap_cont;
 
 		//custom function
-		var display_my_info = function(iObj)
+		var display_my_info = function(iObj,actn)
 		{
 			var result_obj = iObj;
-			var display_home = "arc_display";
+			var action = actn || "none";
+			var check_mode = (action != "none") ? "true" : "false";
+			var display_home = (check_mode == "false") ? "arc_display" : "fishBowl";
 
-			var display_el = document.getElementById("arc_display");
+			var display_el = (document.getElementById(display_home)) ? document.getElementById(display_home) : document.getElementsByClassName(display_home)[0];
 			display_el.innerHTML = "";
 
 			//create an icon object
@@ -659,7 +678,7 @@
 			//collapsible set
 			if(display_view == "folder"){
 
-			obj_elements.colap_cont = new masterButtons({varName:'colap_cont',home:'arc_display',type:'list'});
+			obj_elements.colap_cont = new masterButtons({varName:'colap_cont',home:display_home,type:'list'});
             obj_elements.colap_cont.setPrefix('colap_cont');
             obj_elements.colap_cont.setListNumber(1);
 			obj_elements.colap_cont.setInputAttributes({"data-role":"collapsibleset"});
@@ -784,7 +803,8 @@
 				}
 
 
-				for(var x = 0; x < category_array.length; x++){
+				for(var x = 0; x < category_array.length; x++)
+				{
 
 					var curr_category = category_array[x].category;
 					var myIn_id = category_array[x].id || "";
@@ -926,6 +946,7 @@
 					var mIT4_el = document.getElementById(mIT4_id);
 					mIT4_el.style.display = "none";
 
+					if(check_mode == "false"){
 					//delete btn
 					var dName = "my_info_delete" + d + "_" + x;
 					my_info_delete = new masterButtons({varName:dName,home:li_id,type:'tag'});
@@ -982,8 +1003,51 @@
 						get_info_form({"mod":"edit","data":this.dataset.info_json,"view":t_view});
 
 					})//end click
+				}
+				else
+				{
+					//check box
+					obj_elements.arc_info_chk = new masterButtons({varName:'arc_info_chk',home:li_id,type:"checkbox"});
+					obj_elements.arc_info_chk.setLabels();
+					obj_elements.arc_info_chk.setPrefix('arc_info_chk');
+					obj_elements.arc_info_chk.setInputAttributes({"type":"checkbox"});
+					obj_elements.arc_info_chk.setCustomClass(["arc_info_chk"]);
+					obj_elements.arc_info_chk.clearHome("false");
+					//obj_elements.arc_info_chk.setCasing();
+					obj_elements.arc_info_chk.display();
+
+					var arc_info_chk_ary = obj_elements.arc_info_chk.get_event_ids();
+					var arc_info_chk_id = arc_info_chk_ary[0];
+					var icon_checkbox_element = document.getElementById(arc_info_chk_id);
+
+					/*
+					if(mod == "edit"){
+
+						if(obj_data.picture != "" && default_icon != obj_data.picture){
+							icon_checkbox_element.checked = true;
+						}else{
+							icon_checkbox_element.checked = false;
+						}
+
+					}else{
+						icon_checkbox_element.checked = true;
+					}
+					*/
 
 
+				//obj_elements.accSlide =  document.getElementById(arc_info_chk_id)
+				var targetElement = document.getElementById(arc_info_chk_id);
+					targetElement.addEventListener("click", function()
+					{
+							//TODO close btn & dataset array concat/duplicate check
+
+
+					})//end click
+
+				}//end else
+
+				var jqm_info_chk_id = "#" + arc_info_chk_id
+				$(jqm_info_chk_id).checkboxradio();
 
 
 						//document.getElementById(mIE_id).addEventListener("click",function()//works
@@ -1144,11 +1208,18 @@
 				contact_form_heading.className = "contact_form_heading arc_heading ";
 				contact_form_heading.innerHTML = "add info:";
 
+
+
 				var contact_form_cont = document.createElement('form');
 				contact_form_cont.id = "contact_form_cont";
 				contact_form_cont.className = "contact_form_cont";//test_brown
 				//contact_form_cont.setAttribute("href","#");
 				//contact_form_cont.onclick = function(){};
+
+
+					var contact_form_backStage = document.createElement('div');
+					contact_form_backStage.id = "contact_form_backStage";
+					contact_form_backStage.className = "contact_form_backStage ";
 
 					var contact_form_select_cont = document.createElement('div');
 					contact_form_select_cont.id = "contact_form_select_cont";
@@ -1193,6 +1264,7 @@
 					//contact_form_text.setAttribute("href","#");
 					//contact_form_text.onclick = function(){};
 
+				contact_form_cont.appendChild(contact_form_backStage);
 				contact_form_cont.appendChild(contact_form_select_cont);
 				contact_form_cont.appendChild(contact_form_hr);
 				contact_form_cont.appendChild(contact_form_text);
@@ -1675,7 +1747,7 @@
 					var inputTitle = 'community url?';
 					var inputMaxLength = 90;
 					var inputTypeAttr = "text";
-					var inputPlaceholder = "enter the communities url";
+					var inputPlaceholder = "enter url...";
 					var inputRequired = "false";
 					var inputCustomize = "false";
 
@@ -1706,9 +1778,13 @@
 			var arc_info_hr = document.createElement('hr');
 			arc_info_hr.className = "arc_info_hr hr_90";
 
-			var arc_info_nbr = document.createElement('div');
-			arc_info_nbr.id = "arc_info_nbr";
-			arc_info_nbr.className = "arc_info_nbr info_booth";//test_orange
+			var arc_info_core = document.createElement('div');
+			arc_info_core.id = "arc_info_core";
+			arc_info_core.className = "arc_info_core info_booth";//test_orange
+
+			var arc_info_other = document.createElement('div');
+			arc_info_other.id = "arc_info_other";
+			arc_info_other.className = "arc_info_other info_booth";//test_orange
 
 			var arc_go_cont = document.createElement('div');
 			arc_go_cont.id = "arc_go_cont";
@@ -1716,11 +1792,16 @@
 
 			stage_el.appendChild(arc_info_type);
 			//stage_el.appendChild(arc_info_hr);
-			stage_el.appendChild(arc_info_nbr);
+			stage_el.appendChild(arc_info_core);
+			if(more_info == "true")
+			{
+				stage_el.appendChild(arc_info_other);
+			}
 			//stage_el.appendChild(arc_info_hr);
 			stage_el.appendChild(arc_go_cont);
 
 			createCancelBtn();
+
 
 			//sets master on off toggle switch
 			accSlide = new masterButtons({varName:'accSlide',home:"contact_form_slider_cont",type:"slider"});
@@ -1851,12 +1932,12 @@
 			//section for suggested icon;
 			if(web_icon == "true"){
 
-				//collapsible header
+				//icon side menu
 				obj_elements.sug_icon_cont = new masterButtons({varName:'sug_icon_cont',home:arc_info_type.id,type:'tag'});
 				obj_elements.sug_icon_cont.setTextTag('div');
 				obj_elements.sug_icon_cont.setPrefix('sug_icon_cont');
 				//obj_elements.sug_icon_cont.setContent('collapsible label');
-				obj_elements.sug_icon_cont.setCustomClass(["sug_icon_cont"]);
+				obj_elements.sug_icon_cont.setCustomClass(["sug_icon_cont side_car"]);
 				obj_elements.sug_icon_cont.clearHome("false");
 				obj_elements.sug_icon_cont.display();
 
@@ -1996,10 +2077,10 @@
 
 				})//end click
 
-			}//end if
+			}//end if web_icon
 
 			//data2
-			dataInp = new masterButtons({varName:'dataInp',home:arc_info_nbr.id,type:inputInputType});
+			dataInp = new masterButtons({varName:'dataInp',home:arc_info_core.id,type:inputInputType});
 			dataInp.setLabels([inputLabel]);
 			dataInp.setTitles([inputTitle]);
 			dataInp.setPrefix('dataInp');
@@ -2026,7 +2107,11 @@
 			/*a combination of name="email" & autocomplete="email" seems to work for email & tel*/
 			}
 			dataInp.setInputAttributes({"placeholder":inputPlaceholder});
-			//dataInp.setCasing();
+			if(display_data == "group"){
+				//sets casing to prep for the suggested icon container
+				dataInp.setCasing();
+			}
+			//
 			dataInp.display();
 
 			var dataInp_id_array = dataInp.get_event_ids();
@@ -2055,11 +2140,47 @@
 
 			}//end for
 
+			//side menu area
+			obj_elements.assoc_info_cont = new masterButtons({varName:'assoc_info_cont',home:arc_info_core.id,type:'tag'});
+			obj_elements.assoc_info_cont.setTextTag('div');
+			obj_elements.assoc_info_cont.setPrefix('assoc_info_cont');
+			//obj_elements.assoc_info_cont.setContent('collapsible label');
+			obj_elements.assoc_info_cont.setCustomClass(["assoc_info_cont side_car"]);
+			obj_elements.assoc_info_cont.clearHome("false");
+			obj_elements.assoc_info_cont.display();
+
+			var assoc_info_cont_ary = obj_elements.assoc_info_cont.get_event_ids();
+			var assoc_info_cont_id = assoc_info_cont_ary[0];
+
+			//sets the displayed icon
+			obj_elements.assoc_icon = new masterButtons({varName:'assoc_icon',home:assoc_info_cont_id,type:'tag'});
+			obj_elements.assoc_icon.setTextTag('button');
+			obj_elements.assoc_icon.setPrefix('assoc_icon');
+			//obj_elements.assoc_icon.setInputAttributes({"data-icon_value":default_icon});
+			obj_elements.assoc_icon.setInputAttributes({"href":"#"});
+			//obj_elements.assoc_icon.setContent('collapsible label');
+			obj_elements.assoc_icon.setCustomClass(["assoc_icon ui-btn ui-icon-contact_chk ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon "]);
+			obj_elements.assoc_icon.clearHome("false");
+			obj_elements.assoc_icon.display();
+
+			var assoc_icon_ary = obj_elements.assoc_icon.get_event_ids();
+			var assoc_icon_id = assoc_icon_ary[0];
+			var assoc_icon_element = document.getElementById(assoc_icon_id);
+			assoc_icon_element.onclick = function(e){
+				//this helps the button to not go haywire when its clicked
+					e.preventDefault();
+					console.info("hold up wait a minute.");
+					create_light_box();
+					getMyInfo("checks");
+
+			};
 
 			if(more_info == "true")
 			{
+
+
 				//data3
-				otherInp = new masterButtons({varName:'otherInp',home:arc_info_nbr.id,type:otherInputType});
+				otherInp = new masterButtons({varName:'otherInp',home:arc_info_other.id,type:otherInputType});
 				otherInp.setLabels([otherLabel]);
 				otherInp.setTitles([otherTitle]);
 				otherInp.setPrefix('otherInp');
@@ -2114,7 +2235,7 @@
 
 			//if notification btns
 			if(in_value == "notification"){
-				tNoteBtn = new masterButtons({varName:'tNoteBtn',home:arc_info_nbr.id,type:'buttonGroup'});
+				tNoteBtn = new masterButtons({varName:'tNoteBtn',home:arc_info_core.id,type:'buttonGroup'});
 				tNoteBtn.setPrefix('tNoteBtn');
 				tNoteBtn.setLabels(['test','refresh']);
 				tNoteBtn.setTitles(['test device notification','refresh notification']);
@@ -2143,6 +2264,35 @@
 			set_arc_info(typeInfoText);
 
 		}//end info_display
+
+
+		var create_light_box = function()
+		{
+
+						if(!document.getElementsByClassName("liteBox")[0]){
+						obj_elements.liteBox  = new masterButtons({varName:'liteBox ',home:'contact_form_backStage',type:'tag'});
+						obj_elements.liteBox .setTextTag('div');
+			      obj_elements.liteBox .setPrefix('liteBox ');
+						obj_elements.liteBox .setCustomClass(["liteBox bright"]);
+						obj_elements.liteBox .clearHome("false");
+			      obj_elements.liteBox .display();
+
+						var liteBox_id_array = obj_elements.liteBox.get_event_ids();
+						var liteBoxElement = document.getElementById(liteBox_id_array[0]);
+						liteBoxElement.ondblclick = function(){
+							document.getElementById("contact_form_backStage").innerHTML = "";
+						}
+
+
+						obj_elements.fishBowl = new masterButtons({varName:'fishBowl',home:'liteBox',type:'tag'});
+						obj_elements.fishBowl.setTextTag('div');
+			      obj_elements.fishBowl.setPrefix('fishBowl');
+						obj_elements.fishBowl.setCustomClass(["fishBowl"]);
+						obj_elements.fishBowl.clearHome("false");
+			      obj_elements.fishBowl.display();
+						}
+
+		}//end create_light_box
 
 		var checkChange = function(str,tObj)
 		{

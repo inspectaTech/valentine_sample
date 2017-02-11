@@ -1,7 +1,7 @@
     //d3po Bootstrap Toolkit
 
     /****************************************************************************************
-	//TODO:70 store & validate the data on change
+	//TODO:80 store & validate the data on change
 
     !!!!!!!Important
 
@@ -182,7 +182,7 @@
         this.setIUN = function(str){/*must be a number*/ iUN = parseInt(str);}
         this.getIUN = function(){return iUN;}
 
-		//TODO:60 see where each of these can work in each display
+		//TODO:70 see where each of these can work in each display
 		this.setText = function(str){inner_html = str; default_setting = str; fill_content = str;}//works in: create_text_input,create_select
 
 		this.setDefault = function(str){inner_html = str; default_setting = str; fill_content = str;}//works in: create_select
@@ -1244,7 +1244,7 @@
             }
         }//end reset
 
-		//TODO:30 Needs a reset
+		//TODO:40 Needs a reset
 		var create_text_input = function()
 		{
 			/************************************* Sample Code ******************************************
@@ -1904,9 +1904,9 @@
                     break;
 
                     case "list":
-					case "ul":
-					case "ol":
-					case "li":
+          					case "ul":
+          					case "ol":
+          					case "li":
                         listContentDisplay();
                     break;
 
@@ -1926,27 +1926,27 @@
                         labelBoxDisplay();
                     break;
 
-					case "tag":
+            				case "tag":
                         tagDisplay();
                     break;
 
-					case "text":
-					case "phone":
-					case "checkbox":
-					case "url":
+          					case "text":
+          					case "phone":
+          					case "checkbox":
+          					case "url":
 
-						create_text_input();
-					break;
+          						create_text_input();
+          					break;
 
-					case "select":
-					case "slider":
-						create_select();
-					break;
+          					case "select":
+          					case "slider":
+          						create_select();
+          					break;
 
 
-					case "textarea":
-						create_textarea();
-					break;
+          					case "textarea":
+          						create_textarea();
+          					break;
 
 
             }//end switch
@@ -2001,7 +2001,7 @@
 
 				msgStr = "<h7>remaining " + char_rem + "/" + char_limit + "</h7>" ;
 				/*
-				//TODO:50 modify the target element to have a h7 childNode with an id
+				//TODO:60 modify the target element to have a h7 childNode with an id
 				so I can refernce it here and just use text for its innerHTML
 				*/
 
