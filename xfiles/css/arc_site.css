@@ -6,6 +6,7 @@
 .liteBox{width: 110%; background-color: black; height: 650px; position: absolute; z-index: 1050; top: -20px;
     left: -5%;opacity:0; padding: 35px 30px;
 }
+.liteBox.popup{opacity:1; background-color: none; background: url("../images/trans_block.png") 0 0;}
 .fishBowl{ height: 550px; width: 100%; background-color: #fff;padding:10px;}
 @keyframes lB_fade_in {
   0% {

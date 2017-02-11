@@ -676,7 +676,7 @@
 			//create main collapsible
 
 			//collapsible set
-			if(display_view == "folder"){
+			if(display_view == "folder" || action != "none"){
 
 			obj_elements.colap_cont = new masterButtons({varName:'colap_cont',home:display_home,type:'list'});
             obj_elements.colap_cont.setPrefix('colap_cont');
@@ -694,7 +694,7 @@
 		}//end if
 
 
-			if(display_view != "folder"){
+			if(display_view != "folder" && action == "none"){
 					//ul if it isn't a folder this will run 1 ul for all the list items
 					var ul_name = "ul_" + d;
 					obj_elements[ul_name] = new masterButtons({varName:ul_name,home:display_home,type:'ul'});
@@ -716,7 +716,7 @@
 			}//end if
 
 
-			if(display_view == "folder"){
+			if(display_view == "folder" || action != "none"){
 			var my_info_data_key_array = Object.keys(my_info_data_object);//used to count category titles
 			}else{
 				var my_info_data_key_array = Object.keys(my_info_data_abc);
@@ -735,7 +735,7 @@
 			for(var d = 0; d < my_info_data_key_array.length; d++)
 			{
 
-				if(display_view == "folder"){
+				if(display_view == "folder" || action != "none"){
 
 				//create collapsible
 				//1st collapsible
@@ -770,7 +770,7 @@
 				}//end if
 
 
-				if(display_view == "folder"){
+				if(display_view == "folder" || action != "none"){
 
 						//ul - original "folder" ul runs with each category
 						var ul_name = "ul_" + d;
@@ -780,7 +780,7 @@
 						obj_elements[ul_name].setInputAttributes({"data-role":"listview"});
 						obj_elements[ul_name].setInputAttributes({"data-filter":"true"});
 						obj_elements[ul_name].setInputAttributes({"data-filter-placeholder":"filter title, date, tag, name..."});
-						if(display_view != "folder"){
+						if(display_view != "folder" && action == "none"){
 								obj_elements[ul_name].setInputAttributes({"data-autodividers":"true"});
 								//obj_elements[ul_name].setInputAttributes({"data-autodividersSelector":"true"});
 						}//end if
@@ -793,7 +793,7 @@
 						var ul_id = ul_id_ary[0];
 					}//end if
 
-				if(display_view == "folder"){
+				if(display_view == "folder" || action != "none"){
 
 						var category_array = my_info_data_object[my_info_data_key_array[d]];
 
@@ -1006,6 +1006,8 @@
 				}
 				else
 				{
+					//else of if check_mode == "false"
+					//this creates a checkbox in place of the delete and edit btns in the associate info view
 					//check box
 					obj_elements.arc_info_chk = new masterButtons({varName:'arc_info_chk',home:li_id,type:"checkbox"});
 					obj_elements.arc_info_chk.setLabels();
@@ -1074,7 +1076,7 @@
 				$(ul_id_str).listview("refresh")
 
 				//initiate collapsible
-				if(display_view == "folder"){
+				if(display_view == "folder" || action != "none"){
 						var col_id_str = "#" + collapsible_id;
 						$(col_id_str).collapsible();
 				}//end if
@@ -1092,7 +1094,7 @@
 			}//end for
 			*/
 
-			if(display_view == "folder"){
+			if(display_view == "folder" || action != "none"){
 
 					var col_set_id_str = "#" + collapsible_sets_id;
 					$(col_set_id_str).collapsibleset();
@@ -2170,7 +2172,7 @@
 				//this helps the button to not go haywire when its clicked
 					e.preventDefault();
 					console.info("hold up wait a minute.");
-					create_light_box();
+					create_light_box({home:'contact_form_backStage',animate:"off"});
 					getMyInfo("checks");
 
 			};
@@ -2266,14 +2268,20 @@
 		}//end info_display
 
 
-		var create_light_box = function()
+		var create_light_box = function(obj)
 		{
+			var home_str = obj.home;
+			var animation_state = obj.animate || "on";
 
 						if(!document.getElementsByClassName("liteBox")[0]){
-						obj_elements.liteBox  = new masterButtons({varName:'liteBox ',home:'contact_form_backStage',type:'tag'});
+						obj_elements.liteBox  = new masterButtons({varName:'liteBox',home:home_str,type:'tag'});
 						obj_elements.liteBox .setTextTag('div');
-			      obj_elements.liteBox .setPrefix('liteBox ');
+			      obj_elements.liteBox .setPrefix('liteBox');
+						if(animation_state == "on"){
 						obj_elements.liteBox .setCustomClass(["liteBox bright"]);
+						}else{
+							obj_elements.liteBox .setCustomClass(["liteBox popup"]);
+						}
 						obj_elements.liteBox .clearHome("false");
 			      obj_elements.liteBox .display();
 
