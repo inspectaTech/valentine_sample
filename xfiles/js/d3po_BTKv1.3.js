@@ -1,7 +1,7 @@
     //d3po Bootstrap Toolkit
 
     /****************************************************************************************
-	//TODO:140 store & validate the data on change
+	//TODO:190 store & validate the data on change
 
     !!!!!!!Important
 
@@ -182,7 +182,7 @@
         this.setIUN = function(str){/*must be a number*/ iUN = parseInt(str);}
         this.getIUN = function(){return iUN;}
 
-		//TODO:130 see where each of these can work in each display
+		//TODO:180 see where each of these can work in each display
 		this.setText = function(str){inner_html = str; default_setting = str; fill_content = str;}//works in: create_text_input,create_select
 
 		this.setDefault = function(str){inner_html = str; default_setting = str; fill_content = str;}//works in: create_select
@@ -1244,7 +1244,7 @@
             }
         }//end reset
 
-		//TODO:100 Needs a reset
+		//TODO:150 Needs a reset
 		var create_text_input = function()
 		{
 			/************************************* Sample Code ******************************************
@@ -2001,7 +2001,7 @@
 
 				msgStr = "<h7>remaining " + char_rem + "/" + char_limit + "</h7>" ;
 				/*
-				//TODO:120 modify the target element to have a h7 childNode with an id
+				//TODO:170 modify the target element to have a h7 childNode with an id
 				so I can refernce it here and just use text for its innerHTML
 				*/
 

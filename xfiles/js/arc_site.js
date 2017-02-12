@@ -1,5 +1,5 @@
 //alert("arc script running!");
-//TODO:80 learn tasks
+//TODO:130 learn tasks
 //NOTE:80 business portfolio site - a business card is like a mini portfolio this one expands
 
 	function acr_setTheStage()
@@ -239,7 +239,7 @@
 
 	}//end arc_toggleDisplay
 
-	//TODO:60 add titles to all btns
+	//TODO:110 add titles to all btns
 
 	function create_form(obj)
 	{
@@ -760,7 +760,7 @@
 				my_info_data_key_array = my_info_data_key_array.sort();
 				console.log("sort  abc = ", my_info_data_key_array);
 			}
-			//DONE:10 fix abc key sort
+			//DONE:40 fix abc key sort
 
 
 			console.log("key array = ",my_info_data_key_array);
@@ -1069,12 +1069,29 @@
 					//else of if check_mode == "false"
 					//this creates a checkbox in place of the delete and edit btns in the associate info view
 					//check box
+
 					obj_elements.arc_info_chk = new masterButtons({varName:'arc_info_chk',home:li_id,type:"checkbox"});
 					obj_elements.arc_info_chk.setLabels();
 					obj_elements.arc_info_chk.setPrefix('arc_info_chk');
 					obj_elements.arc_info_chk.setInputAttributes({"type":"checkbox"});
-					obj_elements.arc_info_chk.setCustomClass(["arc_info_chk"]);
+					if(myIn_published == "unpublished")
+					{
+						obj_elements.arc_info_chk.setInputAttributes({"disabled":"true"});
+					}
+					obj_elements.arc_info_chk.setCustomClass(["arc_info_chk " + myIn_published]);
 					obj_elements.arc_info_chk.clearHome("false");
+
+					var collected_data = obj_elements["data_store"];
+					if(collected_data != ""){
+						collected_data = collected_data.split(",");
+						//check to see if the id is already present
+						var is_in_array = valueChecker({"array":collected_data,"string":myIn_id,"mod":"index","type":"sna","action":"match"});
+						if(is_in_array[0] != -1)
+						{
+							obj_elements.arc_info_chk.setInputAttributes({"checked":"true"});
+						}
+					}//end if
+
 					//obj_elements.arc_info_chk.setCasing();
 					obj_elements.arc_info_chk.display();
 
@@ -1139,7 +1156,7 @@
 								var is_in_array = valueChecker({"array":collection_data,"string":id_value,"mod":"index","type":"sna","action":"match"});
 								console.log("temp check present2" , is_in_array[0]);
 								//if not add it
-								//TODO update value checker for array inconsistency
+								//DONE:20 update value checker for array inconsistency
 								if(is_in_array[0] != -1)
 								{
 									//if it is there take it out
@@ -1154,10 +1171,12 @@
 							//console.log("this check is false ", this.checked);
 						}//end else this.checked = true
 					}//end onclick
-
+					//TODO:60 needs a go btn and a cancel btn with a temp_store instead of data_store right away
+					//DONE:10 check box cursor:pointer
+					//TODO:50 disable unpublished list item
 					//class assoc_icon
 
-					//TODO save assoc info - edit assoc info
+					//DONE:30 save assoc info - edit assoc info
 					/*
 					if(mod == "edit"){
 
@@ -1177,7 +1196,7 @@
 				var targetElement = document.getElementById(arc_info_chk_id);
 					targetElement.addEventListener("click", function()
 					{
-							//TODO:70 close btn & dataset array concat/duplicate check
+							//TODO:120 close btn & dataset array concat/duplicate check
 
 
 					})//end click
@@ -1468,7 +1487,7 @@
 					catSel.setInputAttributes({"placeholder":"select results"});
 					catSel.display();
 
-					//TODO:50 make switchabel categories without switching views.
+					//TODO:100 make switchabel categories without switching views.
 
 					var sel_id_str = catSel.get_event_ids();
 
@@ -1538,7 +1557,7 @@
 
 		}//end set_Icon_id
 
-		//TODO:40 -w trace function set_info_stage
+		//TODO:90 -w trace function set_info_stage
 		var set_info_stage = function(in_id,s_id)
 		{
 			var input_id = in_id;
@@ -1975,7 +1994,7 @@
 						//do nothing
 
 					}else{
-						checkChange("validate",trans_obj);
+						checkChange({"mode":"validate","more_info":more_info},trans_obj);
 						console.log("get current valuel = ",accSlide.getCurrentValue2())
 					}//end if
 
@@ -2048,7 +2067,7 @@
 						//do nothing
 
 					}else{
-						checkChange("validate",trans_obj);
+						checkChange({"mode":"validate","more_info":more_info},trans_obj);
 					}//end if
 
 
@@ -2061,7 +2080,7 @@
 						//do nothing
 
 					}else{
-						checkChange("validate",trans_obj);
+						checkChange({"mode":"validate","more_info":more_info},trans_obj);
 					}//end if
 
 
@@ -2151,7 +2170,7 @@
 						update_web_icon({"input_id":dataInp_id,"icon_id":sug_icon_id,"change_id":chng_cont_id,"icon_set":icon_set});
 
 						//then validate
-						checkChange("validate",trans_obj);
+						checkChange({"mode":"validate","more_info":more_info},trans_obj);
 						}
 
 					}//end if
@@ -2271,7 +2290,7 @@
 							update_web_icon({"input_id":dataInp_id,"icon_id":sug_icon_id,"change_id":chng_cont_id,"icon_set":icon_set});
 						}
 
-						checkChange("validate",trans_obj);
+						checkChange({"mode":"validate","more_info":more_info},trans_obj);
 					}//end else
 
 
@@ -2382,7 +2401,7 @@
 						{
 							//do nothing
 						}else{
-							checkChange("validate",trans_obj);
+							checkChange({"mode":"validate","more_info":more_info},trans_obj);
 						}//end else
 
 
@@ -2390,7 +2409,7 @@
 
 				}//end for
 			}
-			//TODO:90 if empty fill apps with a link to the play store or ios store social com - link url
+			//TODO:140 if empty fill apps with a link to the play store or ios store social com - link url
 
 			//if notification btns
 			if(in_value == "notification"){
@@ -2459,9 +2478,10 @@
 
 		}//end create_light_box
 
-		var checkChange = function(str,tObj)
+		var checkChange = function(mob,tObj)
 		{
-			var mode = str;
+			var mode = mob.mode;
+			var more_info = mob.more_info
 			//mod is edit or make passed from form_display
 
 			var form_id_Ary = [];
@@ -2473,7 +2493,7 @@
 				form_id_Ary = form_id_Ary.concat(typeSel.get_event_ids());
 				form_id_Ary = form_id_Ary.concat(dataInp.get_event_ids());
 				//add new data objects here to be part of validation process
-				if(otherInp != undefined && otherInp != ""){
+				if(otherInp != undefined && more_info == "true"){
 					form_id_Ary = form_id_Ary.concat(otherInp.get_event_ids());
 				}
 
@@ -2483,13 +2503,13 @@
 
 				if(isReady == true)
 				{
-					arc_giveItAGo("yes",tObj);
+					arc_giveItAGo({"ready":"yes","more_info":more_info},tObj);
 				}else{
 
-					arc_giveItAGo("no",tObj);
+					arc_giveItAGo({"ready":"no","more_info":more_info},tObj);
 				}
 
-				if(str == "submit" && isReady == true)
+				if(mode == "submit" && isReady == true)
 				{
 					//upload data
 					makeContact(tObj);
@@ -2606,11 +2626,11 @@
 
 
 
-		var arc_giveItAGo = function(goVar,tObj)
+		var arc_giveItAGo = function(gOb,tObj)
 		{
 			//mod is edit or make passed from form_display
 
-			if(goVar == "yes")
+			if(gOb.ready == "yes")
 			{
 				//if the btns not there make it
 				if(!document.getElementById("arc_go_btn"))
@@ -2626,7 +2646,7 @@
 					goEl.innerHTML = "<h4>OK</h4>";
 					goEl.title = "make contact";
 					goEl.addEventListener("click",function(){
-						checkChange("submit",tObj);
+						checkChange({"mode":"submit","more_info":gOb.more_info},tObj);
 					});
 
 
@@ -2980,7 +3000,7 @@
 				if(display_data == "group")
 				{
 					arc_input.info_ids = obj_elements["data_store"];
-					
+
 				}//end if
 
 
@@ -3122,8 +3142,8 @@
 				"youtube":"youtube",
 				"youtu.be":"youtube",
 				"whatsapp":"whatsapp",
-				//TODO:20 -w get codepen icon
-				//TODO:30 -w get freecodecamp icon
+				//TODO:70 -w get codepen icon
+				//TODO:80 -w get freecodecamp icon
 			};//end social_icons
 
 			var mail_icons =
