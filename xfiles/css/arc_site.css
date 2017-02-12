@@ -151,7 +151,7 @@ text-align: right !important;}
 /************ Panel Stuff ******************/
 .arc_panel.ui-panel { width: 100% !important;z-index:1102;}
 .arc_panel.ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay, .arc_panel.ui-panel-animate.ui-panel-position-right.ui-panel-display-push{right: 0;-webkit-transform: translate3d(22em,0,0);-moz-transform: translate3d(22em,0,0);transform: translate3d(22em,0,0);}
-
+.arc_unpublished{background-color: #ffe3db;}
 .colap_cont_ListArea {margin:0 !important;border-radius:0px !important;}
 
 .typeSel_TCasing, .dataInp_TCasing{width:70%;display:inline-block;}
@@ -168,7 +168,7 @@ div.dataInp_TCasing{width:70% !important;display:inline-block !important;}
 
 .my_info.my_info_text{display:inline-block;min-height:20px;}
 .my_info_icon{float:left;}
-.my_info_text{margin:5px !important;width:60%;font-size:16px !important;}
+.my_info_text{margin:5px !important;width:50%;font-size:16px !important;}
 .my_info_edit,.my_info_delete{float:right;}
 .info_dot{width: 20px !important;height: 20px !important;margin:5px !important;border-radius:25px !important;}
 div.arc_info_chk_TCont{height:22px; width:22px;float:right;margin:5px 10px 5px 0;}

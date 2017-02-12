@@ -1,5 +1,5 @@
 //alert("arc script running!");
-//TODO:30 learn tasks
+//TODO:80 learn tasks
 //NOTE:80 business portfolio site - a business card is like a mini portfolio this one expands
 
 	function acr_setTheStage()
@@ -239,7 +239,7 @@
 
 	}//end arc_toggleDisplay
 
-	//TODO:10 add titles to all btns
+	//TODO:60 add titles to all btns
 
 	function create_form(obj)
 	{
@@ -760,7 +760,7 @@
 				my_info_data_key_array = my_info_data_key_array.sort();
 				console.log("sort  abc = ", my_info_data_key_array);
 			}
-			//DONE:0 fix abc key sort
+			//DONE:10 fix abc key sort
 
 
 			console.log("key array = ",my_info_data_key_array);
@@ -846,7 +846,7 @@
 					var myIn_id = category_array[x].id || "";
 					var myIn_user_id = category_array[x].user_id || "";
 					var empty_text = "";//"empty"
-					var myIn_main = (category_array[x].core_data != undefined && category_array[x].core_data != "") ? category_array[x].core_data : empty_text;//*need
+					var myIn_core = (category_array[x].core_data != undefined && category_array[x].core_data != "") ? category_array[x].core_data : empty_text;//*need
 					var myIn_desc = (category_array[x].desc_data != undefined && category_array[x].desc_data != "") ? category_array[x].desc_data : empty_text;
 					var myIn_other = (category_array[x].other_data != undefined && category_array[x].other_data != "") ? category_array[x].other_data : empty_text;
 					var alt_icon = icon_finder(my_info_data_key_array[d]);
@@ -859,18 +859,24 @@
 					var myIn_modified = category_array[x].modified || "";
 					var myIn_extra = category_array[x].extra || "";
 					var myIn_json = JSON.stringify(category_array[x]);//*need
+					var myIn_pNbr = category_array[x].published || "0";
+					console.log("myIn_pNbr = ",myIn_pNbr);
+					var myIn_published = (myIn_pNbr == "0") ? "unpublished" : "published";
 
 					switch(curr_category){
 
+						//standar display section
 						case "favorite apps":
 						case "email":
 						case "notification":
 						case "name":
 						case "phone":
+						case "social community":
 						//whatever isn't good goes up here
-							data1 = myIn_main;
+							data1 = myIn_core;
 							data2 = myIn_desc;
 							data3 = myIn_other;
+							//DONE:0 add social community to standard display section
 						break;
 					/*# 	case "apps":
 					//# 	case "article":
@@ -880,9 +886,11 @@
 					//# 	case "social network":
 					//# 	case "video":
 					//# 	case "website":*/
+
+					//dynamic display section
 						default:
 							data1 = myIn_desc;
-							data2 = myIn_main;
+							data2 = myIn_core;
 							data3 = myIn_other;
 						break;
 						}
@@ -892,6 +900,7 @@
 					obj_elements[li_name] = new masterButtons({varName:li_name,home:ul_id_ary,type:'li'});
 					obj_elements[li_name].setPrefix(li_name);
 					obj_elements[li_name].setListNumber(1);
+					obj_elements[li_name].setCustomClass(["arc_" + myIn_published + " "]);
 					//obj_elements[li_name].setContent();//category_array[x].core_data
 					obj_elements[li_name].clearHome("false");
 					obj_elements[li_name].display();
@@ -922,7 +931,7 @@
 					my_info_text1.setTextTag('p');
 					my_info_text1.setPrefix(tName1);
 					my_info_text1.setContent(data1);
-					//my_info_text.setContent(myIn_main + " " + myIn_desc);//works as a filter
+					//my_info_text.setContent(myIn_core + " " + myIn_desc);//works as a filter
 					my_info_text1.setCustomClass(["my_info my_info_text my_info_text1 view1"]);
 					my_info_text1.clearHome("false");
 					my_info_text1.display();
@@ -934,12 +943,11 @@
 					mIT1_el.style.display = "inline-block";
 
 					var tName2 = "my_info_text2" + d + "_" + x;
-
 					var my_info_text2 = new masterButtons({varName:tName2,home:li_id,type:'tag'});
 					my_info_text2.setTextTag('p');
 					my_info_text2.setPrefix(tName2);
 					my_info_text2.setContent(data2);
-					//my_info_text.setContent(myIn_main + " " + myIn_desc);//works as a filter
+					//my_info_text.setContent(myIn_core + " " + myIn_desc);//works as a filter
 					my_info_text2.setCustomClass(["my_info my_info_text my_info_text2 view2"]);
 					my_info_text2.clearHome("false");
 					my_info_text2.display();
@@ -949,29 +957,29 @@
 					var mIT2_el = document.getElementById(mIT2_id);
 					mIT2_el.style.display = "none";
 
-					//date
+					//myIn_published is here
 					var tName3 = "my_info_text3" + d + "_" + x;
 					var my_info_text3 = new masterButtons({varName:tName3,home:li_id,type:'tag'});
 					my_info_text3.setTextTag('p');
 					my_info_text3.setPrefix(tName3);
-					my_info_text3.setContent(slash_date);
-					//my_info_text.setContent(myIn_main + " " + myIn_desc);//works as a filter
-					my_info_text3.setCustomClass(["my_info my_info_text my_info_text3 view3"]);
+					my_info_text3.setContent(myIn_published);
+					//my_info_text.setContent(myIn_core + " " + myIn_desc);//works as a filter
+					my_info_text3.setCustomClass(["my_info my_info_text my_info_text3 view3 "]);
 					my_info_text3.clearHome("false");
 					my_info_text3.display();
 
 					var mIT3_ary = my_info_text3.get_event_ids();
 					var mIT3_id = mIT3_ary[0];//my_info_text
-
 					var mIT3_el = document.getElementById(mIT3_id);
 					mIT3_el.style.display = "none";
 
+					//date
 					var tName4 = "my_info_text4" + d + "_" + x;
 					var my_info_text4 = new masterButtons({varName:tName4,home:li_id,type:'tag'});
 					my_info_text4.setTextTag('p');
 					my_info_text4.setPrefix(tName4);
-					my_info_text4.setContent(abbrev_date);
-					//my_info_text.setContent(myIn_main + " " + myIn_desc);//works as a filter
+					my_info_text4.setContent(slash_date);
+					//my_info_text.setContent(myIn_core + " " + myIn_desc);//works as a filter
 					my_info_text4.setCustomClass(["my_info my_info_text my_info_text4 view4"]);
 					my_info_text4.clearHome("false");
 					my_info_text4.display();
@@ -981,6 +989,22 @@
 
 					var mIT4_el = document.getElementById(mIT4_id);
 					mIT4_el.style.display = "none";
+
+					var tName5 = "my_info_text5" + d + "_" + x;
+					var my_info_text5 = new masterButtons({varName:tName5,home:li_id,type:'tag'});
+					my_info_text5.setTextTag('p');
+					my_info_text5.setPrefix(tName5);
+					my_info_text5.setContent(abbrev_date);
+					//my_info_text.setContent(myIn_core + " " + myIn_desc);//works as a filter
+					my_info_text5.setCustomClass(["my_info my_info_text my_info_text5 view5"]);
+					my_info_text5.clearHome("false");
+					my_info_text5.display();
+
+					var mIT5_ary = my_info_text5.get_event_ids();
+					var mIT5_id = mIT5_ary[0];//my_info_text
+
+					var mIT5_el = document.getElementById(mIT5_id);
+					mIT5_el.style.display = "none";
 
 					if(check_mode == "false"){
 					//delete btn
@@ -1056,8 +1080,84 @@
 
 					var arc_info_chk_ary = obj_elements.arc_info_chk.get_event_ids();
 					var arc_info_chk_id = arc_info_chk_ary[0];
-					var icon_checkbox_element = document.getElementById(arc_info_chk_id);
+					//i need a unique value to store the id as (encapsulated) data
+					var iUN = Math.round(Math.random() * 10000);
+					var unique_str = "check_value_" + iUN;
+					obj_elements[unique_str] = myIn_id;
 
+					var info_chk_element = document.getElementById(arc_info_chk_id);
+					info_chk_element.dataset.check_ref = unique_str;
+
+					info_chk_element.onclick = function()
+					{
+						var check_str = this.dataset.check_ref;
+						var id_value = obj_elements[check_str];
+						//var collection_plate = document.getElementsByClassName("assoc_icon")[0];
+						//var store_nbr = collection_plate.dataset.store_nbr;
+						//var store_str = "store_" + store_nbr;
+						var collection_data = obj_elements["data_store"];
+
+						//all the variables equal "8" the last iterated value
+						console.log("myIn_id var = ",id_value);
+						//test to see
+						if(this.checked == true)
+						{
+							//console.log("this check is true ", this.checked);
+							//get the data object
+							if(collection_data != "")
+							{
+									//turn the string into an array
+									collection_data = collection_data.split(",");
+
+									//check to see if the id is already present
+									var is_in_array = valueChecker({"array":collection_data,"string":id_value,"mod":"index","type":"sna","action":"match"});
+									console.log("temp check present" , is_in_array);
+									//if not add it
+									if(is_in_array[0] == -1)
+									{
+										//if its not there put it there - if it is do nothing
+										collection_data = collection_data.concat(id_value);
+										obj_elements["data_store"] = collection_data.join();
+										console.log("new store data = ",obj_elements["data_store"]);
+									}
+
+							}else
+							{
+								obj_elements["data_store"] = "" + id_value + "";
+								console.log("new store data = ",obj_elements["data_store"]);
+							}
+
+						}else
+						{
+							//see if the dataset is empty
+							if(collection_data != "")
+							{
+								//turn the string into an array
+								collection_data = collection_data.split(",");
+
+								//check to see if the id is already present
+								var is_in_array = valueChecker({"array":collection_data,"string":id_value,"mod":"index","type":"sna","action":"match"});
+								console.log("temp check present2" , is_in_array[0]);
+								//if not add it
+								//TODO update value checker for array inconsistency
+								if(is_in_array[0] != -1)
+								{
+									//if it is there take it out
+									collection_data.splice(is_in_array[0],1);
+									obj_elements["data_store"] = collection_data.join();
+									console.log("new store data = ",obj_elements["data_store"]);
+								}//end if is in array
+
+
+							}//end see if its emtpy - if it is do nothing
+
+							//console.log("this check is false ", this.checked);
+						}//end else this.checked = true
+					}//end onclick
+
+					//class assoc_icon
+
+					//TODO save assoc info - edit assoc info
 					/*
 					if(mod == "edit"){
 
@@ -1077,7 +1177,7 @@
 				var targetElement = document.getElementById(arc_info_chk_id);
 					targetElement.addEventListener("click", function()
 					{
-							//TODO:20 close btn & dataset array concat/duplicate check
+							//TODO:70 close btn & dataset array concat/duplicate check
 
 
 					})//end click
@@ -1368,7 +1468,7 @@
 					catSel.setInputAttributes({"placeholder":"select results"});
 					catSel.display();
 
-
+					//TODO:50 make switchabel categories without switching views.
 
 					var sel_id_str = catSel.get_event_ids();
 
@@ -1401,11 +1501,11 @@
 					sel_el.onchange = function(){
 
 						set_Icon_id(sel_id,contact_form_select_icon.id);
-						info_display(sel_id,contact_form_text.id);
+						form_display(sel_id,contact_form_text.id);
 
 					}//end onchange
 
-					info_display(sel_id,contact_form_text.id,other);
+					form_display(sel_id,contact_form_text.id,other);
 
 					$("#arc_panel").panel('open');
 
@@ -1438,6 +1538,7 @@
 
 		}//end set_Icon_id
 
+		//TODO:40 -w trace function set_info_stage
 		var set_info_stage = function(in_id,s_id)
 		{
 			var input_id = in_id;
@@ -1451,7 +1552,7 @@
 			{
 				case "phone":
 
-					info_display(stage_id);
+					form_display(stage_id);
 
 				break;
 
@@ -1464,7 +1565,7 @@
 
 		}//end set_Icon_id
 
-		var info_display = function(inId,sId,tObj)
+		var form_display = function(inId,sId,tObj)
 		{
 			var mod = (tObj != undefined) ? tObj.mod : "make";
 			var trans_obj = tObj;
@@ -1492,17 +1593,17 @@
 			{
 				case "info":
 					var is_in_array = valueChecker({"array":info_category_arry,"string":cat_value,"mod":"index","type":"sna"});
-					var in_value = (is_in_array == -1) ? "info": cat_value;
+					var in_value = (is_in_array[0] == -1) ? "info": cat_value;
 				break;
 
 				case "media":
 					var is_in_array = valueChecker({"array":media_category_arry,"string":cat_value,"mod":"index","type":"sna"});
-					var in_value = (is_in_array == -1) ? "media": cat_value;
+					var in_value = (is_in_array[0] == -1) ? "media": cat_value;
 				break;
 
 				case "group":
 					var is_in_array = valueChecker({"array":group_category_arry,"string":cat_value,"mod":"index","type":"sna"});
-					var in_value = (is_in_array == -1) ? "group": cat_value;
+					var in_value = (is_in_array[0] == -1) ? "group": cat_value;
 				break;
 
 			}//end switch
@@ -2178,40 +2279,60 @@
 
 			}//end for
 
-			//side menu area
-			obj_elements.assoc_info_cont = new masterButtons({varName:'assoc_info_cont',home:arc_info_core.id,type:'tag'});
-			obj_elements.assoc_info_cont.setTextTag('div');
-			obj_elements.assoc_info_cont.setPrefix('assoc_info_cont');
-			//obj_elements.assoc_info_cont.setContent('collapsible label');
-			obj_elements.assoc_info_cont.setCustomClass(["assoc_info_cont side_car"]);
-			obj_elements.assoc_info_cont.clearHome("false");
-			obj_elements.assoc_info_cont.display();
+			if(display_data == "group"){
+				//side menu area
+				obj_elements.assoc_info_cont = new masterButtons({varName:'assoc_info_cont',home:arc_info_core.id,type:'tag'});
+				obj_elements.assoc_info_cont.setTextTag('div');
+				obj_elements.assoc_info_cont.setPrefix('assoc_info_cont');
+				//obj_elements.assoc_info_cont.setContent('collapsible label');
+				obj_elements.assoc_info_cont.setCustomClass(["assoc_info_cont side_car"]);
+				obj_elements.assoc_info_cont.clearHome("false");
+				obj_elements.assoc_info_cont.display();
 
-			var assoc_info_cont_ary = obj_elements.assoc_info_cont.get_event_ids();
-			var assoc_info_cont_id = assoc_info_cont_ary[0];
+				var assoc_info_cont_ary = obj_elements.assoc_info_cont.get_event_ids();
+				var assoc_info_cont_id = assoc_info_cont_ary[0];
 
-			//sets the displayed icon
-			obj_elements.assoc_icon = new masterButtons({varName:'assoc_icon',home:assoc_info_cont_id,type:'tag'});
-			obj_elements.assoc_icon.setTextTag('button');
-			obj_elements.assoc_icon.setPrefix('assoc_icon');
-			//obj_elements.assoc_icon.setInputAttributes({"data-icon_value":default_icon});
-			obj_elements.assoc_icon.setInputAttributes({"href":"#"});
-			//obj_elements.assoc_icon.setContent('collapsible label');
-			obj_elements.assoc_icon.setCustomClass(["assoc_icon ui-btn ui-icon-contact_chk ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon "]);
-			obj_elements.assoc_icon.clearHome("false");
-			obj_elements.assoc_icon.display();
+				//sets the displayed icon
+				obj_elements.assoc_icon = new masterButtons({varName:'assoc_icon',home:assoc_info_cont_id,type:'tag'});
+				obj_elements.assoc_icon.setTextTag('button');
+				obj_elements.assoc_icon.setPrefix('assoc_icon');
+				//obj_elements.assoc_icon.setInputAttributes({"data-icon_value":default_icon});
+				obj_elements.assoc_icon.setInputAttributes({"href":"#"});
+				if(mod == "edit"){
+					obj_elements.assoc_icon.setInputAttributes({"data-assoc":obj_data.info_ids});
+				}else{
+					obj_elements.assoc_icon.setInputAttributes({"data-info_ids":""});
+				}
+				//obj_elements.assoc_icon.setContent('collapsible label');
+				obj_elements.assoc_icon.setCustomClass(["assoc_icon ui-btn ui-icon-contact_chk ui-btn-icon-notext ui-corner-all ui-shadow ui-nodisc-icon "]);
+				obj_elements.assoc_icon.clearHome("false");
+				obj_elements.assoc_icon.display();
 
-			var assoc_icon_ary = obj_elements.assoc_icon.get_event_ids();
-			var assoc_icon_id = assoc_icon_ary[0];
-			var assoc_icon_element = document.getElementById(assoc_icon_id);
-			assoc_icon_element.onclick = function(e){
-				//this helps the button to not go haywire when its clicked
-					e.preventDefault();
-					console.info("hold up wait a minute.");
-					create_light_box({home:'contact_form_backStage',animate:"off"});
-					getMyInfo("checks");
+				var assoc_icon_ary = obj_elements.assoc_icon.get_event_ids();
 
-			};
+				var assoc_icon_id = assoc_icon_ary[0];
+				var assoc_icon_element = document.getElementById(assoc_icon_id);
+
+
+				//try data set here
+				if(mod == "edit"){
+					obj_elements["data_store"] = obj_data.info_ids;
+					//assoc_icon_element.setAttribute("data-store_nbr",obj_data.id);
+				}else{
+					obj_elements["data_store"] = "";
+					//assoc_icon_element.setAttribute("data-store_nbr",obj_data.id);
+				}
+				//then do click event
+				assoc_icon_element.onclick = function(e)
+				{
+					//this helps the button to not go haywire when its clicked
+						e.preventDefault();
+						console.info("hold up wait a minute.");
+						create_light_box({home:'contact_form_backStage',animate:"off"});
+						getMyInfo("checks");
+
+				};//end function onclick
+			}//end if display_data == group
 
 			if(more_info == "true")
 			{
@@ -2269,7 +2390,7 @@
 
 				}//end for
 			}
-			//TODO:40 if empty fill apps with a link to the play store or ios store social com - link url
+			//TODO:90 if empty fill apps with a link to the play store or ios store social com - link url
 
 			//if notification btns
 			if(in_value == "notification"){
@@ -2301,7 +2422,7 @@
 
 			set_arc_info(typeInfoText);
 
-		}//end info_display
+		}//end form_display
 
 
 		var create_light_box = function(obj)
@@ -2341,7 +2462,7 @@
 		var checkChange = function(str,tObj)
 		{
 			var mode = str;
-			//mod is edit or make passed from info_display
+			//mod is edit or make passed from form_display
 
 			var form_id_Ary = [];
 
@@ -2487,7 +2608,7 @@
 
 		var arc_giveItAGo = function(goVar,tObj)
 		{
-			//mod is edit or make passed from info_display
+			//mod is edit or make passed from form_display
 
 			if(goVar == "yes")
 			{
@@ -2810,10 +2931,13 @@
 				arc_input.core_data = arc_data;
 				console.log("arc_data = ",arc_data);
 
-				var arc_oData = otherInp.getCurrentValue();
-				//var arc_data = (in_value != "favorite apps") ? dataInp.getCurrentValue() : typeSel.getCurrentValue();
-				arc_input.other_data = arc_oData;
-				console.log("arc_oData = ",arc_oData);
+				if(otherInp != undefined)
+				{
+					var arc_oData = otherInp.getCurrentValue();
+					//var arc_data = (in_value != "favorite apps") ? dataInp.getCurrentValue() : typeSel.getCurrentValue();
+					arc_input.other_data = arc_oData;
+					console.log("arc_oData = ",arc_oData);
+				}//end if
 
 				if(arc_category == "notification"){
 					var arc_note = sessionStorage.token_endpoint;
@@ -2851,6 +2975,13 @@
 					break;
 
 				}//end switch
+
+
+				if(display_data == "group")
+				{
+					arc_input.info_ids = obj_elements["data_store"];
+					
+				}//end if
 
 
 				var dt = new Date();
@@ -2991,7 +3122,8 @@
 				"youtube":"youtube",
 				"youtu.be":"youtube",
 				"whatsapp":"whatsapp",
-
+				//TODO:20 -w get codepen icon
+				//TODO:30 -w get freecodecamp icon
 			};//end social_icons
 
 			var mail_icons =
@@ -3021,7 +3153,7 @@
 			var return_value = valueChecker({"array":icon_keys,"string":target_string,"mod":"string","type":"ans"});
 
 			var icon_values = [];
-			if(return_value != "none")
+			if(return_value[0] != "none")
 			{
 				for(var u = 0; u < return_value.length; u++)
 				{
@@ -3045,7 +3177,8 @@
 			if found returns an array of string or index values
 
 			example use:
-			var isString = var return_value = valueChecker({"array":icon_keys,"string":target_string,"mod":"string","type":"ans"});
+			var isString =  valueChecker({"array":icon_keys,"string":target_string,"mod":"string","type":"ans"});
+			if(isString[0] == -1)
 
 			ans = array in string - (was checkStringForArray2) checkStringForArray2
 			sna = string in array - (was check array for string)
@@ -3055,46 +3188,66 @@
 			var testArray = sObj.array;
 			var modifier = sObj.mod || "index";//other value is name
 			var type = sObj.type || "ans";
+			var strIndx = [];
+			var action = (sObj.action != undefined && sObj.action == "match") ? "match" : "compare";
 
 
-
-			var strIndx = (modifier == "index") ? -1 : "none";
+			strIndx[0] = (modifier == "index") ? -1 : "none";
 
 			for(var i = 0; i < testArray.length; i++)
 			{
 				var targetString = (type == "ans") ? testString : testArray[i];//
 				var testValue = (type == "ans") ? testArray[i] : testString;
+				var is_present = "false";
 
 				//does the string - (usually long) have any of the array values
 				//"https://youtube.com/#*(&$)*&*(*)whatever".indexof("youtube")
 
-				if(targetString.indexOf(testValue) != -1)
+				if(action == "compare")
+				{
+					if(targetString.indexOf(testValue) != -1)
+					{
+						var is_present = "true";
+					}
+				}else
+				{
+					if(targetString == testValue)
+					{
+						var is_present = "true";
+					}
+				}//end else
+
+				if(is_present == "true")
 				{
 					if(modifier == "index")
 					{
-						if(strIndx == -1){
+						if(strIndx[0] == -1)
+						{
 
 							strIndx = [];
 							strIndx = strIndx.concat(i);
 
-						}else{
+						}else
+						{
 							strIndx = strIndx.concat(i);
 						}//end else
 
 
 					}else{
 
-						if(strIndx == "none"){
+						if(strIndx[0] == "none")
+						{
 							strIndx = [];
 							strIndx = strIndx.concat(testArray[i]);
 
-						}else{
+						}else
+						{
 							strIndx = strIndx.concat(testArray[i]);
 						}//end else
 
 					}//end else modifier
 
-				}//end if checkstring
+				}//end if targetString
 
 			}//end for
 

@@ -61,6 +61,7 @@ class TableArcAssets extends JTableNested
 		if(!isset($arc_input->core_data)){$arc_input->core_data = "";}
 		if(!isset($arc_input->desc_data)){$arc_input->desc_data = "";}
     if(!isset($arc_input->other_data)){$arc_input->other_data = "";}
+    if(!isset($arc_input->info_ids)){$arc_input->info_ids = "";}
 		if(!isset($arc_input->picture)){$arc_input->picture = "";}
 		if(!isset($arc_input->published)){$arc_input->published = "";}
 		if(!isset($arc_input->extra)){$arc_input->extra = "";}
@@ -75,7 +76,7 @@ class TableArcAssets extends JTableNested
 		//$arc_user_id = ($cur_arc_user->id != 0) ? $cur_arc_user->id : $pStr->send_id;
 
 		//insert columns
-        $columns = array('user_id','category','core_data','desc_data','other_data','modified','picture','published','extra');
+        $columns = array('user_id','category','core_data','desc_data','other_data','info_ids','modified','picture','published','extra');
 
 		if(isset($arc_input->category) && $arc_input->category == "notification")
 		{
@@ -101,6 +102,7 @@ class TableArcAssets extends JTableNested
 		$db->quote(htmlentities($arc_input->core_data)),
 		$db->quote(htmlentities($arc_input->desc_data)),
     $db->quote(htmlentities($arc_input->other_data)),
+    $db->quote(htmlentities($arc_input->info_ids)),
 		$db->quote($arc_input->modified),
 		$db->quote(htmlentities($arc_input->picture)),
 		$db->quote(htmlentities($arc_input->published)),
@@ -182,7 +184,7 @@ class TableArcAssets extends JTableNested
 		$arc_input = json_decode($idStr);
     $display_data = $dsp_Dta;
 
-    //TODO:60 i need to check if the id belongs to the user
+    //TODO:110 i need to check if the id belongs to the user
 
 		$db = jFactory::getDbo();
         $query = $db->getQuery(true);
