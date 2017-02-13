@@ -668,7 +668,7 @@
 			var result_obj = iObj;
 			var action = actn || "none";
 			var check_mode = (action != "none") ? "true" : "false";
-			var display_home = (check_mode == "false") ? "arc_display" : "fishBowl";
+			var display_home = (check_mode == "false") ? "arc_display" : "fish_content";
 
 			var display_el = (document.getElementById(display_home)) ? document.getElementById(display_home) : document.getElementsByClassName(display_home)[0];
 			display_el.innerHTML = "";
@@ -760,7 +760,7 @@
 				my_info_data_key_array = my_info_data_key_array.sort();
 				console.log("sort  abc = ", my_info_data_key_array);
 			}
-			//DONE:40 fix abc key sort
+			//DONE:50 fix abc key sort
 
 
 			console.log("key array = ",my_info_data_key_array);
@@ -876,7 +876,7 @@
 							data1 = myIn_core;
 							data2 = myIn_desc;
 							data3 = myIn_other;
-							//DONE:0 add social community to standard display section
+							//DONE:10 add social community to standard display section
 						break;
 					/*# 	case "apps":
 					//# 	case "article":
@@ -1006,7 +1006,8 @@
 					var mIT5_el = document.getElementById(mIT5_id);
 					mIT5_el.style.display = "none";
 
-					if(check_mode == "false"){
+				if(check_mode == "false")
+				{
 					//delete btn
 					var dName = "my_info_delete" + d + "_" + x;
 					my_info_delete = new masterButtons({varName:dName,home:li_id,type:'tag'});
@@ -1081,6 +1082,9 @@
 					obj_elements.arc_info_chk.setCustomClass(["arc_info_chk " + myIn_published]);
 					obj_elements.arc_info_chk.clearHome("false");
 
+					//remember this only runs in group mode after forms are open - 2nd run similar view
+					//data_store is set by this time. blank or not
+
 					var collected_data = obj_elements["data_store"];
 					if(collected_data != ""){
 						collected_data = collected_data.split(",");
@@ -1112,7 +1116,11 @@
 						//var collection_plate = document.getElementsByClassName("assoc_icon")[0];
 						//var store_nbr = collection_plate.dataset.store_nbr;
 						//var store_str = "store_" + store_nbr;
-						var collection_data = obj_elements["data_store"];
+						//start with db data held in data_store
+						//this is code for first run
+						if(obj_elements["temp_store"] == "none"){obj_elements["temp_store"] = obj_elements["data_store"];}
+						var collection_data = obj_elements["temp_store"];
+						//save to temp_store in case of cancel after modifications
 
 						//all the variables equal "8" the last iterated value
 						console.log("myIn_id var = ",id_value);
@@ -1134,14 +1142,14 @@
 									{
 										//if its not there put it there - if it is do nothing
 										collection_data = collection_data.concat(id_value);
-										obj_elements["data_store"] = collection_data.join();
-										console.log("new store data = ",obj_elements["data_store"]);
+										obj_elements["temp_store"] = collection_data.join();
+										console.log("new store data = ",obj_elements["temp_store"]);
 									}
 
 							}else
 							{
-								obj_elements["data_store"] = "" + id_value + "";
-								console.log("new store data = ",obj_elements["data_store"]);
+								obj_elements["temp_store"] = "" + id_value + "";
+								console.log("new store data = ",obj_elements["temp_store"]);
 							}
 
 						}else
@@ -1156,13 +1164,13 @@
 								var is_in_array = valueChecker({"array":collection_data,"string":id_value,"mod":"index","type":"sna","action":"match"});
 								console.log("temp check present2" , is_in_array[0]);
 								//if not add it
-								//DONE:20 update value checker for array inconsistency
+								//DONE:30 update value checker for array inconsistency
 								if(is_in_array[0] != -1)
 								{
 									//if it is there take it out
 									collection_data.splice(is_in_array[0],1);
-									obj_elements["data_store"] = collection_data.join();
-									console.log("new store data = ",obj_elements["data_store"]);
+									obj_elements["temp_store"] = collection_data.join();
+									console.log("new store data = ",obj_elements["temp_store"]);
 								}//end if is in array
 
 
@@ -1171,12 +1179,12 @@
 							//console.log("this check is false ", this.checked);
 						}//end else this.checked = true
 					}//end onclick
-					//TODO:60 needs a go btn and a cancel btn with a temp_store instead of data_store right away
-					//DONE:10 check box cursor:pointer
-					//TODO:50 disable unpublished list item
+					//TODO:60 needs a go btn and a cancel btn with a temp_store instead of temp_store right away
+					//DONE:20 check box cursor:pointer
+					//DONE:0 disable unpublished list item
 					//class assoc_icon
 
-					//DONE:30 save assoc info - edit assoc info
+					//DONE:40 save assoc info - edit assoc info
 					/*
 					if(mod == "edit"){
 
@@ -1191,17 +1199,7 @@
 					}
 					*/
 
-
-				//obj_elements.accSlide =  document.getElementById(arc_info_chk_id)
-				var targetElement = document.getElementById(arc_info_chk_id);
-					targetElement.addEventListener("click", function()
-					{
-							//TODO:120 close btn & dataset array concat/duplicate check
-
-
-					})//end click
-
-				}//end else
+				}//end else line @1067
 
 				var jqm_info_chk_id = "#" + arc_info_chk_id
 				$(jqm_info_chk_id).checkboxradio();
@@ -1237,6 +1235,7 @@
 				}//end if
 
 			}//end collapsible for
+
 
 			/*
 			for(var x = 0; x < obj_attributes.length; x++)
@@ -2332,13 +2331,19 @@
 				var assoc_icon_id = assoc_icon_ary[0];
 				var assoc_icon_element = document.getElementById(assoc_icon_id);
 
+				obj_elements["change_shuttle"] = [];
+				obj_elements["change_shuttle"] = [{"mode":"validate","more_info":more_info},trans_obj];
 
 				//try data set here
 				if(mod == "edit"){
+					//populate class property with db data
 					obj_elements["data_store"] = obj_data.info_ids;
+					obj_elements["temp_store"] = "none";
 					//assoc_icon_element.setAttribute("data-store_nbr",obj_data.id);
 				}else{
+					//or else prep data_store variable
 					obj_elements["data_store"] = "";
+					obj_elements["temp_store"] = "none";
 					//assoc_icon_element.setAttribute("data-store_nbr",obj_data.id);
 				}
 				//then do click event
@@ -2449,32 +2454,119 @@
 			var home_str = obj.home;
 			var animation_state = obj.animate || "on";
 
-						if(!document.getElementsByClassName("liteBox")[0]){
-						obj_elements.liteBox  = new masterButtons({varName:'liteBox',home:home_str,type:'tag'});
-						obj_elements.liteBox .setTextTag('div');
-			      obj_elements.liteBox .setPrefix('liteBox');
-						if(animation_state == "on"){
-						obj_elements.liteBox .setCustomClass(["liteBox bright"]);
-						}else{
-							obj_elements.liteBox .setCustomClass(["liteBox popup"]);
-						}
-						obj_elements.liteBox .clearHome("false");
-			      obj_elements.liteBox .display();
+						if(!document.getElementsByClassName("liteBox")[0])
+						{
+							obj_elements.liteBox  = new masterButtons({varName:'liteBox',home:home_str,type:'tag'});
+							obj_elements.liteBox .setTextTag('div');
+				      obj_elements.liteBox .setPrefix('liteBox');
 
-						var liteBox_id_array = obj_elements.liteBox.get_event_ids();
-						var liteBoxElement = document.getElementById(liteBox_id_array[0]);
-						liteBoxElement.ondblclick = function(){
-							document.getElementById("contact_form_backStage").innerHTML = "";
-						}
+							if(animation_state == "on")
+							{
+								obj_elements.liteBox .setCustomClass(["liteBox bright"]);
+							}else
+							{
+								obj_elements.liteBox .setCustomClass(["liteBox popup"]);
+							}
+
+							obj_elements.liteBox .clearHome("false");
+				      obj_elements.liteBox .display();
+
+							var liteBox_id_array = obj_elements.liteBox.get_event_ids();
+							var liteBoxElement = document.getElementById(liteBox_id_array[0]);
+							liteBoxElement.ondblclick = function()
+							{
+								//document.getElementById("contact_form_backStage").innerHTML = "";
+							}
+
+							obj_elements.fish_eye = new masterButtons({varName:'fish_eye',home:'liteBox',type:'tag'});
+							obj_elements.fish_eye.setTextTag('button');
+							obj_elements.fish_eye.setPrefix('fish_eye');
+							//obj_elements.fish_eye.setInputAttributes({"href":"#"});
+							obj_elements.fish_eye.setInputAttributes({"title":"cancel"});
+							obj_elements.fish_eye.setContent("<h4>Cancel</h4>");
+							obj_elements.fish_eye.setCustomClass(["fish_eye ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right"]);
+							obj_elements.fish_eye.clearHome("false");
+							obj_elements.fish_eye.display();
+
+							var fish_eye_id_array = obj_elements.fish_eye.get_event_ids();
+							var fishEyeElement = document.getElementById(fish_eye_id_array[0]);
+							fishEyeElement.onclick = function(e)
+							{
+								e.preventDefault();
+								obj_elements["temp_store"] = "none";
+								document.getElementById("contact_form_backStage").innerHTML = "";
+
+							}//end fishCancelElement.onclick
+
+							obj_elements.fishBowl = new masterButtons({varName:'fishBowl',home:'liteBox',type:'tag'});
+							obj_elements.fishBowl.setTextTag('div');
+				      obj_elements.fishBowl.setPrefix('fishBowl');
+							obj_elements.fishBowl.setCustomClass(["fishBowl"]);
+							obj_elements.fishBowl.clearHome("false");
+				      obj_elements.fishBowl.display();
+
+							//fishbowl content
+							obj_elements.fish_content = new masterButtons({varName:'fish_content',home:'fishBowl',type:'tag'});
+							obj_elements.fish_content.setTextTag('div');
+				      obj_elements.fish_content.setPrefix('fish_content');
+							obj_elements.fish_content.setCustomClass(["fish_content"]);
+							obj_elements.fish_content.clearHome("false");
+				      obj_elements.fish_content.display();
+							//fishbowl confirm
+							obj_elements.fish_controls = new masterButtons({varName:'fish_controls',home:'fishBowl',type:'tag'});
+							obj_elements.fish_controls.setTextTag('div');
+							obj_elements.fish_controls.setPrefix('fish_controls');
+							obj_elements.fish_controls.setCustomClass(["fish_controls"]);
+							obj_elements.fish_controls.clearHome("false");
+							obj_elements.fish_controls.display();
+
+							//fishBowl
+							obj_elements.fish_confirm = new masterButtons({varName:'fish_confirm',home:'fish_controls',type:'tag'});
+							obj_elements.fish_confirm.setTextTag('button');
+							obj_elements.fish_confirm.setPrefix('fish_confirm');
+							//obj_elements.fish_confirm.setInputAttributes({"href":"#"});
+							obj_elements.fish_confirm.setInputAttributes({"title":"submit"});
+							obj_elements.fish_confirm.setContent("<h4>OK</h4>");
+							obj_elements.fish_confirm.setCustomClass(["fish_confirm ui-btn ui-icon-check ui-btn-icon-left ui-btn-icon-notext"]);
+							obj_elements.fish_confirm.clearHome("false");
+							obj_elements.fish_confirm.display();
+
+							var fish_confirm_id_array = obj_elements.fish_confirm.get_event_ids();
+							var fishConfirmElement = document.getElementById(fish_confirm_id_array[0]);
+							fishConfirmElement.onclick = function(e)
+							{
+								e.preventDefault();
+								obj_elements["data_store"] = obj_elements["temp_store"];
+								obj_elements["temp_store"] = "none";
+								document.getElementById("contact_form_backStage").innerHTML = "";
 
 
-						obj_elements.fishBowl = new masterButtons({varName:'fishBowl',home:'liteBox',type:'tag'});
-						obj_elements.fishBowl.setTextTag('div');
-			      obj_elements.fishBowl.setPrefix('fishBowl');
-						obj_elements.fishBowl.setCustomClass(["fishBowl"]);
-						obj_elements.fishBowl.clearHome("false");
-			      obj_elements.fishBowl.display();
-						}
+								checkChange(obj_elements["change_shuttle"][0],obj_elements["change_shuttle"][1]);
+
+							}//end fishConfirmElement.onclick
+
+							obj_elements.fish_cancel = new masterButtons({varName:'fish_cancel',home:'fish_controls',type:'tag'});
+							obj_elements.fish_cancel.setTextTag('button');
+							obj_elements.fish_cancel.setPrefix('fish_cancel');
+							//obj_elements.fish_cancel.setInputAttributes({"href":"#"});
+							obj_elements.fish_cancel.setInputAttributes({"title":"cancel"});
+							obj_elements.fish_cancel.setContent("<h4>Cancel</h4>");
+							obj_elements.fish_cancel.setCustomClass(["fish_cancel ui-btn ui-icon-delete ui-btn-icon-left ui-btn-icon-notext"]);
+							obj_elements.fish_cancel.clearHome("false");
+							obj_elements.fish_cancel.display();
+
+							var fish_cancel_id_array = obj_elements.fish_cancel.get_event_ids();
+							var fishCancelElement = document.getElementById(fish_cancel_id_array[0]);
+							fishCancelElement.onclick = function(e)
+							{
+								e.preventDefault();
+								obj_elements["temp_store"] = "none";
+								document.getElementById("contact_form_backStage").innerHTML = "";
+
+							}//end fishCancelElement.onclick
+
+
+						}//if !document...
 
 		}//end create_light_box
 
@@ -2629,7 +2721,7 @@
 		var arc_giveItAGo = function(gOb,tObj)
 		{
 			//mod is edit or make passed from form_display
-
+			//TODO enter key go btn
 			if(gOb.ready == "yes")
 			{
 				//if the btns not there make it
