@@ -2331,8 +2331,8 @@
 				var assoc_icon_id = assoc_icon_ary[0];
 				var assoc_icon_element = document.getElementById(assoc_icon_id);
 
-				obj_elements["change_shuttle"] = [];
-				obj_elements["change_shuttle"] = [{"mode":"validate","more_info":more_info},trans_obj];
+				//obj_elements["change_shuttle"] = []; //create_light_box can pass this data
+				//obj_elements["change_shuttle"] = [{"mode":"validate","more_info":more_info},trans_obj];
 
 				//try data set here
 				if(mod == "edit"){
@@ -2352,7 +2352,7 @@
 					//this helps the button to not go haywire when its clicked
 						e.preventDefault();
 						console.info("hold up wait a minute.");
-						create_light_box({home:'contact_form_backStage',animate:"off"});
+						create_light_box({home:'contact_form_backStage',animate:"off",shuttle:{"mode":"validate","more_info":more_info},trans:trans_obj});
 						getMyInfo("checks");
 
 				};//end function onclick
@@ -2541,7 +2541,7 @@
 								document.getElementById("contact_form_backStage").innerHTML = "";
 
 
-								checkChange(obj_elements["change_shuttle"][0],obj_elements["change_shuttle"][1]);
+								checkChange(obj.shuttle,obj.trans);
 
 							}//end fishConfirmElement.onclick
 

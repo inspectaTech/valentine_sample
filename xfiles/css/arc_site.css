@@ -236,7 +236,7 @@ background-size: 18px 18px;
 .ui-icon-none:after {
 background-image: url("../images/heart.png");/* Make your icon fit */
 background-size: 18px 18px;
-}
+}/*//TODO icons need a bg circle*/
 .ui-icon-contact:after {
 background-image: url("../images/contact.png");/* Make your icon fit */
 background-size: 18px 18px;
