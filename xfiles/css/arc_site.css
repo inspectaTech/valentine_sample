@@ -118,8 +118,14 @@ button.console_btns{margin:1px 2px !important;display:inline-block;}
 margin:0px auto!important;min-height: 20px !important;display:block !important;}
 .arc_input.TInput{ padding: 2px 5px !important;}
 .dataInp_TInput.arc_input{width:100% !important;}
-.arc_select{ width: 90% ;margin: auto;display: block;padding: 2px 5px !important;  height: 30px; border-radius: 7px;background-color:#fff;}
+.arc_select{ width: 90% ;margin: auto;display: block;padding: 2px 5px !important; border-radius: 7px;background-color:#fff;}
+.nb{ height: 30px;}
 .TInput.arc_select,.TCont.arc_select{ width: 100% ;}
+.web_preview.TLabel,.web_preview.TCont{margin:0 auto;width:90%;}
+.arc_info_preview { }
+.previewBox{background-color: #ddd; width: 90%; margin: 0 auto; min-height: 75px;padding:5px;}
+.prev_cont{ width: 75px; height: 75px; margin: 0 auto; text-align: center;overflow:hidden;}
+.prev_img{ width: 100%;margin:0 auto;}
 .TCasing{padding-left:10px  !important;}
 div.otherInp_TCasing{margin: 0 !important;padding: 0px !important;width:100% !important;}
 div.otherInp_TCont{}
@@ -158,12 +164,12 @@ text-align: right !important;}
 .typeSel_TCasing, .dataInp_TCasing{width:70%;display:inline-block;}
 div.dataInp_TCasing{width:70% !important;display:inline-block !important;}
 .side_car{width:20%;float:right;margin:0 3% 5px;text-align:center;padding:5px;border:1px solid #ddd;}
-.sug_icon_LBTag, .assoc_icon_LBTag {width:30px;height:30px;margin:0 auto 5px !important;}
+.sug_icon_TDTag, .assoc_icon_TDTag {width:30px;height:30px;margin:0 auto 5px !important;}
 
 .sug_icon_chk_TCont{height:25px !important;}
 .sug_icon_chk_TInput{left:0 !important;top:0 !important;margin:0 auto !important;position:relative !important;}
 .sug_icon_chk_TCont .ui-checkbox{margin:0;text-align:center;}
-.chng_img_LBTag{width:90% !important;margin:0 auto !important;border-radius:7px;}
+.chng_img_TDTag{width:90% !important;margin:0 auto !important;border-radius:7px;}
 .chng_img{width:50% !important;display:inline-block !important;margin-bottom: 0px !important;}
 
 
@@ -236,7 +242,7 @@ background-size: 18px 18px;
 .ui-icon-none:after {
 background-image: url("../images/heart.png");/* Make your icon fit */
 background-size: 18px 18px;
-}/*//TODO icons need a bg circle*/
+}/*//TODO:90 icons need a bg circle*/
 .ui-icon-contact:after {
 background-image: url("../images/contact.png");/* Make your icon fit */
 background-size: 18px 18px;

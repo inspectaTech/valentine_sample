@@ -1,5 +1,5 @@
 //alert("arc script running!");
-//TODO:130 learn tasks
+//TODO:150 learn tasks
 //NOTE:80 business portfolio site - a business card is like a mini portfolio this one expands
 
 	function acr_setTheStage()
@@ -239,7 +239,7 @@
 
 	}//end arc_toggleDisplay
 
-	//TODO:110 add titles to all btns
+	//TODO:140 add titles to all btns
 
 	function create_form(obj)
 	{
@@ -265,7 +265,7 @@
 		var my_info = "";
 		var chk_info = "";
 
-		var info_category_arry = ['email','e-commerce','favorite apps','name','notification','phone',"social community",'web address'];
+		var info_category_arry = ['email','e-commerce','favorite apps','name','notification','phone','profile image',"social community",'web address'];
 		var media_category_arry = ['article','blog','picture','music','social network','video','website'];
 		var group_category_arry = ['business','family','friend','online','project','education','team','social','spiritual','work'];
 
@@ -760,7 +760,7 @@
 				my_info_data_key_array = my_info_data_key_array.sort();
 				console.log("sort  abc = ", my_info_data_key_array);
 			}
-			//DONE:50 fix abc key sort
+			//DONE:70 fix abc key sort
 
 
 			console.log("key array = ",my_info_data_key_array);
@@ -1164,7 +1164,7 @@
 								var is_in_array = valueChecker({"array":collection_data,"string":id_value,"mod":"index","type":"sna","action":"match"});
 								console.log("temp check present2" , is_in_array[0]);
 								//if not add it
-								//DONE:30 update value checker for array inconsistency
+								//DONE:40 update value checker for array inconsistency
 								if(is_in_array[0] != -1)
 								{
 									//if it is there take it out
@@ -1179,12 +1179,12 @@
 							//console.log("this check is false ", this.checked);
 						}//end else this.checked = true
 					}//end onclick
-					//TODO:60 needs a go btn and a cancel btn with a temp_store instead of temp_store right away
-					//DONE:20 check box cursor:pointer
+					//DONE:60 needs a go btn and a cancel btn with a temp_store instead of temp_store right away
+					//DONE:30 check box cursor:pointer
 					//DONE:0 disable unpublished list item
 					//class assoc_icon
 
-					//DONE:40 save assoc info - edit assoc info
+					//DONE:50 save assoc info - edit assoc info
 					/*
 					if(mod == "edit"){
 
@@ -1486,7 +1486,7 @@
 					catSel.setInputAttributes({"placeholder":"select results"});
 					catSel.display();
 
-					//TODO:100 make switchabel categories without switching views.
+					//TODO:130 make switchabel categories without switching views.
 
 					var sel_id_str = catSel.get_event_ids();
 
@@ -1556,7 +1556,7 @@
 
 		}//end set_Icon_id
 
-		//TODO:90 -w trace function set_info_stage
+		//TODO:120 -w trace function set_info_stage
 		var set_info_stage = function(in_id,s_id)
 		{
 			var input_id = in_id;
@@ -1589,6 +1589,8 @@
 			var trans_obj = tObj;
 			var web_icon = "false";
 			var more_info = "false";
+			var preview_section = "false";
+			var unique_class = "";
 			if(mod == "edit")
 			{
 				var obj_data = JSON.parse(tObj.data);
@@ -1668,6 +1670,7 @@
 					default_icon = "heart";
 					web_icon = "true";
 					more_info = "true";
+					unique_class = "";
 
 				break;
 
@@ -1682,7 +1685,7 @@
 					var typeTypeAttr = "text";
 					var typePlaceholder = "customize phone type";
 					var typeRequired = "true";
-					var typeCustomize = "false";
+					var typeCustomize = "true";//formerly false
 					var typeInfoText = "You can create as many phone numbers as you like and assign them to different contacts.";
 
 					//input
@@ -1697,6 +1700,7 @@
 					var inputCustomize = "true";
 
 					default_icon = "phone";
+					unique_class = "";
 					//web_icon = "false";
 
 				break;
@@ -1713,7 +1717,7 @@
 					var typePlaceholder = "customize name type";
 					var typeInfoText = "";
 					var typeRequired = "true";
-					var typeCustomize = "false";
+					var typeCustomize = "true";//formerly false
 
 					//input
 					var inputInputType = 'text';
@@ -1727,6 +1731,7 @@
 
 					default_icon = "shop";
 					web_icon = "true";
+					unique_class = "";
 
 				break;
 
@@ -1742,13 +1747,13 @@
 					var typePlaceholder = "customize email type";
 					var typeInfoText = "";
 					var typeRequired = "true";
-					var typeCustomize = "false";
+					var typeCustomize = "true";//formerly false
 
 					//input
 					var inputInputType = 'text';
 					var inputLabel = 'email address:';
 					var inputTitle = 'email address';
-					var inputMaxLength = 60;
+					var inputMaxLength = 90;
 					var inputTypeAttr = "email";
 					var inputPlaceholder = "enter an email address";
 					var inputAutoComplete = "email";
@@ -1757,6 +1762,7 @@
 
 					default_icon = "mail";
 					web_icon = "true";
+					unique_class = "";
 
 				break;
 
@@ -1786,36 +1792,49 @@
 					var inputCustomize = "true";
 
 					default_icon = "user";
+					unique_class = "";
 					//web_icon = "false";
 
 				break;
 
 				case "web address":
+				case "profile image":
 
 					//type selector
-					var typeInputType = 'select';
-					var typeLabel = 'web address type:';
-					var typeTitle = 'web address type:';
+					var typeInputType = (cat_value == "web address") ? 'select' : 'text';
+					var typeLabel = (cat_value == "web address") ? 'web address type:' : 'title or describe image:';
+					var typeTitle = (cat_value == "web address") ? 'web address type:' : 'title or describe image:';
 					var typeSelectOptions = ['blog','business','company','personal','portfolio','project'];
-					var typeMaxLength = 25;
+					var typeMaxLength = 30;
 					var typeTypeAttr = "text";
-					var typePlaceholder = "customize name type";
+					var typePlaceholder = (cat_value == "web address") ? "customize name type" : "title or description...";
 					var typeInfoText = "";
 					var typeRequired = "true";
-					var typeCustomize = "false";
+					var typeCustomize = "true";//formerly false
 
 					//input
 					var inputInputType = 'text';
-					var inputLabel = 'web address:';
-					var inputTitle = 'web address:';
-					var inputMaxLength = 90;
+					var inputLabel = (cat_value == "web address") ? 'web address:' : 'image url';
+					var inputTitle = (cat_value == "web address") ? 'web address:' : 'image url';
+					var inputMaxLength = 120;
 					var inputTypeAttr = "url";
-					var inputPlaceholder = "http:// or https://";
+					var inputPlaceholder = (cat_value == "web address") ? "http:// https:// ..." : "https:// only...";
 					var inputRequired = "true";
 					var inputCustomize = "true";
 
+					if(cat_value == "web address test")
+					{
 					default_icon = "wifi";
 					web_icon = "true";
+					unique_class = "";
+					}else
+					{
+						default_icon = "camera";
+						web_icon = "false";
+						preview_section = "true"
+						unique_class = "web_preview";
+					}
+					//DONE:20 have the ability to add custom classes from here
 
 				break;
 
@@ -1844,6 +1863,7 @@
 					var inputCustomize = "false";
 
 					default_icon = "notification";
+					unique_class = "";
 					//web_icon = "false";
 
 				break;
@@ -1881,6 +1901,7 @@
 
 					default_icon = "wifi";
 					web_icon = "true";
+					unique_class = "";
 
 				break;
 
@@ -1922,6 +1943,7 @@
 					default_icon = "group";
 					web_icon = "true";
 					more_info = "true";
+					unique_class = "";
 
 
 				break;
@@ -1943,6 +1965,10 @@
 			arc_info_other.id = "arc_info_other";
 			arc_info_other.className = "arc_info_other info_booth";//test_orange
 
+			var arc_info_preview = document.createElement('div');
+			arc_info_preview.id = "arc_info_preview";
+			arc_info_preview.className = "arc_info_preview info_booth";//test_orange
+
 			var arc_go_cont = document.createElement('div');
 			arc_go_cont.id = "arc_go_cont";
 			arc_go_cont.className = "arc_go_cont info_booth"; //test_green
@@ -1953,6 +1979,10 @@
 			if(more_info == "true")
 			{
 				stage_el.appendChild(arc_info_other);
+			}
+			if(preview_section == "true")
+			{
+				stage_el.appendChild(arc_info_preview);
 			}
 			//stage_el.appendChild(arc_info_hr);
 			stage_el.appendChild(arc_go_cont);
@@ -2035,7 +2065,7 @@
 				}//end else
 
 			}
-			typeSel.setCustomClass(["arc_select db_type borderline"]);
+			typeSel.setCustomClass(["arc_select db_type borderline " + unique_class]);
 			if(typeInputType == "select" && typeCustomize == "true")
 			{
 				typeSel.setCustomSelect();//adds a custom option to an input select menu
@@ -2058,8 +2088,10 @@
 
 			for(var c = 0; c < typeSel_id_array.length; c++){
 
-				var targetElement = document.getElementById(typeSel_id_array[c]);
-				targetElement.addEventListener("input",function()
+				var typeSelElement = document.getElementById(typeSel_id_array[c]);
+				typeSelElement.addEventListener("focus",function(){typeSelElement.select();});
+
+				typeSelElement.addEventListener("input",function()
 				{
 					if(in_value == "notification" && mod == "edit")
 					{
@@ -2072,7 +2104,7 @@
 
 				})//end onchange
 				//needs another listner for switch back bugfix where no check occurs
-				targetElement.addEventListener("blur",function()
+				typeSelElement.addEventListener("blur",function()
 				{
 					if(in_value == "notification" && mod == "edit")
 					{
@@ -2154,8 +2186,8 @@
 
 
 			//obj_elements.accSlide =  document.getElementById(sug_icon_chk_id)
-			var targetElement = document.getElementById(sug_icon_chk_id);
-				targetElement.addEventListener("click", function()
+			var sug_icon_chkElement = document.getElementById(sug_icon_chk_id);
+				sug_icon_chkElement.addEventListener("click", function()
 				{
 					if(in_value == "notification" && mod == "edit")
 					{
@@ -2252,7 +2284,7 @@
 				dataInp.setCustomSelect();//adds a custom option to an input select menu
 			}
 			dataInp.setInputAttributes({"data-required":inputRequired});
-			dataInp.setCustomClass(["arc_input db_input borderline"]);
+			dataInp.setCustomClass(["arc_input db_input borderline " + unique_class]);
 			if(mod == "edit"){
 				dataInp.setText(obj_data.core_data);//sets initial text
 			}
@@ -2276,8 +2308,10 @@
 
 			for(var c = 0; c < dataInp_id_array.length; c++){
 
-				var targetElement = document.getElementById(dataInp_id);
-				targetElement.addEventListener("input",function()
+				var dataInpElement = document.getElementById(dataInp_id);
+				dataInpElement.addEventListener("focus",function(){dataInpElement.select();})
+
+				dataInpElement.addEventListener("input",function()
 				{
 					if(in_value == "notification" && mod == "edit")
 					{
@@ -2290,6 +2324,9 @@
 						}
 
 						checkChange({"mode":"validate","more_info":more_info},trans_obj);
+						if(preview_section == "true"){
+							display_preview_image(this.id,this.value);
+						}
 					}//end else
 
 
@@ -2374,7 +2411,7 @@
 					otherInp.setInputAttributes({"disabled":true});
 				}//end if
 				otherInp.setInputAttributes({"data-required":otherRequired});
-				otherInp.setCustomClass(["arc_input db_input borderline"]);
+				otherInp.setCustomClass(["arc_input db_input borderline " + unique_class]);
 				otherInp.clearHome("false");
 				if(mod == "edit"){
 					otherInp.setText(obj_data.other_data);//sets initial text
@@ -2399,8 +2436,10 @@
 
 				for(var c = 0; c < otherInp_id_array.length; c++){
 
-					var targetElement = document.getElementById(otherInp_id);
-					targetElement.addEventListener("input",function()
+					var otherInpElement = document.getElementById(otherInp_id);
+					otherInpElement.addEventListener("focus",function(){otherInpElement.select();})
+
+					otherInpElement.addEventListener("input",function()
 					{
 						if(in_value == "notification" && mod == "edit")
 						{
@@ -2414,7 +2453,27 @@
 
 				}//end for
 			}
-			//TODO:140 if empty fill apps with a link to the play store or ios store social com - link url
+			//TODO:160 if empty fill apps with a link to the play store or ios store social com - link url
+
+			//sample section
+			if(preview_section == "true")
+			{
+				obj_elements.previewBox  = new masterButtons({varName:'previewBox',home:'arc_info_preview',type:'tag'});
+				obj_elements.previewBox .setTextTag('div');
+				obj_elements.previewBox .setPrefix('previewBox');
+				obj_elements.previewBox .setCustomClass(["previewBox"]);
+				obj_elements.previewBox .clearHome("false");
+				obj_elements.previewBox .display();
+
+				var previewBox_id_array = obj_elements.previewBox.get_event_ids();
+				var previewBoxElement = document.getElementById(previewBox_id_array[0]);
+				previewBoxElement.click = function()
+				{
+					//document.getElementById("contact_form_backStage").innerHTML = "";
+				}//end on click
+
+			}//end preview_section
+
 
 			//if notification btns
 			if(in_value == "notification"){
@@ -2423,14 +2482,14 @@
 				tNoteBtn.setLabels(['test','refresh']);
 				tNoteBtn.setTitles(['test device notification','refresh notification']);
 				//tNoteBtn.setGroupLabel('notification test');
-				tNoteBtn.setCustomClass(["ui-icon-notification ui-btn ui-shadow ui-btn-inline ui-btn-icon-left","ui-icon-refresh ui-btn ui-shadow ui-btn-inline ui-btn-icon-left"]);// ui-btn-icon-notext
+				tNoteBtn.setCustomClass(["ui-icon-notification ui-btn ui-shadow ui-btn-inline ui-btn-icon-left","ui-icon-refresh ui-btn ui-shadow ui-btn-inline ui-btn-icon-left " + unique_class]);// ui-btn-icon-notext
 				tNoteBtn.clearHome("false");
 				tNoteBtn.setCasing();
 				tNoteBtn.display();
 
 				var tNoteBtn_id_array = tNoteBtn.get_event_ids();
-				var targetElement = document.getElementById(tNoteBtn_id_array[0]);
-				targetElement.addEventListener("click",function()
+				var tNoteBtnElement = document.getElementById(tNoteBtn_id_array[0]);
+				tNoteBtnElement.addEventListener("click",function()
 				{
 					if(mod == "edit")
 					{
@@ -2569,6 +2628,63 @@
 						}//if !document...
 
 		}//end create_light_box
+
+		var display_preview_image = function(id){
+
+			var targetElement = document.getElementById(id);
+			var targetValue = targetElement.value;
+			if(targetValue.indexOf("http") != -1 && targetValue.indexOf("https") == -1)
+			{
+				var new_Value = targetValue.replace("http","https");
+				targetElement.value = new_Value;
+			}else {
+				//var new_Value = targetValue;
+			}
+
+			//preview image container
+			if(!document.getElementsByClassName("prev_cont")[0])
+			{
+			prev_cont = new masterButtons({varName:'prev_cont',home:'previewBox',type:'tag'});
+			prev_cont.setTextTag('div');
+			prev_cont.setPrefix('prev_cont');
+			//prev_cont.setInputAttributes({"href":"#"});
+			prev_cont.setInputAttributes({"title":"image preview"});
+			//prev_cont.setContent();
+			prev_cont.setCustomClass(["prev_cont"]);
+			prev_cont.clearHome("false");
+			prev_cont.display();
+
+			prev_img = new masterButtons({varName:'prev_img',home:'prev_cont',type:'tag'});
+			prev_img.setTextTag('img');
+			prev_img.setPrefix('prev_img');
+			//prev_img.setInputAttributes({"href":"#"});
+			prev_img.setInputAttributes({"title":"image preview"});
+			//prev_img.setContent();
+			prev_img.setCustomClass(["prev_img"]);
+			prev_img.clearHome("false");
+			prev_img.display();
+
+			var prev_img_id_array = prev_img.get_event_ids();
+			obj_elements.prev_imgElement = document.getElementById(prev_img_id_array[0]);
+			}
+			try{
+			obj_elements.prev_imgElement.onerror = function(){
+				obj_elements.prev_imgElement.src = ARC_IMG_URL + "flame.png";
+				obj_elements.prev_imgElement.style.backgroundColor = "red";
+			}
+			obj_elements.prev_imgElement.onload = function(){
+				obj_elements.prev_imgElement.style.backgroundColor = "none";
+			}
+
+			obj_elements.prev_imgElement.src = targetElement.value;
+			}catch(err){}
+
+
+			//preview image
+
+			//dynamic src
+
+		}//end display_preview_image
 
 		var checkChange = function(mob,tObj)
 		{
@@ -2721,7 +2837,7 @@
 		var arc_giveItAGo = function(gOb,tObj)
 		{
 			//mod is edit or make passed from form_display
-			//TODO enter key go btn
+			//TODO:80 enter key go btn
 			if(gOb.ready == "yes")
 			{
 				//if the btns not there make it
@@ -3208,6 +3324,7 @@
 				"notification":"notification",
 				"phone":"phone",
 				"picture":"camera",
+				"profile image":"camera",
 				"video":"video",
 				"website":"wifi",
 				"web address":"wifi"
@@ -3234,8 +3351,8 @@
 				"youtube":"youtube",
 				"youtu.be":"youtube",
 				"whatsapp":"whatsapp",
-				//TODO:70 -w get codepen icon
-				//TODO:80 -w get freecodecamp icon
+				//TODO:100 -w get codepen icon
+				//TODO:110 -w get freecodecamp icon
 			};//end social_icons
 
 			var mail_icons =
@@ -3412,3 +3529,16 @@
 		return target_ancestor;
 
 	}//end get_ancestor
+
+	function clearSelection() {
+		//sample code for later
+		//sites:
+		//http://stackoverflow.com/questions/6562727/is-there-a-function-to-deselect-all-text-using-javascript
+		//http://stackoverflow.com/questions/985272/selecting-text-in-an-element-akin-to-highlighting-with-your-mouse/40734974#40734974
+
+	    if ( document.selection ) {
+	        document.selection.empty();
+	    } else if ( window.getSelection ) {
+	        window.getSelection().removeAllRanges();
+	    }
+	}//end clear selection

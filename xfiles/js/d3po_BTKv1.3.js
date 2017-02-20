@@ -1,7 +1,7 @@
     //d3po Bootstrap Toolkit
 
     /****************************************************************************************
-	//TODO:190 store & validate the data on change
+	//TODO:210 store & validate the data on change
 
     !!!!!!!Important
 
@@ -182,7 +182,7 @@
         this.setIUN = function(str){/*must be a number*/ iUN = parseInt(str);}
         this.getIUN = function(){return iUN;}
 
-		//TODO:180 see where each of these can work in each display
+		//TODO:200 see where each of these can work in each display
 		this.setText = function(str){inner_html = str; default_setting = str; fill_content = str;}//works in: create_text_input,create_select
 
 		this.setDefault = function(str){inner_html = str; default_setting = str; fill_content = str;}//works in: create_select
@@ -1099,11 +1099,11 @@
 				var add_custom_class = (custom_class.length == 1) ? " " + custom_class[0] + " " : "";
 
 				var newTag = document.createElement(text_tag);
-				newTag.id = prefix + "_LBTag" + "_" + i;
+				newTag.id = prefix + "_TDTag" + "_" + i;
 
 				event_ids.push(newTag.id);
 
-				newTag.className = prefix + "_LBTag" + iUN + "_" + i + " " + prefix + "_LBTag "  + prefix + "_LBTag" + i + " LBTag " + add_custom_class;
+				newTag.className = prefix + "_TDTag" + iUN + "_" + i + " " + prefix + "_TDTag "  + prefix + "_TDTag" + i + " TDTag " + add_custom_class;
 
 				if(fill_content != ""){newTag.innerHTML = fill_content;}
 
@@ -1244,7 +1244,7 @@
             }
         }//end reset
 
-		//TODO:150 Needs a reset
+		//TODO:170 Needs a reset
 		var create_text_input = function()
 		{
 			/************************************* Sample Code ******************************************
@@ -2001,7 +2001,7 @@
 
 				msgStr = "<h7>remaining " + char_rem + "/" + char_limit + "</h7>" ;
 				/*
-				//TODO:170 modify the target element to have a h7 childNode with an id
+				//TODO:190 modify the target element to have a h7 childNode with an id
 				so I can refernce it here and just use text for its innerHTML
 				*/
 
