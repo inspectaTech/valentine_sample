@@ -1816,7 +1816,7 @@
 					var inputInputType = 'text';
 					var inputLabel = (cat_value == "web address") ? 'web address:' : 'image url';
 					var inputTitle = (cat_value == "web address") ? 'web address:' : 'image url';
-					var inputMaxLength = 120;
+					var inputMaxLength = 200;
 					var inputTypeAttr = "url";
 					var inputPlaceholder = (cat_value == "web address") ? "http:// https:// ..." : "https:// only...";
 					var inputRequired = "true";
@@ -2303,10 +2303,13 @@
 			//
 			dataInp.display();
 
+
+
 			var dataInp_id_array = dataInp.get_event_ids();
 			var dataInp_id = dataInp_id_array[0];
 
-			for(var c = 0; c < dataInp_id_array.length; c++){
+			//why do i have a for loop here?
+			//for(var c = 0; c < dataInp_id_array.length; c++){
 
 				var dataInpElement = document.getElementById(dataInp_id);
 				dataInpElement.addEventListener("focus",function(){dataInpElement.select();})
@@ -2330,9 +2333,11 @@
 					}//end else
 
 
-				})//end onchange
 
-			}//end for
+				})//end input
+
+			//}//end for
+
 
 			if(display_data == "group"){
 				//side menu area
@@ -2471,6 +2476,11 @@
 				{
 					//document.getElementById("contact_form_backStage").innerHTML = "";
 				}//end on click
+
+				//if edit mode run the preview_section
+				if(mod == "edit"){
+					display_preview_image(dataInp_id);
+				}
 
 			}//end preview_section
 
@@ -3178,6 +3188,7 @@
 					case "name":
 					case "notification":
 					case "phone":
+					case "profile image":
 					break;
 
 					default:

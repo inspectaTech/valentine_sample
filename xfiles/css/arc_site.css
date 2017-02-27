@@ -137,7 +137,9 @@ textarea.otherInp_TArea{height:100px !important;margin-top:5px !important;}
 .SLabel{display: block !important;}
 .SLabel,.STly{width: 90%;margin: 3px auto !important;}
 .accSlide_SLabel.SLabel{width:auto;float:left;margin:5% 3% !important;}
-.accSlide_SCont{float:left;}
+.accSlide_SLabel{width:50% !important;}
+.accSlide_SCont{float:left;width:40%;}
+.accSlide_SCont .ui-slider{width:100%;}
 .contact_form_select_icon_cont{margin:0;}
 .contact_form_slider_cont{ float: left; width: 80%;}
 .SIcon{float: right; margin-right:5px !important;}
@@ -164,7 +166,8 @@ text-align: right !important;}
 .typeSel_TCasing, .dataInp_TCasing{width:70%;display:inline-block;}
 div.dataInp_TCasing{width:70% !important;display:inline-block !important;}
 .side_car{width:20%;float:right;margin:0 3% 5px;text-align:center;padding:5px;border:1px solid #ddd;}
-.sug_icon_TDTag, .assoc_icon_TDTag {width:30px;height:30px;margin:0 auto 5px !important;}
+.sug_icon_LBTag{margin: 0 auto 5px auto !important;}
+.sug_icon_TDTag, .assoc_icon_TDTag {width:30px;height:30px; margin:0 auto 5px !important;}
 
 .sug_icon_chk_TCont{height:25px !important;}
 .sug_icon_chk_TInput{left:0 !important;top:0 !important;margin:0 auto !important;position:relative !important;}
