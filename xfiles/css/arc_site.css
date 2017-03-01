@@ -122,10 +122,17 @@ margin:0px auto!important;min-height: 20px !important;display:block !important;}
 .nb{ height: 30px;}
 .TInput.arc_select,.TCont.arc_select{ width: 100% ;}
 .web_preview.TLabel,.web_preview.TCont{margin:0 auto;width:90%;}
-.arc_info_preview { }
+.arc_info_preview{ }
 .previewBox{background-color: #ddd; width: 90%; margin: 0 auto; min-height: 75px;padding:5px;}
-.prev_cont{ width: 75px; height: 75px; margin: 0 auto; text-align: center;overflow:hidden;}
-.prev_img{ width: 100%;margin:0 auto;}
+.prev_cont{  margin: 0 auto; text-align: center;overflow:hidden; position:relative;}/*width: 75px; height: 75px;*/
+.prev_img{margin:5px auto;}
+.slide_ph {
+  /*TODO were going to rotate the sliders 90deg*/
+    -ms-transform: rotate(20deg); /* IE 9 */
+    -webkit-transform: rotate(20deg); /* Safari */
+    transform: rotate(20deg); /* Standard syntax */
+}
+a.prev_edit_btn{ position: absolute !important; width:20px !important; height:20px !important;  right: 0px;  top: 0px;}
 .TCasing{padding-left:10px  !important;}
 div.otherInp_TCasing{margin: 0 !important;padding: 0px !important;width:100% !important;}
 div.otherInp_TCont{}

@@ -245,6 +245,9 @@
 	{
 		console.info("contact creator created.");
 		var obj_elements = {};
+		//use object elements data_store & temp_store to pass lightbox/liteBox elements
+		//obj_elements["data_store"]
+		//obj_elements["temp_store"]
 
 		var display_data = (obj != undefined && obj.display_data != undefined) ? obj.display_data : "info";
 		var catSel;//category selector
@@ -2361,6 +2364,7 @@
 				if(mod == "edit"){
 					obj_elements.assoc_icon.setInputAttributes({"data-assoc":obj_data.info_ids});
 				}else{
+					//this uses data-info_ids in an array to keep track of info_ids associated with this community
 					obj_elements.assoc_icon.setInputAttributes({"data-info_ids":""});
 				}
 				//obj_elements.assoc_icon.setContent('collapsible label');
@@ -2391,7 +2395,7 @@
 				//then do click event
 				assoc_icon_element.onclick = function(e)
 				{
-					//this helps the button to not go haywire when its clicked
+					//this along with href # helps the button to not go haywire when its clicked
 						e.preventDefault();
 						console.info("hold up wait a minute.");
 						create_light_box({home:'contact_form_backStage',animate:"off",shuttle:{"mode":"validate","more_info":more_info},trans:trans_obj});
@@ -2518,8 +2522,12 @@
 		}//end form_display
 
 
-		var create_light_box = function(obj)
+		var create_light_box = function(obj,callback)
 		{
+			//NOTE use object elements data_store & temp_store to pass lightbox/liteBox elements
+			//obj_elements["data_store"]
+			//obj_elements["temp_store"]
+
 			var home_str = obj.home;
 			var animation_state = obj.animate || "on";
 
@@ -2630,12 +2638,14 @@
 							{
 								e.preventDefault();
 								obj_elements["temp_store"] = "none";
-								document.getElementById("contact_form_backStage").innerHTML = "";
+							document.getElementById("contact_form_backStage").innerHTML = "";
 
 							}//end fishCancelElement.onclick
 
-
-						}//if !document...
+							if(callback != undefined){
+								callback(obj.shuttle);
+							}
+						}//if !litebox...
 
 		}//end create_light_box
 
@@ -2664,19 +2674,55 @@
 			prev_cont.clearHome("false");
 			prev_cont.display();
 
-			prev_img = new masterButtons({varName:'prev_img',home:'prev_cont',type:'tag'});
-			prev_img.setTextTag('img');
-			prev_img.setPrefix('prev_img');
-			//prev_img.setInputAttributes({"href":"#"});
-			prev_img.setInputAttributes({"title":"image preview"});
-			//prev_img.setContent();
+			/*prev_box = new masterButtons({varName:'prev_box',home:'prev_cont',type:'tag'});
+			prev_box.setTextTag('div');
+			prev_box.setPrefix('prev_box');
+			//prev_box.setInputAttributes({"href":"#"});
+			prev_box.setInputAttributes({"title":"image preview"});
+			//prev_box.setContent();
+			prev_box.setCustomClass(["prev_box test_red"]);
+			prev_box.clearHome("false");
+			prev_box.display();*/
+
+
+			//create the canvas image
+			//if mode is edit the image will be preformatted
+			//if not it won't be formatted - if it isn't i will use default settings hopefully i can get the image dimensions too.
+
+			var prev_img = new masterImage({home:'prev_cont',url:targetElement.value,type:"profile"});
 			prev_img.setCustomClass(["prev_img"]);
-			prev_img.clearHome("false");
 			prev_img.display();
 
 			var prev_img_id_array = prev_img.get_event_ids();
 			obj_elements.prev_imgElement = document.getElementById(prev_img_id_array[0]);
-			}
+			var prev_img_id = prev_img_id_array[0];
+
+			//make edit btn
+			var prev_edit_btn = new masterButtons({varName:'prev_edit_btn',home:'prev_cont',type:'tag'});
+			prev_edit_btn.setTextTag('a');
+			prev_edit_btn.setPrefix('prev_edit_btn');
+			//prev_edit_btn.setInputAttributes({"href":"#"});
+			prev_edit_btn.setInputAttributes({"title":"image preview"});
+			prev_edit_btn.setInputAttributes({"href":"#"});
+			//prev_edit_btn.setContent();
+			prev_edit_btn.setCustomClass([" prev_edit_btn  ui-btn ui-icon-edit ui-btn-icon-notext ui-shadow ui-corner-all ui-mini"]);
+			prev_edit_btn.clearHome("false");
+			prev_edit_btn.display();//assoc_icon
+
+			var prev_edit_btn_id_array = prev_edit_btn.get_event_ids();
+			obj_elements.prev_edit_btnElement = document.getElementById(prev_edit_btn_id_array[0]);
+			var prev_edit_btn_id = prev_edit_btn_id_array[0];
+
+			var p_edit = document.getElementById(prev_edit_btn_id);
+			p_edit.addEventListener("click",function(e)
+			{
+				//this along with href # and an e in the function parameter helps the button to not go haywire when its clicked
+				//e.preventDefault();
+				console.info("hold up wait a minute.");
+				create_light_box({home:'contact_form_backStage',animate:"off",shuttle:{url:targetElement.value}},add_edit_canvas);
+			})
+
+
 			try{
 			obj_elements.prev_imgElement.onerror = function(){
 				obj_elements.prev_imgElement.src = ARC_IMG_URL + "flame.png";
@@ -2689,12 +2735,33 @@
 			obj_elements.prev_imgElement.src = targetElement.value;
 			}catch(err){}
 
+		}//end if !document
+
 
 			//preview image
 
 			//dynamic src
 
 		}//end display_preview_image
+
+		var add_edit_canvas = function(obj)
+		{
+			console.log("add edit canvas callback running");
+
+
+			//create edit canvas
+			var edit_img = new masterImage({home:'fish_content',url:obj.url,type:"profile",mode:"edit"});
+			edit_img.setCustomClass(["edit_img"]);
+			edit_img.display();
+
+			var edit_img_id_array = edit_img.get_event_ids();
+			obj_elements.edit_imgElement = document.getElementById(edit_img_id_array[0]);
+			var edit_img_id = edit_img_id_array[0];
+
+			//where will i store its data for use?
+
+
+		}//add_edit_canvas
 
 		var checkChange = function(mob,tObj)
 		{
@@ -3221,6 +3288,9 @@
 					arc_input.info_ids = obj_elements["data_store"];
 
 				}//end if
+
+				//TODO make an if for data_storing img/canvas data.
+
 
 
 				var dt = new Date();

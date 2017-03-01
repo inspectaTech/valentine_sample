@@ -64,6 +64,9 @@ class ArcViewArcs extends JViewLegacy //class FolioViewFolios
 		$styleLoc = JUri::base() . "components/com_arc/xfiles/css/d3po_BTKv1.3.css";
 		$fileLink->addScript($scriptLoc);
 
+    $scriptLoc = JUri::base() . "components/com_arc/xfiles/js/d3po_ITKv1.0.js";
+    $fileLink->addScript($scriptLoc);
+
 
 
         parent::display($tpl);

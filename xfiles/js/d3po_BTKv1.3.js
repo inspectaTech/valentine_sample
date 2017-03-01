@@ -1103,14 +1103,21 @@
 
 				event_ids.push(newTag.id);
 
-				newTag.className = prefix + "_TDTag" + iUN + "_" + i + " " + prefix + "_TDTag "  + prefix + "_TDTag" + i + " TDTag " + add_custom_class;
+				newTag.className = prefix + "_TDTag" + iUN + "_" + i + " " + prefix + "_TDTag "  + prefix + "_LBTag" + i + " LBTag " + add_custom_class;
 
 				if(fill_content != ""){newTag.innerHTML = fill_content;}
 
-				bigDaddy.appendChild(newTag);
+        for(var x = 0; x < obj_attributes.length; x++)
+        {
+          var pNameAry = Object.getOwnPropertyNames(obj_attributes[x]);
+          var pName = pNameAry[0];
+          newTag.setAttribute(pName,obj_attributes[x][pName]);
+          //console.log(newObj);
+
+        }//end for
 
 
-
+        bigDaddy.appendChild(newTag);
 
 
         }//end tagDisplay
