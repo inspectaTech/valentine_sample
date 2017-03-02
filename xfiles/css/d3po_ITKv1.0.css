@@ -1,0 +1,69 @@
+/*HTML SECTION
+.fish_content{height:450px; width:250px; margin:0 auto;}
+*/
+/*END HTML SECTION */
+
+.edit_box{height:300px;padding:5px;position:relative;}
+.ctrl_box{float:right;height:230px;width:13%;margin:0 5px;}
+button.edit_ctrl_btn{border:1px solid #ddd;width:30px;height:30px;cursor:pointer;}
+.edit_sectionB{width:65%;float:right;height:210px;position:relative}
+.edit_resize_box{height:20px;margin-bottom:5px;padding-left:7px;}
+.edit_resize_btn{height:20px; width:25px;margin-right:3px; display:inline-block;border:1px solid #ccc;text-align:center;padding:0px;}
+.edit_resize_btn h6{margin:0px;text-align:center;font-size:14px;}
+.canvas_cont{height:140px;width:140px;margin-bottom:5px;margin:0 auto 5px;}
+.edit_cmd_label{height:30px;margin:5px;}
+.edit_slider_box{height:50px;margin-bottom:5px;position:relative;clear:both;}
+.edit_lock_box{height:30px;width:15%;float:left;margin-top:10px;}
+
+.slide_ph {
+  /*TODO were going to rotate the sliders 90deg*/
+    -ms-transform: rotate(20deg); /* IE 9 */
+    -webkit-transform: rotate(20deg); /* Safari */
+    transform: rotate(20deg); /* Standard syntax */
+}
+
+
+
+/*bootstrap slide styles*/
+.sli_ctrl_contA{position:relative;border:1px solid brown;width:83%;right:0px; float:right;margin-top:5px;}
+.slider.slider-horizontal{width:70%;}
+.sli_ctrl_boxA{width:30%;}
+
+.sli_ctrl_contB{position:absolute; border:1px solid black;width:15%;text-align:center;top:-230px;height:220px;}
+.slider.slider-vertical{height:200px;}
+.sli_ctrl_boxB{width:50px;margin:5px 0 0 -8px;}
+
+
+
+
+
+
+/***************** test rules **********************/
+.test_yellow{border:1px solid yellow !important;}
+.test_red{border:1px solid red !important;}
+.test_blue{border:1px solid blue !important;}
+.test_green{border:1px solid green !important;}
+.test_purple{border:1px solid purple !important;}
+.test_orange{border:1px solid orange !important;}
+.test_brown{border:1px solid brown !important;}
+.test_pink{border:1px solid pink !important;}
+/***************** test rules **********************/
+
+
+.word_wrap{
+/* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  }

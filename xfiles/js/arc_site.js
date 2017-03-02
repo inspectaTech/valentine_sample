@@ -2690,7 +2690,7 @@
 			//if not it won't be formatted - if it isn't i will use default settings hopefully i can get the image dimensions too.
 
 			var prev_img = new masterImage({home:'prev_cont',url:targetElement.value,type:"profile"});
-			prev_img.setCustomClass(["prev_img"]);
+			prev_img.setCustomClass("prev_img");
 			prev_img.display();
 
 			var prev_img_id_array = prev_img.get_event_ids();
@@ -2751,7 +2751,7 @@
 
 			//create edit canvas
 			var edit_img = new masterImage({home:'fish_content',url:obj.url,type:"profile",mode:"edit"});
-			edit_img.setCustomClass(["edit_img"]);
+			edit_img.setCustomClass("edit_img");
 			edit_img.display();
 
 			var edit_img_id_array = edit_img.get_event_ids();

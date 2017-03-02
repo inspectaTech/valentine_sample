@@ -55,6 +55,15 @@ class ArcViewArcs extends JViewLegacy //class FolioViewFolios
     $font_awesome = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
     $fileLink->addStyleSheet($font_awesome);
 
+    $styleLoc = JUri::base() . "components/com_arc/xfiles/css/d3po_ITKv1.0.css";
+    $fileLink->addStyleSheet($styleLoc);
+
+    $styleLoc = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css";
+    $fileLink->addStyleSheet($styleLoc);
+
+    $styleLoc = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/css/bootstrap-slider.min.css";
+    $fileLink->addStyleSheet($styleLoc);
+
 		$scriptLoc = JUri::base() . "components/com_arc/xfiles/js/arc_site.js";
         $fileLink->addScript($scriptLoc);
 
@@ -65,6 +74,9 @@ class ArcViewArcs extends JViewLegacy //class FolioViewFolios
 		$fileLink->addScript($scriptLoc);
 
     $scriptLoc = JUri::base() . "components/com_arc/xfiles/js/d3po_ITKv1.0.js";
+    $fileLink->addScript($scriptLoc);
+
+    $scriptLoc = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.min.js";
     $fileLink->addScript($scriptLoc);
 
 
