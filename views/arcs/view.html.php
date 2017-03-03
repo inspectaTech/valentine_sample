@@ -57,7 +57,7 @@ class ArcViewArcs extends JViewLegacy //class FolioViewFolios
 
     $styleLoc = JUri::base() . "components/com_arc/xfiles/css/d3po_ITKv1.0.css";
     $fileLink->addStyleSheet($styleLoc);
-
+//TEMP
     $styleLoc = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css";
     $fileLink->addStyleSheet($styleLoc);
 
@@ -74,6 +74,10 @@ class ArcViewArcs extends JViewLegacy //class FolioViewFolios
 		$fileLink->addScript($scriptLoc);
 
     $scriptLoc = JUri::base() . "components/com_arc/xfiles/js/d3po_ITKv1.0.js";
+    $fileLink->addScript($scriptLoc);
+    
+//TEMP needs both for sliders to work
+    $scriptLoc = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js";
     $fileLink->addScript($scriptLoc);
 
     $scriptLoc = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.min.js";

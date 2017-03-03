@@ -79,6 +79,8 @@
       var custom_id = "";
       var id_type = "default";
       var first_run = "true";
+      var slide_limit = 500;
+
 
       var img_url = (mstrObj != undefined && mstrObj.url != undefined) ? mstrObj.url : img_default;
 
@@ -292,6 +294,7 @@
 
           //jqm collapsible
           var bigDaddy = document.getElementsByClassName(home)[0];
+          bigDaddy.innerHTML = "";
 
           var edit_box = document.createElement("div");
           edit_box.id = "edit_box" + iUN;
@@ -321,9 +324,10 @@
             obj_els["contents" + x] = ctrl_ary[x].contents;
 
 
-            obj_els[ec_Nm].addEventListener("click",function(){
+            obj_els[ec_Nm].addEventListener("click",function(e){
               //i used this.dataset so it doesn't pass the updated x of the for loop
               //and everything ending up being on click of the last index nbr passed
+              e.preventDefault();
               var sNbr = this.dataset.nbr;
               var my_contents = this.dataset.contents
               run_contents(my_contents);
@@ -464,47 +468,69 @@
 
               //resize section
             case "XS":
-              img_w = 50;
+            reset_canvas();
+
+              img_w = 100;
               img_h = img_w;
               can_w = canvas_width;
               can_h = canvas_width;
-              //canvas.width = canvas.width;
+              slide_limit = 150;
+
+              control_panel();
               draw_me();
 
             break;
 
             case "S":
-              img_w = 100;
-              img_h = img_w;
-              can_w = canvas_width;
-              can_h = canvas_width;
-              draw_me();
-            break;
+            reset_canvas();
 
-            case "M":
               img_w = 640;
               img_h = img_w;
               can_w = canvas_width;
               can_h = canvas_width;
-              //canvas.width = canvas.width;
+              slide_limit = 700;
+
+              control_panel();
               draw_me();
             break;
 
-            case "L":
+            case "M":
+            reset_canvas();
+
               img_w = 1280;
               img_h = img_w;
               can_w = canvas_width;
               can_h = canvas_width;
-              //canvas.width = canvas.width;
+              slide_limit = 1330;
+
+              control_panel();
+
               draw_me();
             break;
 
-            case "XL":
+            case "L":
+            reset_canvas();
+
               img_w = 2560;
               img_h = img_w;
               can_w = canvas_width;
               can_h = canvas_width;
-              //canvas.width = canvas.width;
+              slide_limit = 2610;
+
+              control_panel();
+              draw_me();
+            break;
+
+            case "XL":
+            reset_canvas();
+
+              img_w = 5120;
+              img_h = img_w;
+              can_w = canvas_width;
+              can_h = canvas_width;
+              slide_limit = 5170;
+
+              control_panel();
               draw_me();
             break;
 
@@ -535,6 +561,7 @@
           var home = document.getElementsByClassName("edit_slider_cont")[0];
           home.innerHTML = "";
           var style = (nbr == 0 || nbr == 1) ? "goofy" : "default";
+          var my_limit = (nbr == 0 || nbr == 1) ? slide_limit : canvas_width;
 
           //SLIDER A
             var sli_ctrl_contA = document.createElement("div");
@@ -546,8 +573,8 @@
                 sli_ctrl_inputA.id = "sli_ctrl_inputA";
                 sli_ctrl_inputA.className = "sli_ctrl_inputA";//
                 sli_ctrl_inputA.setAttribute("data-slider-id","sli_ctrl_inputA");//
-                sli_ctrl_inputA.setAttribute("data-slider-min","-500");//
-                sli_ctrl_inputA.setAttribute("data-slider-max","500");//
+                sli_ctrl_inputA.setAttribute("data-slider-min","-" + my_limit);//
+                sli_ctrl_inputA.setAttribute("data-slider-max",my_limit);//
                 sli_ctrl_inputA.setAttribute("data-slider-step","1");//
                 var set_valA = slide_data("A",nbr);
                 var goof_A = set_valA * -1;//natural opposite effect
@@ -601,8 +628,8 @@
                 sli_ctrl_inputB.id = "sli_ctrl_inputB";
                 sli_ctrl_inputB.className = "sli_ctrl_inputB";//
                 sli_ctrl_inputB.setAttribute("data-slider-id","sli_ctrl_inputB");//
-                sli_ctrl_inputB.setAttribute("data-slider-min","-500");
-                sli_ctrl_inputB.setAttribute("data-slider-max","500");//
+                sli_ctrl_inputB.setAttribute("data-slider-min","-" + my_limit);
+                sli_ctrl_inputB.setAttribute("data-slider-max",my_limit);//
                 sli_ctrl_inputB.setAttribute("data-slider-step","1");//
                 var set_valB = slide_data("B",nbr);
                 var goof_B = set_valB * -1;//natural opposite effect
